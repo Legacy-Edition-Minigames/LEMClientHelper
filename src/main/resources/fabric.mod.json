@@ -1,0 +1,28 @@
+{
+  "schemaVersion": 1,
+  "id": "lebclienthelper",
+  "version": "0.0.1-1.17.1",
+  "name": "LEB Client Helper",
+  "description": "LEB Client Helper",
+  "authors": [
+    "kyrptonaught"
+  ],
+  "contact": {
+    "homepage": "https://github.com/kyrptonaught/lebclienthelper",
+    "sources": "https://github.com/kyrptonaught/lebclienthelper"
+  },
+  "license": "MIT",
+  "icon": "assets/lebclienthelper/icon.png",
+  "environment": "client",
+  "entrypoints": {
+    "client": [
+      "net.kyrptonaught.lebclienthelper.LEBClientHelperMod"
+    ]
+  },
+  "mixins": [
+    {
+      "config": "lebclienthelper.mixins.json",
+      "environment": "client"
+    }
+  ]
+}

@@ -1,0 +1,11 @@
+{
+  "required": true,
+  "package": "net.kyrptonaught.lebclienthelper.mixin",
+  "compatibilityLevel": "JAVA_16",
+  "mixins": [
+    "ScreenHandlerMixin"
+  ],
+  "injectors": {
+    "defaultRequire": 1
+  }
+}
