@@ -18,8 +18,8 @@ public class LambdControlsCompat implements CompatHandler {
     }
 
     private static final PressAction TAKE_EVERYTHING = (client, button, value, action) -> {
-        if (client.currentScreen != null && !(client.player.currentScreenHandler instanceof PlayerScreenHandler)) {
-           TakeEverythingNetworking.sendSortPacket();
+        if (client.currentScreen != null && client.player != null && !(client.player.currentScreenHandler instanceof PlayerScreenHandler)) {
+            TakeEverythingNetworking.sendSortPacket();
             return true;
         }
         return false;
