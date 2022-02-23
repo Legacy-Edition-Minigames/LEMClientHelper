@@ -1,4 +1,5 @@
 {
   "lebclienthelper.key.category.lebclienthelper" : "LEB Client Helper",
-  "lebclienthelper.key.takeeverything" : "Take Everything"
+  "lebclienthelper.key.takeeverything" : "Take Everything",
+  "lambdacontrols.action.lebclienthelper.takeeverything" : "Take Everything"
 }
