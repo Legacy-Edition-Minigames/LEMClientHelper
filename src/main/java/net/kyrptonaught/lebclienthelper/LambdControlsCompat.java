@@ -1,5 +1,5 @@
 package net.kyrptonaught.lebclienthelper;
-
+/*
 import dev.lambdaurora.lambdacontrols.client.LambdaControlsClient;
 import dev.lambdaurora.lambdacontrols.client.compat.CompatHandler;
 import dev.lambdaurora.lambdacontrols.client.compat.LambdaControlsCompat;
@@ -37,3 +37,5 @@ public class LambdControlsCompat implements CompatHandler {
                 .register();
     }
 }
+
+ */

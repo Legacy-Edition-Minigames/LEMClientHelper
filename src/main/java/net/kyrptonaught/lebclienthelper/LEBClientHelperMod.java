@@ -2,7 +2,6 @@ package net.kyrptonaught.lebclienthelper;
 
 import net.fabricmc.api.ClientModInitializer;
 import net.fabricmc.fabric.api.client.keybinding.v1.KeyBindingHelper;
-import net.fabricmc.loader.api.FabricLoader;
 import net.minecraft.client.option.KeyBinding;
 import net.minecraft.client.util.InputUtil;
 import org.lwjgl.glfw.GLFW;
@@ -15,8 +14,8 @@ public class LEBClientHelperMod implements ClientModInitializer {
     @Override
     public void onInitializeClient() {
         takeEverythingKey = KeyBindingHelper.registerKeyBinding(new KeyBinding(MOD_ID + ".key.takeeverything", InputUtil.Type.MOUSE, GLFW.GLFW_MOUSE_BUTTON_3, MOD_ID + ".key.category.lebclienthelper"));
-        if (FabricLoader.getInstance().isModLoaded("lambdacontrols"))
-            LambdControlsCompat.register();
+        // if (FabricLoader.getInstance().isModLoaded("lambdacontrols"))
+        //LambdControlsCompat.register();
     }
 
     public static boolean isKeybindPressed(int pressedKeyCode, boolean isMouse) {

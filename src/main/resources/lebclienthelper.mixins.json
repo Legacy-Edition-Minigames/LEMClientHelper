@@ -3,7 +3,8 @@
   "package": "net.kyrptonaught.lebclienthelper.mixin",
   "compatibilityLevel": "JAVA_16",
   "mixins": [
-    "ScreenHandlerMixin"
+    "ScreenHandlerMixin",
+    "NetworkUtilsMixin"
   ],
   "injectors": {
     "defaultRequire": 1

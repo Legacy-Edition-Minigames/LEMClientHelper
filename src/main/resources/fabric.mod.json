@@ -17,6 +17,9 @@
   "entrypoints": {
     "client": [
       "net.kyrptonaught.lebclienthelper.LEBClientHelperMod"
+    ],
+    "modmenu": [
+      "net.kyrptonaught.lebclienthelper.config.ModMenuIntegration"
     ]
   },
   "mixins": [
