@@ -1,6 +1,6 @@
 {
   "required": true,
-  "package": "net.kyrptonaught.lebclienthelper.mixin",
+  "package": "net.kyrptonaught.lemclienthelper.mixin",
   "compatibilityLevel": "JAVA_16",
   "mixins": [
     "ScreenHandlerMixin",

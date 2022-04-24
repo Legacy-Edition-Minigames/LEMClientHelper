@@ -1,10 +1,12 @@
-package net.kyrptonaught.lebclienthelper.ResourcePreloader;
+package net.kyrptonaught.lemclienthelper.ResourcePreloader;
 
 import net.minecraft.text.LiteralText;
 import net.minecraft.text.Text;
 import net.minecraft.text.TranslatableText;
 import net.minecraft.util.ProgressListener;
 
+import java.io.File;
+import java.net.HttpURLConnection;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -15,8 +17,11 @@ public class AllPacks {
         public String packname;
         public String url;
         public String hash;
+        public File downloadedFile;
 
-        public transient Progress progressListener = new Progress();
+        public HttpURLConnection MIXINISBEINGDUMB;
+
+        public transient Progress progressListener = new Progress(this);
 
     }
 
@@ -24,7 +29,12 @@ public class AllPacks {
         public Text title;
         public Text task;
         public int progress = 0;
-        boolean completed = false;
+        public boolean completed = false;
+        public final RPOption rpOption;
+
+        public Progress(RPOption rpOption) {
+            this.rpOption = rpOption;
+        }
 
         public void setTitle(Text title) {
             this.setTitleAndTask(title);
@@ -45,11 +55,21 @@ public class AllPacks {
             this.progress = percentage;
         }
 
+        public void skip(Text title) {
+            done(title, null);
+        }
+
         @Override
         public void setDone() {
+            done(new TranslatableText("key.lemclienthelper.downloadcomplete"), this.task);
+        }
+
+        private void done(Text title, Text task) {
             this.completed = true;
-            this.title = new LiteralText("Download Complete");
+            this.title = title;
+            this.task = task;
             this.progressStagePercentage(100);
+            ResourcePreloader.downloadComplete(rpOption);
         }
     }
 }

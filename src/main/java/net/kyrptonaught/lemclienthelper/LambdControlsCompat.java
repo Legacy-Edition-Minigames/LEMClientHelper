@@ -1,4 +1,4 @@
-package net.kyrptonaught.lebclienthelper;
+package net.kyrptonaught.lemclienthelper;
 /*
 import dev.lambdaurora.lambdacontrols.client.LambdaControlsClient;
 import dev.lambdaurora.lambdacontrols.client.compat.CompatHandler;
@@ -27,7 +27,7 @@ public class LambdControlsCompat implements CompatHandler {
 
     @Override
     public void handle(@NotNull LambdaControlsClient mod) {
-        new ButtonBinding.Builder(new Identifier(LEBClientHelperMod.MOD_ID, "takeeverything"))
+        new ButtonBinding.Builder(new Identifier(LEMClientHelperMod.MOD_ID, "takeeverything"))
                 .buttons(GLFW.GLFW_GAMEPAD_BUTTON_LEFT_THUMB)
                 .onlyInInventory()
                 .action(TAKE_EVERYTHING)

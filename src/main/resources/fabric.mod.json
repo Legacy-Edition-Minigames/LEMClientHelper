@@ -1,30 +1,30 @@
 {
   "schemaVersion": 1,
-  "id": "lebclienthelper",
-  "version": "0.0.2-1.17.1",
-  "name": "LEB Client Helper",
-  "description": "LEB Client Helper",
+  "id": "lemclienthelper",
+  "version": "0.0.3-1.17.1",
+  "name": "LEM Client Helper",
+  "description": "LEM Client Helper",
   "authors": [
     "kyrptonaught"
   ],
   "contact": {
-    "homepage": "https://github.com/kyrptonaught/lebclienthelper",
-    "sources": "https://github.com/kyrptonaught/lebclienthelper"
+    "homepage": "https://github.com/kyrptonaught/lemclienthelper",
+    "sources": "https://github.com/kyrptonaught/lemclienthelper"
   },
   "license": "MIT",
-  "icon": "assets/lebclienthelper/icon.png",
+  "icon": "assets/lemclienthelper/icon.png",
   "environment": "client",
   "entrypoints": {
     "client": [
-      "net.kyrptonaught.lebclienthelper.LEBClientHelperMod"
+      "net.kyrptonaught.lemclienthelper.LEMClientHelperMod"
     ],
     "modmenu": [
-      "net.kyrptonaught.lebclienthelper.config.ModMenuIntegration"
+      "net.kyrptonaught.lemclienthelper.config.ModMenuIntegration"
     ]
   },
   "mixins": [
     {
-      "config": "lebclienthelper.mixins.json",
+      "config": "lemclienthelper.mixins.json",
       "environment": "client"
     }
   ]

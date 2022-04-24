@@ -1,19 +1,24 @@
-package net.kyrptonaught.lebclienthelper;
+package net.kyrptonaught.lemclienthelper;
 
 import net.fabricmc.api.ClientModInitializer;
 import net.fabricmc.fabric.api.client.keybinding.v1.KeyBindingHelper;
+import net.kyrptonaught.kyrptconfig.config.ConfigManager;
+import net.kyrptonaught.lemclienthelper.ResourcePreloader.ResourcePreloader;
 import net.minecraft.client.option.KeyBinding;
 import net.minecraft.client.util.InputUtil;
 import org.lwjgl.glfw.GLFW;
 
 
-public class LEBClientHelperMod implements ClientModInitializer {
-    public static final String MOD_ID = "lebclienthelper";
+public class LEMClientHelperMod implements ClientModInitializer {
+    public static final String MOD_ID = "lemclienthelper";
     public static KeyBinding takeEverythingKey;
+    public static ConfigManager configManager = new ConfigManager.MultiConfigManager(MOD_ID);
 
     @Override
     public void onInitializeClient() {
-        takeEverythingKey = KeyBindingHelper.registerKeyBinding(new KeyBinding(MOD_ID + ".key.takeeverything", InputUtil.Type.MOUSE, GLFW.GLFW_MOUSE_BUTTON_3, MOD_ID + ".key.category.lebclienthelper"));
+        takeEverythingKey = KeyBindingHelper.registerKeyBinding(new KeyBinding(MOD_ID + ".key.takeeverything", InputUtil.Type.MOUSE, GLFW.GLFW_MOUSE_BUTTON_3, MOD_ID + ".key.category.lemclienthelper"));
+        ResourcePreloader.init();
+        configManager.load();
         // if (FabricLoader.getInstance().isModLoaded("lambdacontrols"))
         //LambdControlsCompat.register();
     }
