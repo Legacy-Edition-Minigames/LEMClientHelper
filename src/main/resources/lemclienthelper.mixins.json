@@ -2,9 +2,10 @@
   "required": true,
   "package": "net.kyrptonaught.lemclienthelper.mixin",
   "compatibilityLevel": "JAVA_16",
-  "mixins": [
-    "ScreenHandlerMixin",
-    "NetworkUtilsMixin"
+  "client": [
+    "ClientBuiltInResourcePackProviderMixin",
+    "NetworkUtilsMixin",
+    "ScreenHandlerMixin"
   ],
   "injectors": {
     "defaultRequire": 1

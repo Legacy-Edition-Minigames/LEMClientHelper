@@ -92,7 +92,10 @@ public class ResourcePreloader {
         String urlHash = DigestUtils.sha1Hex(rpOption.url);
         File file = new File(new File(minecraftClient.runDirectory, "server-resource-packs"), urlHash);
         rpOption.downloadedFile = file;
-        if (file.exists()) {
+        if ((getConfig().allowOptifine && rpOption.packCompatibility == AllPacks.RPOption.PACKCOMPATIBILITY.VANILLA) ||
+                (!getConfig().allowOptifine && rpOption.packCompatibility == AllPacks.RPOption.PACKCOMPATIBILITY.OPTIFINE)) {
+            rpOption.progressListener.skip(new TranslatableText("key.lemclienthelper.wrongpackcompatibility"));
+        } else if (file.exists()) {
             rpOption.progressListener.skip(new TranslatableText("key.lemclienthelper.alreadydownloaded"));
         } else if (!previewOnly) {
             Map<String, String> map = getDownloadHeaders();

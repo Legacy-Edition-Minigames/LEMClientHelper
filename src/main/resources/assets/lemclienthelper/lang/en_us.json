@@ -1,0 +1,19 @@
+{
+  "lemclienthelper.key.category.lemclienthelper": "LEB Client Helper",
+  "lemclienthelper.key.takeeverything": "Take Everything",
+  "lambdacontrols.action.lemclienthelper.takeeverything": "Take Everything",
+  "key.lemclienthelper.title": "Lem Client Helper Config",
+  "key.lemclienthelper.resourcepreloader": "Resource Preloader",
+  "key.lemclienthelper.downloadurl": "Download URL",
+  "key.lemclienthelper.packdownloads": "Server Packs",
+  "key.lemclienthelper.allowOptifine": "Download Optifine packs",
+  "key.lemclienthelper.multiDownload": "Allow Simultaneous Downloads",
+  "key.lemclienthelper.previewList": "Preview Pack List",
+  "key.lemclienthelper.startdownload": "Start Download",
+  "key.lemclienthelper.toastcomplete": "Toast Complete",
+  "key.lemclienthelper.alreadydownloaded": "Already Downloaded",
+  "key.lemclienthelper.downloaderror": "Invalid Pack URL",
+  "key.lemclienthelper.downloadcomplete": "Download Complete",
+  "key.lemclienthelper.wrongpackcompatibility" : "Wrong Pack Type",
+  "key.lemclienthelper.alldownloadcomplete": "All Downloads Complete"
+}

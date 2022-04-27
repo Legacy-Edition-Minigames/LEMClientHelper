@@ -1,6 +1,6 @@
 package net.kyrptonaught.lemclienthelper.ResourcePreloader;
 
-import net.minecraft.text.LiteralText;
+
 import net.minecraft.text.Text;
 import net.minecraft.text.TranslatableText;
 import net.minecraft.util.ProgressListener;
@@ -14,12 +14,17 @@ public class AllPacks {
     public List<RPOption> packs = new ArrayList<>();
 
     public static class RPOption {
+        enum PACKCOMPATIBILITY {
+            VANILLA, OPTIFINE, BOTH
+        }
+
         public String packname;
         public String url;
         public String hash;
         public File downloadedFile;
+        public PACKCOMPATIBILITY packCompatibility = PACKCOMPATIBILITY.BOTH;
 
-        public HttpURLConnection MIXINISBEINGDUMB;
+        public transient HttpURLConnection MIXINISBEINGDUMB;
 
         public transient Progress progressListener = new Progress(this);
 
