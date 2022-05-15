@@ -4,6 +4,7 @@ import net.fabricmc.api.ClientModInitializer;
 import net.fabricmc.fabric.api.client.keybinding.v1.KeyBindingHelper;
 import net.kyrptonaught.kyrptconfig.config.ConfigManager;
 import net.kyrptonaught.lemclienthelper.ResourcePreloader.ResourcePreloader;
+import net.kyrptonaught.lemclienthelper.SmallInv.SmallInvInit;
 import net.minecraft.client.option.KeyBinding;
 import net.minecraft.client.util.InputUtil;
 import org.lwjgl.glfw.GLFW;
@@ -21,6 +22,7 @@ public class LEMClientHelperMod implements ClientModInitializer {
         configManager.load();
         // if (FabricLoader.getInstance().isModLoaded("lambdacontrols"))
         //LambdControlsCompat.register();
+        SmallInvInit.init();
     }
 
     public static boolean isKeybindPressed(int pressedKeyCode, boolean isMouse) {

@@ -5,7 +5,9 @@
   "client": [
     "ClientBuiltInResourcePackProviderMixin",
     "NetworkUtilsMixin",
-    "ScreenHandlerMixin"
+    "ScreenHandlerMixin",
+    "MinecraftClientMixin"
+
   ],
   "injectors": {
     "defaultRequire": 1
