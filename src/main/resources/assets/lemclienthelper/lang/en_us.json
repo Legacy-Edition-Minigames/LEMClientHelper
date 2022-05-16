@@ -2,6 +2,7 @@
   "lemclienthelper.key.category.lemclienthelper": "LEB Client Helper",
   "lemclienthelper.key.takeeverything": "Take Everything",
   "lambdacontrols.action.lemclienthelper.takeeverything": "Take Everything",
+  "lemclienthelper.key.closesmallinv": "Close Small Inv",
   "key.lemclienthelper.title": "Lem Client Helper Config",
   "key.lemclienthelper.resourcepreloader": "Resource Preloader",
   "key.lemclienthelper.downloadurl": "Download URL",

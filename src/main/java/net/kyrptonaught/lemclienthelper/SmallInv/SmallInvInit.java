@@ -1,14 +1,58 @@
 package net.kyrptonaught.lemclienthelper.SmallInv;
 
-import net.fabricmc.fabric.api.screenhandler.v1.ScreenHandlerRegistry;
-import net.kyrptonaught.lebclienthelper.LEBClientHelperMod;
-import net.minecraft.screen.ScreenHandlerType;
-import net.minecraft.util.Identifier;
+import net.fabricmc.fabric.api.client.keybinding.v1.KeyBindingHelper;
+import net.kyrptonaught.lemclienthelper.LEMClientHelperMod;
+import net.minecraft.client.option.KeyBinding;
+import net.minecraft.client.util.InputUtil;
+import net.minecraft.util.Pair;
+import org.lwjgl.glfw.GLFW;
+
+import java.util.HashMap;
 
 public class SmallInvInit {
-    public static ScreenHandlerType<SmallInvScreenHandler> LEGACY_INVENTORY_SCREEN_HANDLER;
+    public static HashMap<Integer, Pair<Integer, Integer>> SMALLINVSLOTS = new HashMap<>();
+
+    public static KeyBinding closeSmallInvKey;
 
     public static void init() {
-        LEGACY_INVENTORY_SCREEN_HANDLER = ScreenHandlerRegistry.registerSimple(new Identifier(LEBClientHelperMod.MOD_ID, "legacy_inventory"), SmallInvScreenHandler::new);
+        closeSmallInvKey = KeyBindingHelper.registerKeyBinding(new KeyBinding(LEMClientHelperMod.MOD_ID + ".key.closesmallinv", InputUtil.Type.KEYSYM, GLFW.GLFW_KEY_I, LEMClientHelperMod.MOD_ID + ".key.category.lemclienthelper"));
+
+        registerSmallSlot(5, 55, 9);
+        registerSmallSlot(6, 55, 27);
+        registerSmallSlot(7, 55, 45);
+        registerSmallSlot(8, 55, 63);
+        registerSmallSlot(45, 134, 63);
+        registerSmallSlot(36, 8, 99);
+        registerSmallSlot(37, 26, 99);
+        registerSmallSlot(38, 44, 99);
+        registerSmallSlot(39, 62, 99);
+        registerSmallSlot(40, 80, 99);
+        registerSmallSlot(41, 98, 99);
+        registerSmallSlot(42, 116, 99);
+        registerSmallSlot(43, 134, 99);
+        registerSmallSlot(44, 152, 99);
+    }
+
+    public static void checkSlot(MovableSlot slot) {
+        if (SMALLINVSLOTS.containsKey(slot.id)) {
+            Pair<Integer, Integer> pos = SMALLINVSLOTS.get(slot.id);
+            slot.setPos(pos.getLeft(), pos.getRight());
+            slot.isEnabled = true;
+        } else slot.isEnabled = false;
+    }
+
+    private static void registerSmallSlot(int id, int x, int y) {
+        SMALLINVSLOTS.put(id, new Pair<>(x, y));
+    }
+
+    public static boolean isKeybindPressed(int pressedKeyCode, boolean isMouse) {
+        InputUtil.Key keycode = KeyBindingHelper.getBoundKeyOf(closeSmallInvKey);
+
+        if (isMouse) {
+            if (keycode.getCategory() != InputUtil.Type.MOUSE) return false;
+        } else {
+            if (keycode.getCategory() != InputUtil.Type.KEYSYM) return false;
+        }
+        return keycode.getCode() == pressedKeyCode;
     }
 }

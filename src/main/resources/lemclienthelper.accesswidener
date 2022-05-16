@@ -1,0 +1,4 @@
+accessWidener	v1	named
+
+mutable field net/minecraft/screen/slot/Slot x I
+mutable field net/minecraft/screen/slot/Slot y I

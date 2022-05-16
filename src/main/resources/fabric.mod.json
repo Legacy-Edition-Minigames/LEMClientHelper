@@ -1,7 +1,7 @@
 {
   "schemaVersion": 1,
   "id": "lemclienthelper",
-  "version": "0.0.4-1.17.1",
+  "version": "0.0.5-1.17.1",
   "name": "LEM Client Helper",
   "description": "LEM Client Helper",
   "authors": [
@@ -22,6 +22,7 @@
       "net.kyrptonaught.lemclienthelper.config.ModMenuIntegration"
     ]
   },
+  "accessWidener" : "lemclienthelper.accesswidener",
   "mixins": [
     {
       "config": "lemclienthelper.mixins.json",
