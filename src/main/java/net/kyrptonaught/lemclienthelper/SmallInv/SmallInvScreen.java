@@ -7,7 +7,9 @@ import net.minecraft.client.gui.screen.ingame.InventoryScreen;
 import net.minecraft.client.render.GameRenderer;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.screen.GenericContainerScreenHandler;
 import net.minecraft.screen.PlayerScreenHandler;
+import net.minecraft.screen.ScreenHandler;
 import net.minecraft.text.TranslatableText;
 import net.minecraft.util.Identifier;
 
@@ -27,7 +29,6 @@ public class SmallInvScreen extends AbstractInventoryScreen<PlayerScreenHandler>
     @Override
     public boolean keyPressed(int keyCode, int scanCode, int modifiers) {
         if (SmallInvInit.isKeybindPressed(keyCode, false)) {
-            ((SmallInvPlayerInv) client.player.playerScreenHandler).setIsSmall(false);
             this.client.setScreen(new InventoryScreen(client.player));
         }
         return super.keyPressed(keyCode, scanCode, modifiers);
@@ -36,7 +37,6 @@ public class SmallInvScreen extends AbstractInventoryScreen<PlayerScreenHandler>
     @Override
     public boolean mouseClicked(double mouseX, double mouseY, int button) {
         if (SmallInvInit.isKeybindPressed(button, true)) {
-            ((SmallInvPlayerInv) client.player.playerScreenHandler).setIsSmall(false);
             this.client.setScreen(new InventoryScreen(client.player));
         }
         return super.mouseClicked(mouseX, mouseY, button);

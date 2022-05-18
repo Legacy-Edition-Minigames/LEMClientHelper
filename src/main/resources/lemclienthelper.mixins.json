@@ -4,14 +4,14 @@
   "compatibilityLevel": "JAVA_16",
   "client": [
     "ClientBuiltInResourcePackProviderMixin",
-    "SmallInv.MinecraftClientMixin",
     "NetworkUtilsMixin",
-    "ScreenHandlerMixin"
+    "ScreenHandlerMixin",
+    "SmallInv.GenericContainerScreenMixin",
+    "SmallInv.HandledScreenMixin",
+    "SmallInv.MinecraftClientMixin",
+    "SmallInv.ScreenHandlerMixin"
   ],
   "injectors": {
     "defaultRequire": 1
-  },
-  "mixins": [
-    "SmallInv.PlayerScreenHandlerMixin"
-  ]
+  }
 }

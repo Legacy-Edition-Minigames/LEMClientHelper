@@ -15,6 +15,6 @@
   "key.lemclienthelper.alreadydownloaded": "Already Downloaded",
   "key.lemclienthelper.downloaderror": "Invalid Pack URL",
   "key.lemclienthelper.downloadcomplete": "Download Complete",
-  "key.lemclienthelper.wrongpackcompatibility" : "Wrong Pack Type",
+  "key.lemclienthelper.wrongpackcompatibility": "Wrong Pack Type",
   "key.lemclienthelper.alldownloadcomplete": "All Downloads Complete"
 }

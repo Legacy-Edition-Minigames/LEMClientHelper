@@ -4,6 +4,8 @@ import net.fabricmc.fabric.api.client.keybinding.v1.KeyBindingHelper;
 import net.kyrptonaught.lemclienthelper.LEMClientHelperMod;
 import net.minecraft.client.option.KeyBinding;
 import net.minecraft.client.util.InputUtil;
+import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.item.ItemStack;
 import net.minecraft.util.Pair;
 import org.lwjgl.glfw.GLFW;
 
@@ -33,7 +35,16 @@ public class SmallInvInit {
         registerSmallSlot(44, 152, 99);
     }
 
-    public static void checkSlot(MovableSlot slot) {
+    public static boolean isSmallInv(PlayerEntity player) {
+        //if (true) return true;
+        for (ItemStack itemStack : player.getInventory().main) {
+            if (itemStack.hasNbt() && itemStack.getNbt().contains("SmallInv") && itemStack.getNbt().getInt("SmallInv") == 1)
+                return true;
+        }
+        return false;
+    }
+
+    public static void tryMoveSlot(MovableSlot slot) {
         if (SMALLINVSLOTS.containsKey(slot.id)) {
             Pair<Integer, Integer> pos = SMALLINVSLOTS.get(slot.id);
             slot.setPos(pos.getLeft(), pos.getRight());

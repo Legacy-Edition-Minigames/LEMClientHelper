@@ -3,7 +3,7 @@ package net.kyrptonaught.lemclienthelper.SmallInv;
 import net.minecraft.screen.slot.Slot;
 
 public class MovableSlot extends ExtendedSlot {
-    boolean isEnabled = true;
+    public boolean isEnabled = true;
     private int oldX = -1, oldY = -1;
 
     public MovableSlot(Slot slot) {
