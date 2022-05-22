@@ -28,6 +28,12 @@ public abstract class HandledScreenMixin extends Screen implements SmallInvPlaye
     @Shadow
     public abstract ScreenHandler getScreenHandler();
 
+    @Shadow
+    protected int backgroundHeight;
+
+    @Shadow
+    protected int backgroundWidth;
+
     protected HandledScreenMixin(Text title) {
         super(title);
     }
@@ -53,6 +59,16 @@ public abstract class HandledScreenMixin extends Screen implements SmallInvPlaye
         if (SmallInvInit.isKeybindPressed(button, true)) {
             setIsSmall(false);
             cir.setReturnValue(true);
+        }
+    }
+
+    @Inject(method = "isClickOutsideBounds", at = @At("HEAD"), cancellable = true)
+    public void isClickOutsideSmallBounds(double mouseX, double mouseY, int left, int top, int button, CallbackInfoReturnable<Boolean> cir) {
+        if (getIsSmall()) {
+            HandledScreen<?> handledScreen = (HandledScreen<?>) (Object) this;
+            if (!(handledScreen instanceof SmallInvScreen) && !(handledScreen instanceof InventoryScreen) &&
+                    !(handledScreen instanceof CreativeInventoryScreen))
+                if (mouseY >= (top + (this.backgroundHeight - 85 + 30))) cir.setReturnValue(true);
         }
     }
 

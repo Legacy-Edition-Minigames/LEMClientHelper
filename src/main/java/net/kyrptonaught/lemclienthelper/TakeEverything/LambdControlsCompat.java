@@ -1,4 +1,4 @@
-package net.kyrptonaught.lemclienthelper;
+package net.kyrptonaught.lemclienthelper.TakeEverything;
 /*
 import dev.lambdaurora.lambdacontrols.client.LambdaControlsClient;
 import dev.lambdaurora.lambdacontrols.client.compat.CompatHandler;

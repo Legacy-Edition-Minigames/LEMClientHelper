@@ -1,7 +1,7 @@
-package net.kyrptonaught.lemclienthelper.mixin;
+package net.kyrptonaught.lemclienthelper.mixin.takeeverything;
 
 import net.kyrptonaught.lemclienthelper.LEMClientHelperMod;
-import net.kyrptonaught.lemclienthelper.TakeEverythingNetworking;
+import net.kyrptonaught.lemclienthelper.TakeEverything.TakeEverythingNetworking;
 import net.minecraft.client.gui.screen.ingame.HandledScreen;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
@@ -12,7 +12,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 public abstract class ScreenHandlerMixin {
 
     @Inject(method = "mouseClicked", at = @At("HEAD"), cancellable = true)
-    private void invsort$mouseClicked(double x, double y, int button, CallbackInfoReturnable<Boolean> callbackInfoReturnable) {
+    private void lephelper$mouseClicked(double x, double y, int button, CallbackInfoReturnable<Boolean> callbackInfoReturnable) {
         if (LEMClientHelperMod.isKeybindPressed(button, true)) {
             TakeEverythingNetworking.sendSortPacket();
             callbackInfoReturnable.setReturnValue(true);
@@ -20,7 +20,7 @@ public abstract class ScreenHandlerMixin {
     }
 
     @Inject(method = "keyPressed", at = @At("HEAD"), cancellable = true)
-    private void invsort$keyPressed(int keycode, int scancode, int modifiers, CallbackInfoReturnable<Boolean> callbackInfoReturnable) {
+    private void lebhelper$keyPressed(int keycode, int scancode, int modifiers, CallbackInfoReturnable<Boolean> callbackInfoReturnable) {
         if (LEMClientHelperMod.isKeybindPressed(keycode, false)) {
             TakeEverythingNetworking.sendSortPacket();
             callbackInfoReturnable.setReturnValue(true);

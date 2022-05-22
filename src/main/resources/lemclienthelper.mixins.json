@@ -3,9 +3,9 @@
   "package": "net.kyrptonaught.lemclienthelper.mixin",
   "compatibilityLevel": "JAVA_16",
   "client": [
-    "ClientBuiltInResourcePackProviderMixin",
-    "NetworkUtilsMixin",
-    "ScreenHandlerMixin",
+    "resourcepreloader.ClientBuiltInResourcePackProviderMixin",
+    "resourcepreloader.NetworkUtilsMixin",
+    "takeeverything.ScreenHandlerMixin",
     "SmallInv.GenericContainerScreenMixin",
     "SmallInv.HandledScreenMixin",
     "SmallInv.MinecraftClientMixin",
