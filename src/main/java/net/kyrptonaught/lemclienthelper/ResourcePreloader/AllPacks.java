@@ -6,7 +6,6 @@ import net.minecraft.text.TranslatableText;
 import net.minecraft.util.ProgressListener;
 
 import java.io.File;
-import java.net.HttpURLConnection;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -23,9 +22,6 @@ public class AllPacks {
         public String hash;
         public File downloadedFile;
         public PACKCOMPATIBILITY packCompatibility = PACKCOMPATIBILITY.BOTH;
-
-        public transient HttpURLConnection MIXINISBEINGDUMB;
-
         public transient Progress progressListener = new Progress(this);
 
     }

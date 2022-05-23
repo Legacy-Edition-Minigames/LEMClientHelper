@@ -1,6 +1,7 @@
 package net.kyrptonaught.lemclienthelper.ResourcePreloader;
 
 import blue.endless.jankson.Jankson;
+import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.google.common.hash.Hashing;
 import net.kyrptonaught.lemclienthelper.LEMClientHelperMod;
@@ -12,11 +13,14 @@ import net.minecraft.resource.ResourceType;
 import net.minecraft.text.LiteralText;
 import net.minecraft.text.TranslatableText;
 import org.apache.commons.codec.digest.DigestUtils;
+import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.IOUtils;
+import org.apache.commons.io.filefilter.TrueFileFilter;
 
 import java.io.File;
 import java.io.IOException;
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.Locale;
 import java.util.Map;
 
@@ -45,6 +49,16 @@ public class ResourcePreloader {
             });
         } catch (Exception e) {
             e.printStackTrace();
+        }
+    }
+
+    public static void deletePacks() {
+        try {
+            ArrayList<File> list = Lists.newArrayList(FileUtils.listFiles(new File(MinecraftClient.getInstance().runDirectory, "server-resource-packs"), TrueFileFilter.TRUE, null));
+            for (File file : list) {
+                FileUtils.deleteQuietly(file);
+            }
+        } catch (Exception ignored) {
         }
     }
 

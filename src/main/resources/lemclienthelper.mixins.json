@@ -5,11 +5,12 @@
   "client": [
     "resourcepreloader.ClientBuiltInResourcePackProviderMixin",
     "resourcepreloader.NetworkUtilsMixin",
-    "takeeverything.ScreenHandlerMixin",
     "SmallInv.GenericContainerScreenMixin",
     "SmallInv.HandledScreenMixin",
     "SmallInv.MinecraftClientMixin",
-    "SmallInv.ScreenHandlerMixin"
+    "SmallInv.ScreenHandlerMixin",
+    "SmallInv.MidnightControlsMixin",
+    "takeeverything.ScreenHandlerMixin"
   ],
   "injectors": {
     "defaultRequire": 1

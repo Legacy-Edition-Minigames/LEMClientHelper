@@ -9,6 +9,7 @@ import net.kyrptonaught.lemclienthelper.LEMClientHelperMod;
 import net.kyrptonaught.lemclienthelper.ResourcePreloader.AllPacks;
 import net.kyrptonaught.lemclienthelper.ResourcePreloader.ResourcePreloader;
 import net.kyrptonaught.lemclienthelper.ResourcePreloader.ResourcePreloaderConfig;
+import net.kyrptonaught.lemclienthelper.SmallInv.SmallInvInit;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.font.TextRenderer;
 import net.minecraft.client.gui.screen.Screen;
@@ -28,30 +29,38 @@ public class ModMenuIntegration implements ModMenuApi {
                 LEMClientHelperMod.configManager.save();
             });
 
-            ConfigSection displaySection = new ConfigSection(configScreen, new TranslatableText("key.lemclienthelper.resourcepreloader"));
+            ConfigSection rplSection = new ConfigSection(configScreen, new TranslatableText("key.lemclienthelper.resourcepreloader"));
 
-            displaySection.addConfigItem(new TextItem(new TranslatableText("key.lemclienthelper.downloadurl"), config.URL, ResourcePreloaderConfig.DEFAULT_URL).setMaxLength(1024).setSaveConsumer(val -> config.URL = val));
-            displaySection.addConfigItem(new BooleanItem(new TranslatableText("key.lemclienthelper.allowOptifine"), config.allowOptifine, false).setSaveConsumer(val -> config.allowOptifine = val));
-            displaySection.addConfigItem(new BooleanItem(new TranslatableText("key.lemclienthelper.multiDownload"), config.multiDownload, true).setSaveConsumer(val -> config.multiDownload = val));
-            displaySection.addConfigItem(new BooleanItem(new TranslatableText("key.lemclienthelper.toastcomplete"), config.toastComplete, true).setSaveConsumer(val -> config.toastComplete = val));
+            rplSection.addConfigItem(new TextItem(new TranslatableText("key.lemclienthelper.downloadurl"), config.URL, ResourcePreloaderConfig.DEFAULT_URL).setMaxLength(1024).setSaveConsumer(val -> config.URL = val));
+            rplSection.addConfigItem(new BooleanItem(new TranslatableText("key.lemclienthelper.allowOptifine"), config.allowOptifine, false).setSaveConsumer(val -> config.allowOptifine = val));
+            rplSection.addConfigItem(new BooleanItem(new TranslatableText("key.lemclienthelper.multiDownload"), config.multiDownload, true).setSaveConsumer(val -> config.multiDownload = val));
+            rplSection.addConfigItem(new BooleanItem(new TranslatableText("key.lemclienthelper.toastcomplete"), config.toastComplete, true).setSaveConsumer(val -> config.toastComplete = val));
+
+            rplSection.addConfigItem(new ButtonItem(new TranslatableText("key.lemclienthelper.deletePacks")).setClickEvent(() -> {
+                configScreen.save();
+                ResourcePreloader.deletePacks();
+            }));
 
             SubItem<?> sub = new SubItem<>(new TranslatableText("key.lemclienthelper.packdownloads"), true);
 
-            displaySection.addConfigItem(new ButtonItem(new TranslatableText("key.lemclienthelper.previewList")).setClickEvent(() -> {
+            rplSection.addConfigItem(new ButtonItem(new TranslatableText("key.lemclienthelper.previewList")).setClickEvent(() -> {
                 configScreen.save();
                 ResourcePreloader.getPackList();
                 addPacksToSub(sub);
             }));
 
-            displaySection.addConfigItem(new ButtonItem(new TranslatableText("key.lemclienthelper.startdownload")).setClickEvent(() -> {
+            rplSection.addConfigItem(new ButtonItem(new TranslatableText("key.lemclienthelper.startdownload")).setClickEvent(() -> {
                 configScreen.save();
                 ResourcePreloader.getPackList();
                 ResourcePreloader.downloadPacks();
                 addPacksToSub(sub);
             }));
 
-            displaySection.addConfigItem(sub);
+            rplSection.addConfigItem(sub);
             addPacksToSub(sub);
+
+            ConfigSection smallInvSection = new ConfigSection(configScreen, new TranslatableText("key.lemclienthelper.smallinv"));
+            smallInvSection.addConfigItem(new BooleanItem(new TranslatableText("key.lemclienthelper.smallinv.enabled"), SmallInvInit.getConfig().enabled, true).setSaveConsumer(val -> SmallInvInit.getConfig().enabled = val));
 
             return configScreen;
         };

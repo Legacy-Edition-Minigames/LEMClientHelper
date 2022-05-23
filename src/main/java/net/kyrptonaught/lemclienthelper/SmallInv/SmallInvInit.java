@@ -12,11 +12,14 @@ import org.lwjgl.glfw.GLFW;
 import java.util.HashMap;
 
 public class SmallInvInit {
+
+    public static String MOD_ID = "smallinv";
     public static HashMap<Integer, Pair<Integer, Integer>> SMALLINVSLOTS = new HashMap<>();
 
     public static KeyBinding closeSmallInvKey;
 
     public static void init() {
+        LEMClientHelperMod.configManager.registerFile(MOD_ID, new SmallInvConfig());
         closeSmallInvKey = KeyBindingHelper.registerKeyBinding(new KeyBinding(LEMClientHelperMod.MOD_ID + ".key.closesmallinv", InputUtil.Type.KEYSYM, GLFW.GLFW_KEY_I, LEMClientHelperMod.MOD_ID + ".key.category.lemclienthelper"));
 
         registerSmallSlot(5, 55, 9);
@@ -35,8 +38,15 @@ public class SmallInvInit {
         registerSmallSlot(44, 152, 99);
     }
 
+    public static SmallInvConfig getConfig() {
+        return (SmallInvConfig) LEMClientHelperMod.configManager.getConfig(MOD_ID);
+    }
+
     public static boolean isSmallInv(PlayerEntity player) {
         //if (true) return true;
+        if (!getConfig().enabled) return false;
+
+        //give @p knowledge_book{display:{Name:'{"text":" "}'},SmallInv:1,CustomModelData:1}
         for (ItemStack itemStack : player.getInventory().main) {
             if (itemStack.hasNbt() && itemStack.getNbt().contains("SmallInv") && itemStack.getNbt().getInt("SmallInv") == 1)
                 return true;

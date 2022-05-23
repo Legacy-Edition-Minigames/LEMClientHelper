@@ -1,11 +1,8 @@
 package net.kyrptonaught.lemclienthelper.mixin.SmallInv;
 
 import net.kyrptonaught.lemclienthelper.SmallInv.MovableSlot;
-import net.kyrptonaught.lemclienthelper.SmallInv.SmallInvInit;
-import net.kyrptonaught.lemclienthelper.SmallInv.SmallInvPlayerInv;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.item.ItemStack;
-import net.minecraft.screen.GenericContainerScreenHandler;
 import net.minecraft.screen.PlayerScreenHandler;
 import net.minecraft.screen.ScreenHandler;
 import net.minecraft.screen.slot.Slot;
