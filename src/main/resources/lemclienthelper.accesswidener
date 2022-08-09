@@ -1,4 +1,9 @@
 accessWidener	v1	named
 
+# small inv
 mutable field net/minecraft/screen/slot/Slot x I
 mutable field net/minecraft/screen/slot/Slot y I
+
+# legacy ui
+mutable field net/minecraft/client/gui/screen/TitleScreen backgroundRenderer Lnet/minecraft/client/gui/RotatingCubeMapRenderer;
+accessible field net/minecraft/client/gui/screen/TitleScreen backgroundRenderer Lnet/minecraft/client/gui/RotatingCubeMapRenderer;

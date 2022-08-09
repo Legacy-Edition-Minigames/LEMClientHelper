@@ -2,7 +2,6 @@ package net.kyrptonaught.lemclienthelper.ResourcePreloader;
 
 
 import net.minecraft.text.Text;
-import net.minecraft.text.TranslatableText;
 import net.minecraft.util.ProgressListener;
 
 import java.io.File;
@@ -43,7 +42,7 @@ public class AllPacks {
 
         public void setTitleAndTask(Text title) {
             this.title = title;
-            this.setTask(new TranslatableText("progress.working"));
+            this.setTask(Text.translatable("progress.working"));
         }
 
         @Override
@@ -62,7 +61,7 @@ public class AllPacks {
 
         @Override
         public void setDone() {
-            done(new TranslatableText("key.lemclienthelper.downloadcomplete"), this.task);
+            done(Text.translatable("key.lemclienthelper.downloadcomplete"), this.task);
         }
 
         private void done(Text title, Text task) {

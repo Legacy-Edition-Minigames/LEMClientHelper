@@ -7,9 +7,9 @@
     "resourcepreloader.NetworkUtilsMixin",
     "SmallInv.GenericContainerScreenMixin",
     "SmallInv.HandledScreenMixin",
+    "SmallInv.MidnightControlsMixin",
     "SmallInv.MinecraftClientMixin",
     "SmallInv.ScreenHandlerMixin",
-    "SmallInv.MidnightControlsMixin",
     "takeeverything.ScreenHandlerMixin"
   ],
   "injectors": {

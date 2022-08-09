@@ -10,6 +10,6 @@ public class ClientBuiltInResourcePackProviderMixin {
 
     @ModifyConstant(method = "deleteOldServerPack", constant = @Constant(intValue = 10))
     private int dontDeleteLEMPacks(int constant) {
-        return 25;
+        return 30;
     }
 }

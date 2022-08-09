@@ -43,7 +43,7 @@ public class SmallInvInit {
     }
 
     public static boolean isSmallInv(PlayerEntity player) {
-        //if (true) return true;
+        //if (true) return true; // force enabling for testing
         if (!getConfig().enabled) return false;
 
         //give @p knowledge_book{display:{Name:'{"text":" "}'},SmallInv:1,CustomModelData:1}

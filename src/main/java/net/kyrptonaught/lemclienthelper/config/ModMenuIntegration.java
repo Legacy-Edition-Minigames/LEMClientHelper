@@ -14,9 +14,7 @@ import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.font.TextRenderer;
 import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.util.math.MatrixStack;
-import net.minecraft.text.LiteralText;
 import net.minecraft.text.Text;
-import net.minecraft.text.TranslatableText;
 
 public class ModMenuIntegration implements ModMenuApi {
 
@@ -24,32 +22,32 @@ public class ModMenuIntegration implements ModMenuApi {
     public ConfigScreenFactory<?> getModConfigScreenFactory() {
         return (screen) -> {
             ResourcePreloaderConfig config = ResourcePreloader.getConfig();
-            ConfigScreen configScreen = new ConfigScreen(screen, new TranslatableText("key.lemclienthelper.title"));
+            ConfigScreen configScreen = new ConfigScreen(screen, Text.translatable("key.lemclienthelper.title"));
             configScreen.setSavingEvent(() -> {
                 LEMClientHelperMod.configManager.save();
             });
 
-            ConfigSection rplSection = new ConfigSection(configScreen, new TranslatableText("key.lemclienthelper.resourcepreloader"));
+            ConfigSection rplSection = new ConfigSection(configScreen, Text.translatable("key.lemclienthelper.resourcepreloader"));
 
-            rplSection.addConfigItem(new TextItem(new TranslatableText("key.lemclienthelper.downloadurl"), config.URL, ResourcePreloaderConfig.DEFAULT_URL).setMaxLength(1024).setSaveConsumer(val -> config.URL = val));
-            rplSection.addConfigItem(new BooleanItem(new TranslatableText("key.lemclienthelper.allowOptifine"), config.allowOptifine, false).setSaveConsumer(val -> config.allowOptifine = val));
-            rplSection.addConfigItem(new BooleanItem(new TranslatableText("key.lemclienthelper.multiDownload"), config.multiDownload, true).setSaveConsumer(val -> config.multiDownload = val));
-            rplSection.addConfigItem(new BooleanItem(new TranslatableText("key.lemclienthelper.toastcomplete"), config.toastComplete, true).setSaveConsumer(val -> config.toastComplete = val));
+            rplSection.addConfigItem(new TextItem(Text.translatable("key.lemclienthelper.downloadurl"), config.URL, ResourcePreloaderConfig.DEFAULT_URL).setMaxLength(1024).setSaveConsumer(val -> config.URL = val));
+            rplSection.addConfigItem(new BooleanItem(Text.translatable("key.lemclienthelper.allowOptifine"), config.allowOptifine, false).setSaveConsumer(val -> config.allowOptifine = val));
+            rplSection.addConfigItem(new BooleanItem(Text.translatable("key.lemclienthelper.multiDownload"), config.multiDownload, true).setSaveConsumer(val -> config.multiDownload = val));
+            rplSection.addConfigItem(new BooleanItem(Text.translatable("key.lemclienthelper.toastcomplete"), config.toastComplete, true).setSaveConsumer(val -> config.toastComplete = val));
 
-            rplSection.addConfigItem(new ButtonItem(new TranslatableText("key.lemclienthelper.deletePacks")).setClickEvent(() -> {
+            rplSection.addConfigItem(new ButtonItem(Text.translatable("key.lemclienthelper.deletePacks")).setClickEvent(() -> {
                 configScreen.save();
                 ResourcePreloader.deletePacks();
             }));
 
-            SubItem<?> sub = new SubItem<>(new TranslatableText("key.lemclienthelper.packdownloads"), true);
+            SubItem<?> sub = new SubItem<>(Text.translatable("key.lemclienthelper.packdownloads"), true);
 
-            rplSection.addConfigItem(new ButtonItem(new TranslatableText("key.lemclienthelper.previewList")).setClickEvent(() -> {
+            rplSection.addConfigItem(new ButtonItem(Text.translatable("key.lemclienthelper.previewList")).setClickEvent(() -> {
                 configScreen.save();
                 ResourcePreloader.getPackList();
                 addPacksToSub(sub);
             }));
 
-            rplSection.addConfigItem(new ButtonItem(new TranslatableText("key.lemclienthelper.startdownload")).setClickEvent(() -> {
+            rplSection.addConfigItem(new ButtonItem(Text.translatable("key.lemclienthelper.startdownload")).setClickEvent(() -> {
                 configScreen.save();
                 ResourcePreloader.getPackList();
                 ResourcePreloader.downloadPacks();
@@ -59,8 +57,8 @@ public class ModMenuIntegration implements ModMenuApi {
             rplSection.addConfigItem(sub);
             addPacksToSub(sub);
 
-            ConfigSection smallInvSection = new ConfigSection(configScreen, new TranslatableText("key.lemclienthelper.smallinv"));
-            smallInvSection.addConfigItem(new BooleanItem(new TranslatableText("key.lemclienthelper.smallinv.enabled"), SmallInvInit.getConfig().enabled, true).setSaveConsumer(val -> SmallInvInit.getConfig().enabled = val));
+            ConfigSection smallInvSection = new ConfigSection(configScreen, Text.translatable("key.lemclienthelper.smallinv"));
+            smallInvSection.addConfigItem(new BooleanItem(Text.translatable("key.lemclienthelper.smallinv.enabled"), SmallInvInit.getConfig().enabled, true).setSaveConsumer(val -> SmallInvInit.getConfig().enabled = val));
 
             return configScreen;
         };
@@ -70,7 +68,7 @@ public class ModMenuIntegration implements ModMenuApi {
         if (ResourcePreloader.allPacks != null && ResourcePreloader.allPacks.packs.size() > 0) {
             sub.clearConfigItems();
             ResourcePreloader.allPacks.packs.forEach(rpOption -> {
-                sub.addConfigItem(new RPDownloadItem(rpOption).setToolTip(new LiteralText(rpOption.url)));
+                sub.addConfigItem(new RPDownloadItem(rpOption).setToolTip(Text.literal(rpOption.url)));
             });
         }
     }
@@ -79,7 +77,7 @@ public class ModMenuIntegration implements ModMenuApi {
         private final AllPacks.RPOption rpOption;
 
         public RPDownloadItem(AllPacks.RPOption option) {
-            super(new LiteralText(option.packname), null, null);
+            super(Text.literal(option.packname), null, null);
             this.rpOption = option;
         }
 
@@ -98,7 +96,7 @@ public class ModMenuIntegration implements ModMenuApi {
                 Screen.drawCenteredText(matrices, textRenderer, progressListener.title, titleX, y, 16777215);
 
                 if (rpOption.progressListener.task != null) {
-                    Text task = (new LiteralText("")).append(progressListener.task).append(" " + progressListener.progress + "%");
+                    Text task = (Text.literal("")).append(progressListener.task).append(" " + progressListener.progress + "%");
                     Screen.drawCenteredText(matrices, textRenderer, task, titleX, y + 10, 16777215);
                 }
             }

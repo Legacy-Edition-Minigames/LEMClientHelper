@@ -10,8 +10,7 @@ import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.toast.SystemToast;
 import net.minecraft.client.util.NetworkUtils;
 import net.minecraft.resource.ResourceType;
-import net.minecraft.text.LiteralText;
-import net.minecraft.text.TranslatableText;
+import net.minecraft.text.Text;
 import org.apache.commons.codec.digest.DigestUtils;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.IOUtils;
@@ -19,6 +18,7 @@ import org.apache.commons.io.filefilter.TrueFileFilter;
 
 import java.io.File;
 import java.io.IOException;
+import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.Locale;
@@ -81,7 +81,7 @@ public class ResourcePreloader {
 
     static void downloadComplete(AllPacks.RPOption rpOption) {
         if (getConfig().toastComplete)
-            SystemToast.show(MinecraftClient.getInstance().getToastManager(), SystemToast.Type.TUTORIAL_HINT, rpOption.progressListener.title, new LiteralText(rpOption.packname));
+            SystemToast.show(MinecraftClient.getInstance().getToastManager(), SystemToast.Type.TUTORIAL_HINT, rpOption.progressListener.title, Text.literal(rpOption.packname));
         if (!getConfig().multiDownload)
             downloadNextPack();
         if (verifyFile(rpOption.hash, rpOption.downloadedFile)) {
@@ -98,7 +98,7 @@ public class ResourcePreloader {
             }
         }
         downloadsComplete = true;
-        SystemToast.add(MinecraftClient.getInstance().getToastManager(), SystemToast.Type.TUTORIAL_HINT, new TranslatableText("key.lemclienthelper.alldownloadcomplete"), new LiteralText("Took: " + (System.currentTimeMillis() - startTime) + " milliseconds"));
+        //SystemToast.add(MinecraftClient.getInstance().getToastManager(), SystemToast.Type.TUTORIAL_HINT, Text.translatable("key.lemclienthelper.alldownloadcomplete"), Text.literal("Took: " + (System.currentTimeMillis() - startTime) + " milliseconds"));
     }
 
     private static void download(AllPacks.RPOption rpOption, boolean previewOnly) {
@@ -108,12 +108,16 @@ public class ResourcePreloader {
         rpOption.downloadedFile = file;
         if ((getConfig().allowOptifine && rpOption.packCompatibility == AllPacks.RPOption.PACKCOMPATIBILITY.VANILLA) ||
                 (!getConfig().allowOptifine && rpOption.packCompatibility == AllPacks.RPOption.PACKCOMPATIBILITY.OPTIFINE)) {
-            rpOption.progressListener.skip(new TranslatableText("key.lemclienthelper.wrongpackcompatibility"));
+            rpOption.progressListener.skip(Text.translatable("key.lemclienthelper.wrongpackcompatibility"));
         } else if (file.exists()) {
-            rpOption.progressListener.skip(new TranslatableText("key.lemclienthelper.alreadydownloaded"));
+            rpOption.progressListener.skip(Text.translatable("key.lemclienthelper.alreadydownloaded"));
         } else if (!previewOnly) {
             Map<String, String> map = getDownloadHeaders();
-            NetworkUtils.downloadResourcePack(file, rpOption.url, map, Integer.MAX_VALUE, rpOption.progressListener, minecraftClient.getNetworkProxy());
+            try {
+                NetworkUtils.downloadResourcePack(file, new URL(rpOption.url), map, Integer.MAX_VALUE, rpOption.progressListener, minecraftClient.getNetworkProxy());
+            } catch (MalformedURLException exception) {
+                System.out.println("Bad URL detected: " + rpOption.url);
+            }
         }
     }
 

@@ -8,7 +8,7 @@ import net.minecraft.client.render.GameRenderer;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.screen.PlayerScreenHandler;
-import net.minecraft.text.TranslatableText;
+import net.minecraft.text.Text;
 import net.minecraft.util.Identifier;
 
 public class SmallInvScreen extends AbstractInventoryScreen<PlayerScreenHandler> {
@@ -17,7 +17,7 @@ public class SmallInvScreen extends AbstractInventoryScreen<PlayerScreenHandler>
     private float mouseY;
 
     public SmallInvScreen(PlayerEntity player) {
-        super(player.playerScreenHandler, player.getInventory(), new TranslatableText("container.inventory"));
+        super(player.playerScreenHandler, player.getInventory(), Text.translatable("container.inventory"));
         this.passEvents = false;
         this.titleY = 86;
         this.backgroundHeight = 124;
