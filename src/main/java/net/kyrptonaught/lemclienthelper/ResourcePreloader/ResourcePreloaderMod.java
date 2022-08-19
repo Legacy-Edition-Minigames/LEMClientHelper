@@ -24,12 +24,12 @@ import java.util.ArrayList;
 import java.util.Locale;
 import java.util.Map;
 
-public class ResourcePreloader {
+public class ResourcePreloaderMod {
     public static String MOD_ID = "resourcepreloader";
     public static AllPacks allPacks;
     private static boolean downloadsComplete = false;
 
-    public static void init() {
+    public static void onInitialize() {
         LEMClientHelperMod.configManager.registerFile(MOD_ID, new ResourcePreloaderConfig());
     }
 

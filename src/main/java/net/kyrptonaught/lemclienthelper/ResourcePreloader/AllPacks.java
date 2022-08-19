@@ -69,7 +69,7 @@ public class AllPacks {
             this.title = title;
             this.task = task;
             this.progressStagePercentage(100);
-            ResourcePreloader.downloadComplete(rpOption);
+            ResourcePreloaderMod.downloadComplete(rpOption);
         }
     }
 }

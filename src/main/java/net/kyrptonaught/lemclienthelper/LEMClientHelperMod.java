@@ -4,37 +4,40 @@ import net.fabricmc.api.ClientModInitializer;
 import net.fabricmc.fabric.api.client.keybinding.v1.KeyBindingHelper;
 import net.fabricmc.loader.api.FabricLoader;
 import net.kyrptonaught.kyrptconfig.config.ConfigManager;
-import net.kyrptonaught.lemclienthelper.ResourcePreloader.ResourcePreloader;
-import net.kyrptonaught.lemclienthelper.SmallInv.SmallInvInit;
-import net.kyrptonaught.lemclienthelper.TakeEverything.LambdControlsCompat;
-import net.kyrptonaught.lemclienthelper.clientData.ClientData;
+import net.kyrptonaught.lemclienthelper.ResourcePreloader.ResourcePreloaderMod;
+import net.kyrptonaught.lemclienthelper.SmallInv.SmallInvMod;
+import net.kyrptonaught.lemclienthelper.TakeEverything.TakeEverythingMod;
+import net.kyrptonaught.lemclienthelper.clientData.ClientDataMod;
 import net.minecraft.client.option.KeyBinding;
 import net.minecraft.client.util.InputUtil;
 import net.minecraft.util.Identifier;
-import org.lwjgl.glfw.GLFW;
 
 
 public class LEMClientHelperMod implements ClientModInitializer {
     public static final String MOD_ID = "lemclienthelper";
-    public static KeyBinding takeEverythingKey;
     public static ConfigManager configManager = new ConfigManager.MultiConfigManager(MOD_ID);
     public static Identifier PRESENCE_PACKET = new Identifier("serverutils", "presence");
 
     @Override
     public void onInitializeClient() {
-        takeEverythingKey = KeyBindingHelper.registerKeyBinding(new KeyBinding(MOD_ID + ".key.takeeverything", InputUtil.Type.MOUSE, GLFW.GLFW_MOUSE_BUTTON_3, MOD_ID + ".key.category.lemclienthelper"));
-        ResourcePreloader.init();
-        SmallInvInit.init();
-        ClientData.onInitialize();
+        TakeEverythingMod.onInitialize();
+        ResourcePreloaderMod.onInitialize();
+        SmallInvMod.onInitialize();
+        ClientDataMod.onInitialize();
 
         // if (FabricLoader.getInstance().isModLoaded("lambdacontrols"))
         if (FabricLoader.getInstance().isModLoaded("midnightcontrols"))
-            LambdControlsCompat.register();
+            registerControllerKeys();
+
         configManager.load();
     }
 
-    public static boolean isKeybindPressed(int pressedKeyCode, boolean isMouse) {
-        InputUtil.Key keycode = KeyBindingHelper.getBoundKeyOf(takeEverythingKey);
+    public static void registerControllerKeys(){
+        TakeEverythingMod.registerControllerKeys();
+    }
+
+    public static boolean isKeybindPressed(KeyBinding keyBinding, int pressedKeyCode, boolean isMouse) {
+        InputUtil.Key keycode = KeyBindingHelper.getBoundKeyOf(keyBinding);
 
         if (isMouse) {
             if (keycode.getCategory() != InputUtil.Type.MOUSE) return false;

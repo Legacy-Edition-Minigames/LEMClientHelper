@@ -7,9 +7,9 @@ import net.kyrptonaught.kyrptconfig.config.screen.ConfigSection;
 import net.kyrptonaught.kyrptconfig.config.screen.items.*;
 import net.kyrptonaught.lemclienthelper.LEMClientHelperMod;
 import net.kyrptonaught.lemclienthelper.ResourcePreloader.AllPacks;
-import net.kyrptonaught.lemclienthelper.ResourcePreloader.ResourcePreloader;
+import net.kyrptonaught.lemclienthelper.ResourcePreloader.ResourcePreloaderMod;
 import net.kyrptonaught.lemclienthelper.ResourcePreloader.ResourcePreloaderConfig;
-import net.kyrptonaught.lemclienthelper.SmallInv.SmallInvInit;
+import net.kyrptonaught.lemclienthelper.SmallInv.SmallInvMod;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.font.TextRenderer;
 import net.minecraft.client.gui.screen.Screen;
@@ -21,7 +21,7 @@ public class ModMenuIntegration implements ModMenuApi {
     @Override
     public ConfigScreenFactory<?> getModConfigScreenFactory() {
         return (screen) -> {
-            ResourcePreloaderConfig config = ResourcePreloader.getConfig();
+            ResourcePreloaderConfig config = ResourcePreloaderMod.getConfig();
             ConfigScreen configScreen = new ConfigScreen(screen, Text.translatable("key.lemclienthelper.title"));
             configScreen.setSavingEvent(() -> {
                 LEMClientHelperMod.configManager.save();
@@ -38,21 +38,21 @@ public class ModMenuIntegration implements ModMenuApi {
 
             rplSection.addConfigItem(new ButtonItem(Text.translatable("key.lemclienthelper.deletePacks")).setClickEvent(() -> {
                 configScreen.save();
-                ResourcePreloader.deletePacks();
+                ResourcePreloaderMod.deletePacks();
             }));
 
             SubItem<?> sub = new SubItem<>(Text.translatable("key.lemclienthelper.packdownloads"), true);
 
             rplSection.addConfigItem(new ButtonItem(Text.translatable("key.lemclienthelper.previewList")).setClickEvent(() -> {
                 configScreen.save();
-                ResourcePreloader.getPackList();
+                ResourcePreloaderMod.getPackList();
                 addPacksToSub(sub);
             }));
 
             rplSection.addConfigItem(new ButtonItem(Text.translatable("key.lemclienthelper.startdownload")).setClickEvent(() -> {
                 configScreen.save();
-                ResourcePreloader.getPackList();
-                ResourcePreloader.downloadPacks();
+                ResourcePreloaderMod.getPackList();
+                ResourcePreloaderMod.downloadPacks();
                 addPacksToSub(sub);
             }));
 
@@ -60,16 +60,16 @@ public class ModMenuIntegration implements ModMenuApi {
             addPacksToSub(sub);
 
             ConfigSection smallInvSection = new ConfigSection(configScreen, Text.translatable("key.lemclienthelper.smallinv"));
-            smallInvSection.addConfigItem(new BooleanItem(Text.translatable("key.lemclienthelper.smallinv.enabled"), SmallInvInit.getConfig().enabled, true).setSaveConsumer(val -> SmallInvInit.getConfig().enabled = val));
+            smallInvSection.addConfigItem(new BooleanItem(Text.translatable("key.lemclienthelper.smallinv.enabled"), SmallInvMod.getConfig().enabled, true).setSaveConsumer(val -> SmallInvMod.getConfig().enabled = val));
 
             return configScreen;
         };
     }
 
     public void addPacksToSub(SubItem<?> sub) {
-        if (ResourcePreloader.allPacks != null && ResourcePreloader.allPacks.packs.size() > 0) {
+        if (ResourcePreloaderMod.allPacks != null && ResourcePreloaderMod.allPacks.packs.size() > 0) {
             sub.clearConfigItems();
-            ResourcePreloader.allPacks.packs.forEach(rpOption -> {
+            ResourcePreloaderMod.allPacks.packs.forEach(rpOption -> {
                 sub.addConfigItem(new RPDownloadItem(rpOption).setToolTip(Text.literal(rpOption.url)));
             });
         }

@@ -11,14 +11,14 @@ import org.lwjgl.glfw.GLFW;
 
 import java.util.HashMap;
 
-public class SmallInvInit {
+public class SmallInvMod {
 
     public static String MOD_ID = "smallinv";
     public static HashMap<Integer, Pair<Integer, Integer>> SMALLINVSLOTS = new HashMap<>();
 
     public static KeyBinding closeSmallInvKey;
 
-    public static void init() {
+    public static void onInitialize() {
         LEMClientHelperMod.configManager.registerFile(MOD_ID, new SmallInvConfig());
         closeSmallInvKey = KeyBindingHelper.registerKeyBinding(new KeyBinding(LEMClientHelperMod.MOD_ID + ".key.closesmallinv", InputUtil.Type.KEYSYM, GLFW.GLFW_KEY_I, LEMClientHelperMod.MOD_ID + ".key.category.lemclienthelper"));
 

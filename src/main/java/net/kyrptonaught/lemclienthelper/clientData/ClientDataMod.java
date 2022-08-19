@@ -4,7 +4,7 @@ import net.fabricmc.fabric.api.client.networking.v1.ClientPlayConnectionEvents;
 import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking;
 import net.fabricmc.loader.api.FabricLoader;
 
-public class ClientData {
+public class ClientDataMod {
 
     public static void onInitialize() {
         ClientPlayConnectionEvents.JOIN.register((handler, sender, client) -> {

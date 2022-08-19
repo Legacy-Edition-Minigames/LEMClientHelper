@@ -1,7 +1,7 @@
 package net.kyrptonaught.lemclienthelper.mixin.SmallInv;
 
 import net.kyrptonaught.lemclienthelper.SmallInv.MovableSlot;
-import net.kyrptonaught.lemclienthelper.SmallInv.SmallInvInit;
+import net.kyrptonaught.lemclienthelper.SmallInv.SmallInvMod;
 import net.kyrptonaught.lemclienthelper.SmallInv.SmallInvPlayerInv;
 import net.kyrptonaught.lemclienthelper.SmallInv.SmallInvScreen;
 import net.minecraft.client.gui.screen.Screen;
@@ -47,7 +47,7 @@ public abstract class HandledScreenMixin extends Screen implements SmallInvPlaye
 
     @Inject(method = "keyPressed", at = @At("HEAD"), cancellable = true)
     public void keyPressed(int keyCode, int scanCode, int modifiers, CallbackInfoReturnable<Boolean> cir) {
-        if (SmallInvInit.isKeybindPressed(keyCode, false)) {
+        if (SmallInvMod.isKeybindPressed(keyCode, false)) {
             setIsSmall(false);
             cir.setReturnValue(true);
         }
@@ -55,7 +55,7 @@ public abstract class HandledScreenMixin extends Screen implements SmallInvPlaye
 
     @Inject(method = "mouseClicked", at = @At("HEAD"), cancellable = true)
     public void mouseClicked(double mouseX, double mouseY, int button, CallbackInfoReturnable<Boolean> cir) {
-        if (SmallInvInit.isKeybindPressed(button, true)) {
+        if (SmallInvMod.isKeybindPressed(button, true)) {
             setIsSmall(false);
             cir.setReturnValue(true);
         }
@@ -89,7 +89,7 @@ public abstract class HandledScreenMixin extends Screen implements SmallInvPlaye
             if (handler.slots.get(i) instanceof MovableSlot slot)
                 if (handler instanceof PlayerScreenHandler) {
                     if (small)
-                        SmallInvInit.tryMoveSlot(slot);
+                        SmallInvMod.tryMoveSlot(slot);
                     else slot.resetPos();
                 } else {
                     if (small) {
