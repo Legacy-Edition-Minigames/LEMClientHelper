@@ -14,7 +14,7 @@ public abstract class ScreenHandlerMixin {
     @Inject(method = "mouseClicked", at = @At("HEAD"), cancellable = true)
     private void lephelper$mouseClicked(double x, double y, int button, CallbackInfoReturnable<Boolean> callbackInfoReturnable) {
         if (LEMClientHelperMod.isKeybindPressed(button, true)) {
-            TakeEverythingNetworking.sendSortPacket();
+            TakeEverythingNetworking.sendTakeEverythingPacket();
             callbackInfoReturnable.setReturnValue(true);
         }
     }
@@ -22,7 +22,7 @@ public abstract class ScreenHandlerMixin {
     @Inject(method = "keyPressed", at = @At("HEAD"), cancellable = true)
     private void lebhelper$keyPressed(int keycode, int scancode, int modifiers, CallbackInfoReturnable<Boolean> callbackInfoReturnable) {
         if (LEMClientHelperMod.isKeybindPressed(keycode, false)) {
-            TakeEverythingNetworking.sendSortPacket();
+            TakeEverythingNetworking.sendTakeEverythingPacket();
             callbackInfoReturnable.setReturnValue(true);
         }
     }

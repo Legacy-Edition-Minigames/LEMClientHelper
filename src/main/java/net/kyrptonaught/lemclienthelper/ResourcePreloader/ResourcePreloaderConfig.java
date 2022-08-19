@@ -11,6 +11,9 @@ public class ResourcePreloaderConfig implements AbstractConfigFile {
     @Comment("Should download optifine version of packs")
     public boolean allowOptifine = false;
 
+    @Comment("Should incompatible packs be hidden")
+    public boolean hideIncompatiblePacks = true;
+
     @Comment("Allow Simultaneous Downloads")
     public boolean multiDownload = true;
 

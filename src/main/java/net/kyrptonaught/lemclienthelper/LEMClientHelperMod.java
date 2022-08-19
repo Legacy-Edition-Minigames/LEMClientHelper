@@ -7,8 +7,10 @@ import net.kyrptonaught.kyrptconfig.config.ConfigManager;
 import net.kyrptonaught.lemclienthelper.ResourcePreloader.ResourcePreloader;
 import net.kyrptonaught.lemclienthelper.SmallInv.SmallInvInit;
 import net.kyrptonaught.lemclienthelper.TakeEverything.LambdControlsCompat;
+import net.kyrptonaught.lemclienthelper.clientData.ClientData;
 import net.minecraft.client.option.KeyBinding;
 import net.minecraft.client.util.InputUtil;
+import net.minecraft.util.Identifier;
 import org.lwjgl.glfw.GLFW;
 
 
@@ -16,12 +18,14 @@ public class LEMClientHelperMod implements ClientModInitializer {
     public static final String MOD_ID = "lemclienthelper";
     public static KeyBinding takeEverythingKey;
     public static ConfigManager configManager = new ConfigManager.MultiConfigManager(MOD_ID);
+    public static Identifier PRESENCE_PACKET = new Identifier("serverutils", "presence");
 
     @Override
     public void onInitializeClient() {
         takeEverythingKey = KeyBindingHelper.registerKeyBinding(new KeyBinding(MOD_ID + ".key.takeeverything", InputUtil.Type.MOUSE, GLFW.GLFW_MOUSE_BUTTON_3, MOD_ID + ".key.category.lemclienthelper"));
         ResourcePreloader.init();
         SmallInvInit.init();
+        ClientData.onInitialize();
 
         // if (FabricLoader.getInstance().isModLoaded("lambdacontrols"))
         if (FabricLoader.getInstance().isModLoaded("midnightcontrols"))

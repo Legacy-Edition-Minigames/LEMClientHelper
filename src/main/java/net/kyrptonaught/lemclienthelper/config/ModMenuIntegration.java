@@ -31,6 +31,8 @@ public class ModMenuIntegration implements ModMenuApi {
 
             rplSection.addConfigItem(new TextItem(Text.translatable("key.lemclienthelper.downloadurl"), config.URL, ResourcePreloaderConfig.DEFAULT_URL).setMaxLength(1024).setSaveConsumer(val -> config.URL = val));
             rplSection.addConfigItem(new BooleanItem(Text.translatable("key.lemclienthelper.allowOptifine"), config.allowOptifine, false).setSaveConsumer(val -> config.allowOptifine = val));
+            rplSection.addConfigItem(new BooleanItem(Text.translatable("key.lemclienthelper.hideIncompatiblePacks"), config.hideIncompatiblePacks, true).setSaveConsumer(val -> config.hideIncompatiblePacks = val));
+
             rplSection.addConfigItem(new BooleanItem(Text.translatable("key.lemclienthelper.multiDownload"), config.multiDownload, true).setSaveConsumer(val -> config.multiDownload = val));
             rplSection.addConfigItem(new BooleanItem(Text.translatable("key.lemclienthelper.toastcomplete"), config.toastComplete, true).setSaveConsumer(val -> config.toastComplete = val));
 
@@ -82,8 +84,8 @@ public class ModMenuIntegration implements ModMenuApi {
         }
 
         @Override
-        public int getSize() {
-            return 30;
+        public int getContentSize() {
+            return 2;
         }
 
         @Override
@@ -93,11 +95,14 @@ public class ModMenuIntegration implements ModMenuApi {
             AllPacks.Progress progressListener = rpOption.progressListener;
             if (progressListener.title != null) {
                 int titleX = MinecraftClient.getInstance().getWindow().getScaledWidth() - 90;
-                Screen.drawCenteredText(matrices, textRenderer, progressListener.title, titleX, y, 16777215);
 
-                if (rpOption.progressListener.task != null) {
+                if (progressListener.task == null) {
+                    Screen.drawCenteredText(matrices, textRenderer, progressListener.title, titleX, y + 10 - 4, 16777215);
+                } else {
                     Text task = (Text.literal("")).append(progressListener.task).append(" " + progressListener.progress + "%");
-                    Screen.drawCenteredText(matrices, textRenderer, task, titleX, y + 10, 16777215);
+
+                    Screen.drawCenteredText(matrices, textRenderer, progressListener.title, titleX, y + 2, 16777215);
+                    Screen.drawCenteredText(matrices, textRenderer, task, titleX, y + 11, 16777215);
                 }
             }
         }

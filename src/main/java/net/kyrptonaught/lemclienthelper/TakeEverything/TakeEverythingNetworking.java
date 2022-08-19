@@ -11,8 +11,8 @@ public class TakeEverythingNetworking {
     private static final Identifier TAKE_EVERYTHING_PACKET = new Identifier("takeeverything", "take_everything_packet");
 
     @Environment(EnvType.CLIENT)
-    public static void sendSortPacket() {
+    public static void sendTakeEverythingPacket() {
         PacketByteBuf buf = new PacketByteBuf(Unpooled.buffer());
-        ClientPlayNetworking.send(TAKE_EVERYTHING_PACKET, new PacketByteBuf(buf));
+        ClientPlayNetworking.send(TAKE_EVERYTHING_PACKET, buf);
     }
 }
