@@ -3,14 +3,15 @@
   "package": "net.kyrptonaught.lemclienthelper.mixin",
   "compatibilityLevel": "JAVA_17",
   "client": [
-    "resourcepreloader.ClientBuiltInResourcePackProviderMixin",
-    "resourcepreloader.NetworkUtilsMixin",
+    "ResourcePreloader.ClientBuiltInResourcePackProviderMixin",
+    "ResourcePreloader.NetworkUtilsMixin",
     "SmallInv.GenericContainerScreenMixin",
     "SmallInv.HandledScreenMixin",
     "SmallInv.MidnightControlsMixin",
     "SmallInv.MinecraftClientMixin",
     "SmallInv.ScreenHandlerMixin",
-    "takeeverything.ScreenHandlerMixin"
+    "SyncedKeybinds.GameOptionsMixin",
+    "TakeEverything.ScreenHandlerMixin"
   ],
   "injectors": {
     "defaultRequire": 1

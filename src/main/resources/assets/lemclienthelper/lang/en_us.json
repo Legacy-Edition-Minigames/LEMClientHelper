@@ -1,5 +1,5 @@
 {
-  "lemclienthelper.key.category.lemclienthelper": "LEB Client Helper",
+  "key.category.lemclienthelper": "LEM Client Helper",
   "lemclienthelper.key.takeeverything": "Take Everything",
   "lambdacontrols.action.lemclienthelper.takeeverything": "Take Everything",
   "midnightcontrols.action.lemclienthelper.takeeverything": "Take Everything",

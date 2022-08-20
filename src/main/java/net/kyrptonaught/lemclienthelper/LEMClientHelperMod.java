@@ -4,10 +4,11 @@ import net.fabricmc.api.ClientModInitializer;
 import net.fabricmc.fabric.api.client.keybinding.v1.KeyBindingHelper;
 import net.fabricmc.loader.api.FabricLoader;
 import net.kyrptonaught.kyrptconfig.config.ConfigManager;
+import net.kyrptonaught.lemclienthelper.ClientData.ClientDataMod;
 import net.kyrptonaught.lemclienthelper.ResourcePreloader.ResourcePreloaderMod;
 import net.kyrptonaught.lemclienthelper.SmallInv.SmallInvMod;
 import net.kyrptonaught.lemclienthelper.TakeEverything.TakeEverythingMod;
-import net.kyrptonaught.lemclienthelper.clientData.ClientDataMod;
+import net.kyrptonaught.lemclienthelper.syncedKeybinds.SyncedKeybinds;
 import net.minecraft.client.option.KeyBinding;
 import net.minecraft.client.util.InputUtil;
 import net.minecraft.util.Identifier;
@@ -15,7 +16,7 @@ import net.minecraft.util.Identifier;
 
 public class LEMClientHelperMod implements ClientModInitializer {
     public static final String MOD_ID = "lemclienthelper";
-    public static ConfigManager configManager = new ConfigManager.MultiConfigManager(MOD_ID);
+    public static ConfigManager.MultiConfigManager configManager = new ConfigManager.MultiConfigManager(MOD_ID);
     public static Identifier PRESENCE_PACKET = new Identifier("serverutils", "presence");
 
     @Override
@@ -24,7 +25,7 @@ public class LEMClientHelperMod implements ClientModInitializer {
         ResourcePreloaderMod.onInitialize();
         SmallInvMod.onInitialize();
         ClientDataMod.onInitialize();
-
+        SyncedKeybinds.onInitialize();
         // if (FabricLoader.getInstance().isModLoaded("lambdacontrols"))
         if (FabricLoader.getInstance().isModLoaded("midnightcontrols"))
             registerControllerKeys();
@@ -32,7 +33,7 @@ public class LEMClientHelperMod implements ClientModInitializer {
         configManager.load();
     }
 
-    public static void registerControllerKeys(){
+    public static void registerControllerKeys() {
         TakeEverythingMod.registerControllerKeys();
     }
 

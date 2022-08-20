@@ -1,4 +1,4 @@
-package net.kyrptonaught.lemclienthelper.mixin.resourcepreloader;
+package net.kyrptonaught.lemclienthelper.mixin.ResourcePreloader;
 
 import net.kyrptonaught.lemclienthelper.ResourcePreloader.AllPacks;
 import net.minecraft.client.util.NetworkUtils;

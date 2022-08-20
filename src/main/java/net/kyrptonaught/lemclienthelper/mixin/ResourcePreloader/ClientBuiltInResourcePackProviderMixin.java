@@ -1,4 +1,4 @@
-package net.kyrptonaught.lemclienthelper.mixin.resourcepreloader;
+package net.kyrptonaught.lemclienthelper.mixin.ResourcePreloader;
 
 import net.minecraft.client.resource.ClientBuiltinResourcePackProvider;
 import org.spongepowered.asm.mixin.Mixin;

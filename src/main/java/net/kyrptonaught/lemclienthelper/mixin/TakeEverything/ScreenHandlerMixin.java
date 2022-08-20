@@ -1,4 +1,4 @@
-package net.kyrptonaught.lemclienthelper.mixin.takeeverything;
+package net.kyrptonaught.lemclienthelper.mixin.TakeEverything;
 
 import net.kyrptonaught.lemclienthelper.LEMClientHelperMod;
 import net.kyrptonaught.lemclienthelper.TakeEverything.TakeEverythingMod;
@@ -14,7 +14,7 @@ public abstract class ScreenHandlerMixin {
 
     @Inject(method = "mouseClicked", at = @At("HEAD"), cancellable = true)
     private void lephelper$mouseClicked(double x, double y, int button, CallbackInfoReturnable<Boolean> callbackInfoReturnable) {
-        if (LEMClientHelperMod.isKeybindPressed(TakeEverythingMod.takeEverythingKey,button, true)) {
+        if (LEMClientHelperMod.isKeybindPressed(TakeEverythingMod.takeEverythingKey, button, true)) {
             TakeEverythingNetworking.sendTakeEverythingPacket();
             callbackInfoReturnable.setReturnValue(true);
         }
@@ -22,7 +22,7 @@ public abstract class ScreenHandlerMixin {
 
     @Inject(method = "keyPressed", at = @At("HEAD"), cancellable = true)
     private void lebhelper$keyPressed(int keycode, int scancode, int modifiers, CallbackInfoReturnable<Boolean> callbackInfoReturnable) {
-        if (LEMClientHelperMod.isKeybindPressed(TakeEverythingMod.takeEverythingKey,keycode, false)) {
+        if (LEMClientHelperMod.isKeybindPressed(TakeEverythingMod.takeEverythingKey, keycode, false)) {
             TakeEverythingNetworking.sendTakeEverythingPacket();
             callbackInfoReturnable.setReturnValue(true);
         }

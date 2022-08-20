@@ -10,7 +10,7 @@ public class TakeEverythingMod {
     public static KeyBinding takeEverythingKey;
 
     public static void onInitialize() {
-        takeEverythingKey = KeyBindingHelper.registerKeyBinding(new KeyBinding(LEMClientHelperMod.MOD_ID + ".key.takeeverything", InputUtil.Type.MOUSE, GLFW.GLFW_MOUSE_BUTTON_3, LEMClientHelperMod.MOD_ID + ".key.category.lemclienthelper"));
+        takeEverythingKey = KeyBindingHelper.registerKeyBinding(new KeyBinding(LEMClientHelperMod.MOD_ID + ".key.takeeverything", InputUtil.Type.MOUSE, GLFW.GLFW_MOUSE_BUTTON_3, "key.category." + LEMClientHelperMod.MOD_ID));
     }
 
     public static void registerControllerKeys() {

@@ -1,4 +1,4 @@
-package net.kyrptonaught.lemclienthelper.clientData;
+package net.kyrptonaught.lemclienthelper.ClientData;
 
 import net.fabricmc.fabric.api.client.networking.v1.ClientPlayConnectionEvents;
 import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking;

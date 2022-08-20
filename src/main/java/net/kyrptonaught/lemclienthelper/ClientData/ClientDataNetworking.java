@@ -1,4 +1,4 @@
-package net.kyrptonaught.lemclienthelper.clientData;
+package net.kyrptonaught.lemclienthelper.ClientData;
 
 import io.netty.buffer.Unpooled;
 import net.fabricmc.api.EnvType;
