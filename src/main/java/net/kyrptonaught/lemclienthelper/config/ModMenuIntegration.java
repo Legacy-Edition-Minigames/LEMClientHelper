@@ -10,9 +10,13 @@ import net.kyrptonaught.lemclienthelper.ResourcePreloader.AllPacks;
 import net.kyrptonaught.lemclienthelper.ResourcePreloader.ResourcePreloaderConfig;
 import net.kyrptonaught.lemclienthelper.ResourcePreloader.ResourcePreloaderMod;
 import net.kyrptonaught.lemclienthelper.SmallInv.SmallInvMod;
+import net.kyrptonaught.lemclienthelper.syncedKeybinds.SyncedKeybind;
+import net.kyrptonaught.lemclienthelper.syncedKeybinds.SyncedKeybindsMod;
+import net.kyrptonaught.lemclienthelper.syncedKeybinds.SyncedKeybindsConfig;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.font.TextRenderer;
 import net.minecraft.client.gui.screen.Screen;
+import net.minecraft.client.util.InputUtil;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.text.Text;
 
@@ -61,6 +65,25 @@ public class ModMenuIntegration implements ModMenuApi {
 
             ConfigSection smallInvSection = new ConfigSection(configScreen, Text.translatable("key.lemclienthelper.smallinv"));
             smallInvSection.addConfigItem(new BooleanItem(Text.translatable("key.lemclienthelper.smallinv.enabled"), SmallInvMod.getConfig().enabled, true).setSaveConsumer(val -> SmallInvMod.getConfig().enabled = val));
+
+
+            SyncedKeybindsConfig syncedKeybindsConfig = SyncedKeybindsMod.getConfig();
+            ConfigSection syncedKeybinds = new ConfigSection(configScreen, Text.translatable("key.lemclienthelper.syncedkeybinds"));
+
+            SubItem<KeybindItem> syncedKeybindItems = new SubItem<>(Text.translatable("key.lemclienthelper.syncedkeys"), true);
+            syncedKeybindItems.setToolTipWithNewLine("key.lemclienthelper.syncedkeys.tooltip");
+            syncedKeybinds.addConfigItem(syncedKeybindItems);
+
+            for (String id : syncedKeybindsConfig.keybinds.keySet()) {
+                SyncedKeybindsConfig.KeybindConfigItem keybindConfigItem = syncedKeybindsConfig.keybinds.get(id);
+                KeybindItem keybindItem = (KeybindItem) new KeybindItem(Text.translatable("lch.key.sync." + id.replace(":", ".")), keybindConfigItem.keybinding, keybindConfigItem.defaultKeybinding).setSaveConsumer(val -> {
+                    keybindConfigItem.keybinding = val;
+                    SyncedKeybind syncedKeybind = SyncedKeybindsMod.syncedKeybindList.get(id);
+                    if (syncedKeybind != null)
+                        syncedKeybind.updateBoundKey(val);
+                });
+                syncedKeybindItems.addConfigItem(keybindItem);
+            }
 
             return configScreen;
         };

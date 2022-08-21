@@ -4,7 +4,7 @@
   "lambdacontrols.action.lemclienthelper.takeeverything": "Take Everything",
   "midnightcontrols.action.lemclienthelper.takeeverything": "Take Everything",
   "lemclienthelper.key.closesmallinv": "Close Small Inv",
-  "key.lemclienthelper.title": "Lem Client Helper Config",
+  "key.lemclienthelper.title": "LEMClientHelper Config",
   "key.lemclienthelper.resourcepreloader": "Resource Preloader",
   "key.lemclienthelper.downloadurl": "Download URL",
   "key.lemclienthelper.packdownloads": "Server Packs",
@@ -21,5 +21,8 @@
   "key.lemclienthelper.wrongpackcompatibility": "Wrong Pack Type",
   "key.lemclienthelper.alldownloadcomplete": "All Downloads Complete",
   "key.lemclienthelper.smallinv": "Small Inv",
-  "key.lemclienthelper.smallinv.enabled": "Enabled"
+  "key.lemclienthelper.smallinv.enabled": "Enabled",
+  "key.lemclienthelper.syncedkeybinds": "Synced Keybinds",
+  "key.lemclienthelper.syncedkeys": "Synced Keys",
+  "key.lemclienthelper.syncedkeys.tooltip": "These are keybindings synced from a LEB server\nOnly functional on LEB servers"
 }

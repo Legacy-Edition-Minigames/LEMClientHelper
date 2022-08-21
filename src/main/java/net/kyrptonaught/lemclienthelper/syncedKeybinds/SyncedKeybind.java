@@ -7,14 +7,17 @@ import net.minecraft.client.option.KeyBinding;
 
 public class SyncedKeybind {
     public String ID;
-    CustomKeyBinding keyBinding;
+    private final CustomKeyBinding keyBinding;
     private KeyBinding vanillaBind;
 
-    public SyncedKeybind(String id, String keybinding, String controllerBind, String defaultKey) {
+    public SyncedKeybind(String id, SyncedKeybindsConfig.KeybindConfigItem keybindConfigItem) {
         this.ID = id;
-        keyBinding = CustomKeyBinding.configDefault(SyncedKeybinds.MOD_ID, defaultKey);
-        keyBinding.setRaw(keybinding);
+        keyBinding = CustomKeyBinding.configDefault(SyncedKeybindsMod.MOD_ID, keybindConfigItem.defaultKeybinding);
+        keyBinding.setRaw(keybindConfigItem.keybinding);
+    }
 
+    public boolean wasPressed() {
+        return keyBinding.wasPressed();
     }
 
     public KeyBinding getVanillaBind() {
@@ -24,10 +27,15 @@ public class SyncedKeybind {
                     "key.category." + LEMClientHelperMod.MOD_ID,
                     keyBinding,
                     setKey -> {
-                        SyncedKeybinds.getConfig().keybinds.get(ID).keybinding = keyBinding.rawKey;
-                        LEMClientHelperMod.configManager.save(SyncedKeybinds.MOD_ID);
+                        SyncedKeybindsMod.getConfig().keybinds.get(ID).keybinding = keyBinding.rawKey;
+                        LEMClientHelperMod.configManager.save(SyncedKeybindsMod.MOD_ID);
                     }
             );
         return vanillaBind;
+    }
+
+    public void updateBoundKey(String key) {
+        keyBinding.setRaw(key);
+        ((DisplayOnlyKeyBind) getVanillaBind()).updateSetKey();
     }
 }

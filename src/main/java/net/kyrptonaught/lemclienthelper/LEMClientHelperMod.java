@@ -9,7 +9,7 @@ import net.kyrptonaught.lemclienthelper.ResourcePreloader.ResourcePreloaderMod;
 import net.kyrptonaught.lemclienthelper.SmallInv.SmallInvMod;
 import net.kyrptonaught.lemclienthelper.SpectateSqueaker.SpectateSqueakerMod;
 import net.kyrptonaught.lemclienthelper.TakeEverything.TakeEverythingMod;
-import net.kyrptonaught.lemclienthelper.syncedKeybinds.SyncedKeybinds;
+import net.kyrptonaught.lemclienthelper.syncedKeybinds.SyncedKeybindsMod;
 import net.minecraft.client.option.KeyBinding;
 import net.minecraft.client.util.InputUtil;
 import net.minecraft.util.Identifier;
@@ -25,7 +25,7 @@ public class LEMClientHelperMod implements ClientModInitializer {
         ResourcePreloaderMod.onInitialize();
         SmallInvMod.onInitialize();
         ClientDataMod.onInitialize();
-        SyncedKeybinds.onInitialize();
+        SyncedKeybindsMod.onInitialize();
         SpectateSqueakerMod.onInitialize();
 
         // if (FabricLoader.getInstance().isModLoaded("lambdacontrols"))

@@ -9,8 +9,8 @@ import net.minecraft.network.PacketByteBuf;
 import net.minecraft.util.Identifier;
 
 public class SyncedKeybindsNetworking {
-    public static final Identifier SYNC_KEYBINDS_PACKET = new Identifier(SyncedKeybinds.MOD_ID, "sync_keybinds_packet");
-    public static final Identifier KEYBIND_PRESSED_PACKET = new Identifier(SyncedKeybinds.MOD_ID, "keybind_pressed_packet");
+    public static final Identifier SYNC_KEYBINDS_PACKET = new Identifier(SyncedKeybindsMod.MOD_ID, "sync_keybinds_packet");
+    public static final Identifier KEYBIND_PRESSED_PACKET = new Identifier(SyncedKeybindsMod.MOD_ID, "keybind_pressed_packet");
 
     @Environment(EnvType.CLIENT)
     public static void sendKeyPacket(String keyID) {
@@ -37,8 +37,8 @@ public class SyncedKeybindsNetworking {
             }
             client.execute(() -> {
                 for (DataHolder dataHolder : dataHolders)
-                    SyncedKeybinds.registerNewKeybind(dataHolder.id, dataHolder.keybinding, dataHolder.controllerBind);
-                LEMClientHelperMod.configManager.save(SyncedKeybinds.MOD_ID);
+                    SyncedKeybindsMod.registerNewKeybind(dataHolder.id, dataHolder.keybinding, dataHolder.controllerBind);
+                LEMClientHelperMod.configManager.save(SyncedKeybindsMod.MOD_ID);
             });
         });
     }
