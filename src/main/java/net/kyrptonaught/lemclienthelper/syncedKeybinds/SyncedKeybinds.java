@@ -14,7 +14,7 @@ public class SyncedKeybinds {
     public static List<SyncedKeybind> syncedKeybindList = new ArrayList<>();
 
     public static void onInitialize() {
-        LEMClientHelperMod.configManager.registerFile(MOD_ID, new SyncedKeybindsConfig());
+        LEMClientHelperMod.configManager.registerGsonFile(MOD_ID, new SyncedKeybindsConfig());
         SyncedKeybindsNetworking.registerReceivePacket();
         ClientTickEvents.START_WORLD_TICK.register((world) -> {
             if (SyncedKeybindsNetworking.canSendPacket() && MinecraftClient.getInstance().currentScreen == null) {

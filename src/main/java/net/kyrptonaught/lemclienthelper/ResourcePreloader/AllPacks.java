@@ -55,8 +55,15 @@ public class AllPacks {
             this.progress = percentage;
         }
 
-        public void skip(Text title) {
-            done(title, null);
+        public void skip(Text title, boolean previewing) {
+            if (!previewing)
+                done(title, null);
+            else {
+                this.completed = true;
+                this.title = title;
+                this.task = null;
+                this.progressStagePercentage(100);
+            }
         }
 
         @Override

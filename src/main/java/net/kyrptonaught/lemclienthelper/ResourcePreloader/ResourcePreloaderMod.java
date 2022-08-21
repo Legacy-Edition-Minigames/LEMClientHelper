@@ -3,6 +3,7 @@ package net.kyrptonaught.lemclienthelper.ResourcePreloader;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.google.common.hash.Hashing;
+import net.kyrptonaught.jankson.Jankson;
 import net.kyrptonaught.lemclienthelper.LEMClientHelperMod;
 import net.minecraft.SharedConstants;
 import net.minecraft.client.MinecraftClient;
@@ -12,14 +13,13 @@ import net.minecraft.resource.ResourceType;
 import net.minecraft.text.Text;
 import org.apache.commons.codec.digest.DigestUtils;
 import org.apache.commons.io.FileUtils;
-import org.apache.commons.io.IOUtils;
 import org.apache.commons.io.filefilter.TrueFileFilter;
 
 import java.io.File;
 import java.io.IOException;
+import java.io.InputStream;
 import java.net.MalformedURLException;
 import java.net.URL;
-import java.nio.charset.Charset;
 import java.util.ArrayList;
 import java.util.Locale;
 import java.util.Map;
@@ -40,8 +40,12 @@ public class ResourcePreloaderMod {
     public static void getPackList() {
         try {
             URL url = new URL(getConfig().URL);
-            String downloaded = IOUtils.toString(url.openStream(), Charset.defaultCharset());
-            allPacks = LEMClientHelperMod.configManager.getJANKSON().fromJson(downloaded, AllPacks.class);
+
+            Jankson jankson = LEMClientHelperMod.configManager.getJANKSON();
+            try (InputStream in = url.openStream()) {
+                allPacks = jankson.fromJson(jankson.load(in), AllPacks.class);
+            }
+
             for (int i = allPacks.packs.size() - 1; i >= 0; i--) {
                 AllPacks.RPOption rpOption = allPacks.packs.get(i);
                 if (isCompatiblePack(rpOption))
@@ -49,9 +53,18 @@ public class ResourcePreloaderMod {
                 else if (getConfig().hideIncompatiblePacks)
                     allPacks.packs.remove(i);
             }
+            downloadsComplete = false;
+            checkIfComplete();
         } catch (Exception e) {
             e.printStackTrace();
         }
+    }
+
+    public static void downloadPacks() {
+        downloadsComplete = false;
+        if (getConfig().multiDownload)
+            allPacks.packs.forEach(rpOption -> download(rpOption, false));
+        else downloadNextPack();
     }
 
     public static void deletePacks() {
@@ -62,13 +75,6 @@ public class ResourcePreloaderMod {
             }
         } catch (Exception ignored) {
         }
-    }
-
-    public static void downloadPacks() {
-        downloadsComplete = false;
-        if (getConfig().multiDownload)
-            allPacks.packs.forEach(rpOption -> download(rpOption, false));
-        else downloadNextPack();
     }
 
     static void downloadNextPack() {
@@ -109,9 +115,9 @@ public class ResourcePreloaderMod {
         rpOption.downloadedFile = file;
 
         if (file.exists()) {
-            rpOption.progressListener.skip(Text.translatable("key.lemclienthelper.alreadydownloaded"));
+            rpOption.progressListener.skip(Text.translatable("key.lemclienthelper.alreadydownloaded"), previewOnly);
         } else if (!isCompatiblePack(rpOption)) {
-            rpOption.progressListener.skip(Text.translatable("key.lemclienthelper.wrongpackcompatibility"));
+            rpOption.progressListener.skip(Text.translatable("key.lemclienthelper.wrongpackcompatibility"), previewOnly);
         } else if (!previewOnly) {
             Map<String, String> map = getDownloadHeaders();
             try {

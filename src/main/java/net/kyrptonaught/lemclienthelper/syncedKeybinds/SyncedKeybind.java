@@ -1,6 +1,5 @@
 package net.kyrptonaught.lemclienthelper.syncedKeybinds;
 
-
 import net.kyrptonaught.kyrptconfig.keybinding.CustomKeyBinding;
 import net.kyrptonaught.kyrptconfig.keybinding.DisplayOnlyKeyBind;
 import net.kyrptonaught.lemclienthelper.LEMClientHelperMod;

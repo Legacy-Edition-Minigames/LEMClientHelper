@@ -10,6 +10,7 @@
     "SmallInv.MidnightControlsMixin",
     "SmallInv.MinecraftClientMixin",
     "SmallInv.ScreenHandlerMixin",
+    "SpectateSquaker.MinecraftClientMixin",
     "SyncedKeybinds.GameOptionsMixin",
     "TakeEverything.ScreenHandlerMixin"
   ],

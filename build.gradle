@@ -50,9 +50,8 @@ dependencies {
 	//modImplementation "dev.lambdaurora:lambdacontrols:1.7.1+1.17"
 	optionalDependency('eu.midnightdust:midnightcontrols:1.5.0-1.19')
 
-
-	modImplementation('net.kyrptonaught:kyrptconfig:1.4.14-1.19')
-	include('net.kyrptonaught:kyrptconfig:1.4.14-1.19')
+	modImplementation('net.kyrptonaught:kyrptconfig:1.4.16-1.19')
+	include('net.kyrptonaught:kyrptconfig:1.4.16-1.19')
 }
 
 def optionalDependency(String dep) {

@@ -18,7 +18,7 @@ public class NetworkUtilsMixin {
     @Redirect(method = "method_15303", at = @At(value = "INVOKE", target = "Ljava/io/InputStream;read([B)I"))
     private static int catch404(InputStream instance, byte[] b, ProgressListener progressListener) throws IOException {
         if (progressListener instanceof AllPacks.Progress && instance == null) {
-            ((AllPacks.Progress) progressListener).skip(Text.translatable("key.lemclienthelper.downloaderror"));
+            ((AllPacks.Progress) progressListener).skip(Text.translatable("key.lemclienthelper.downloaderror"), false);
             return -1;
         }
         return instance.read(b);
