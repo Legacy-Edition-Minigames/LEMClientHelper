@@ -4,6 +4,7 @@ import io.netty.buffer.Unpooled;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.fabricmc.fabric.api.networking.v1.PacketSender;
+import net.kyrptonaught.lemclienthelper.ServerConfigs.ServerConfigsMod;
 import net.minecraft.network.PacketByteBuf;
 import net.minecraft.util.Identifier;
 
@@ -16,6 +17,8 @@ public class ClientDataNetworking {
         buf.writeBoolean(true); //LEMClientHelper, Always true
         buf.writeBoolean(hasOptifine);
         buf.writeBoolean(hasController);
+        buf.writeInt(ServerConfigsMod.getConfig().guiScale);
+        buf.writeInt(ServerConfigsMod.getConfig().panScale);
         sender.sendPacket(HAS_MODS_PACKET, buf);
     }
 }

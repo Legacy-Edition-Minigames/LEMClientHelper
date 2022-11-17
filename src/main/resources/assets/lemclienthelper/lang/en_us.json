@@ -24,5 +24,10 @@
   "key.lemclienthelper.smallinv.enabled": "Enabled",
   "key.lemclienthelper.syncedkeybinds": "Synced Keybinds",
   "key.lemclienthelper.syncedkeys": "Synced Keys",
-  "key.lemclienthelper.syncedkeys.tooltip": "These are keybindings synced from a LEM server\nOnly functional on LEM servers"
+  "key.lemclienthelper.syncedkeys.tooltip": "These are keybindings synced from a LEM server\nOnly functional on LEM servers",
+  "key.lemclienthelper.serverconfig": "LEM Server Options",
+  "key.lemclienthelper.serverconfig.guiscale": "GUI Scale",
+  "key.lemclienthelper.serverconfig.panscale": "Panorama Scale",
+  "key.lemclienthelper.serverconfig.guiscale.tooltip": "Sets your GUI Scale 1-4 on official LEM servers.\nSetting this value to 0 will use your option set on the server",
+  "key.lemclienthelper.serverconfig.panscale.tooltip": "Sets your Panorama Scale 1-4 on official LEM servers.\nSetting this value to 0 will use your option set on the server"
 }

@@ -5,10 +5,13 @@ import com.terraformersmc.modmenu.api.ModMenuApi;
 import net.kyrptonaught.kyrptconfig.config.screen.ConfigScreen;
 import net.kyrptonaught.kyrptconfig.config.screen.ConfigSection;
 import net.kyrptonaught.kyrptconfig.config.screen.items.*;
+import net.kyrptonaught.kyrptconfig.config.screen.items.number.IntegerItem;
 import net.kyrptonaught.lemclienthelper.LEMClientHelperMod;
 import net.kyrptonaught.lemclienthelper.ResourcePreloader.AllPacks;
 import net.kyrptonaught.lemclienthelper.ResourcePreloader.ResourcePreloaderConfig;
 import net.kyrptonaught.lemclienthelper.ResourcePreloader.ResourcePreloaderMod;
+import net.kyrptonaught.lemclienthelper.ServerConfigs.ServerConfigsConfig;
+import net.kyrptonaught.lemclienthelper.ServerConfigs.ServerConfigsMod;
 import net.kyrptonaught.lemclienthelper.SmallInv.SmallInvMod;
 import net.kyrptonaught.lemclienthelper.syncedKeybinds.SyncedKeybind;
 import net.kyrptonaught.lemclienthelper.syncedKeybinds.SyncedKeybindsMod;
@@ -62,6 +65,20 @@ public class ModMenuIntegration implements ModMenuApi {
 
             rplSection.addConfigItem(sub);
             addPacksToSub(sub);
+
+            ServerConfigsConfig serverConfig = ServerConfigsMod.getConfig();
+            ConfigSection serverConfigSection = new ConfigSection(configScreen, Text.translatable("key.lemclienthelper.serverconfig"));
+
+            IntegerItem guiItem = (IntegerItem) serverConfigSection.addConfigItem(new IntegerItem(Text.translatable("key.lemclienthelper.serverconfig.guiscale"), serverConfig.guiScale, 0));
+            guiItem.setMinMax(0,4);
+            guiItem.setSaveConsumer(val -> serverConfig.guiScale = val);
+            guiItem.setToolTipWithNewLine("key.lemclienthelper.serverconfig.guiscale.tooltip");
+
+            IntegerItem panItem = (IntegerItem) serverConfigSection.addConfigItem(new IntegerItem(Text.translatable("key.lemclienthelper.serverconfig.panscale"), serverConfig.panScale, 0));
+            panItem.setMinMax(0,4);
+            panItem.setSaveConsumer(val -> serverConfig.panScale = val);
+            panItem.setToolTipWithNewLine("key.lemclienthelper.serverconfig.panscale.tooltip");
+
 
             ConfigSection smallInvSection = new ConfigSection(configScreen, Text.translatable("key.lemclienthelper.smallinv"));
             smallInvSection.addConfigItem(new BooleanItem(Text.translatable("key.lemclienthelper.smallinv.enabled"), SmallInvMod.getConfig().enabled, true).setSaveConsumer(val -> SmallInvMod.getConfig().enabled = val));

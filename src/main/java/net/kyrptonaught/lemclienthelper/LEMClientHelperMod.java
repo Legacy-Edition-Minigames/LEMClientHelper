@@ -6,6 +6,7 @@ import net.fabricmc.loader.api.FabricLoader;
 import net.kyrptonaught.kyrptconfig.config.ConfigManager;
 import net.kyrptonaught.lemclienthelper.ClientData.ClientDataMod;
 import net.kyrptonaught.lemclienthelper.ResourcePreloader.ResourcePreloaderMod;
+import net.kyrptonaught.lemclienthelper.ServerConfigs.ServerConfigsMod;
 import net.kyrptonaught.lemclienthelper.SmallInv.SmallInvMod;
 import net.kyrptonaught.lemclienthelper.SpectateSqueaker.SpectateSqueakerMod;
 import net.kyrptonaught.lemclienthelper.TakeEverything.TakeEverythingMod;
@@ -27,6 +28,7 @@ public class LEMClientHelperMod implements ClientModInitializer {
         ClientDataMod.onInitialize();
         SyncedKeybindsMod.onInitialize();
         SpectateSqueakerMod.onInitialize();
+        ServerConfigsMod.onInitialize();
 
         // if (FabricLoader.getInstance().isModLoaded("lambdacontrols"))
         if (FabricLoader.getInstance().isModLoaded("midnightcontrols"))
