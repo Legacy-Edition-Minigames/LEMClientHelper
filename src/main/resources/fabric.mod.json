@@ -28,6 +28,7 @@
       "config": "lemclienthelper.mixins.json",
       "environment": "client"
     }
+    ],
   "depends": {
     "fabric": "*"
   }
