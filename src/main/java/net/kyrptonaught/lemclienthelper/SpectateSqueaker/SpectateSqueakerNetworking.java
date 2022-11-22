@@ -12,9 +12,7 @@ public class SpectateSqueakerNetworking {
 
     @Environment(EnvType.CLIENT)
     public static void sendTakeEverythingPacket() {
-        if (ClientPlayNetworking.canSend(SQUEAK_PACKET)) {
             PacketByteBuf buf = new PacketByteBuf(Unpooled.buffer());
             ClientPlayNetworking.send(SQUEAK_PACKET, buf);
-        }
     }
 }

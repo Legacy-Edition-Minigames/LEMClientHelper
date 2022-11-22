@@ -8,12 +8,10 @@ public class ClientDataMod {
 
     public static void onInitialize() {
         ClientPlayConnectionEvents.JOIN.register((handler, sender, client) -> {
-            if (ClientPlayNetworking.canSend(ClientDataNetworking.HAS_MODS_PACKET)) {
                 FabricLoader loader = FabricLoader.getInstance();
                 boolean hasOptifine = isOptifineLoaded(loader);
                 boolean hasControllerMod = isControllerModLoaded(loader);
                 ClientDataNetworking.sendHasLEMPacket(sender, hasOptifine, hasControllerMod);
-            }
         });
     }
 

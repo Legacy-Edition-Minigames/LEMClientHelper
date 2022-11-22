@@ -18,7 +18,7 @@ public class SyncedKeybindsMod {
         LEMClientHelperMod.configManager.registerGsonFile(MOD_ID, new SyncedKeybindsConfig());
         SyncedKeybindsNetworking.registerReceivePacket();
         ClientTickEvents.START_WORLD_TICK.register((world) -> {
-            if (SyncedKeybindsNetworking.canSendPacket() && MinecraftClient.getInstance().currentScreen == null) {
+            if (MinecraftClient.getInstance().currentScreen == null) {
                 syncedKeybindList.values().forEach(syncedKeybind -> {
                     if (syncedKeybind.wasPressed())
                         SyncedKeybindsNetworking.sendKeyPacket(syncedKeybind.ID);

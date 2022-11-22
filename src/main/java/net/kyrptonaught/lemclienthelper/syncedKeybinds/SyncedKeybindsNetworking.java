@@ -19,11 +19,6 @@ public class SyncedKeybindsNetworking {
         ClientPlayNetworking.send(KEYBIND_PRESSED_PACKET, buf);
     }
 
-    @Environment(EnvType.CLIENT)
-    public static boolean canSendPacket() {
-        return ClientPlayNetworking.canSend(KEYBIND_PRESSED_PACKET);
-    }
-
     public static void registerReceivePacket() {
         ClientPlayNetworking.registerGlobalReceiver(SYNC_KEYBINDS_PACKET, (client, handler, packetByteBuf, responseSender) -> {
             int count = packetByteBuf.readInt();
