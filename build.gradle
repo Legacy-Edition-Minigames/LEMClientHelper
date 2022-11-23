@@ -34,6 +34,8 @@ dependencies {
 	modImplementation('net.kyrptonaught:kyrptconfig:1.5.0-1.19')
 	include('net.kyrptonaught:kyrptconfig:1.5.0-1.19')
 
+	modImplementation "com.ptsmods:devlogin:3.1.1"
+
 	//midnightcontrols
 	modImplementation "dev.lambdaurora:spruceui:4.0.0+1.19"
 	modImplementation "maven.modrinth:midnightlib:0.6.1"

@@ -3,11 +3,16 @@ package net.kyrptonaught.lemclienthelper.mixin.SpectateSquaker;
 import net.kyrptonaught.lemclienthelper.SpectateSqueaker.SpectateSqueakerNetworking;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.network.ClientPlayerEntity;
+import net.minecraft.client.option.GameOptions;
+import net.minecraft.entity.Entity;
+import net.minecraft.entity.player.PlayerEntity;
 import org.jetbrains.annotations.Nullable;
+import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
+import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 @Mixin(MinecraftClient.class)
@@ -17,9 +22,13 @@ public abstract class MinecraftClientMixin {
     @Nullable
     public ClientPlayerEntity player;
 
-    @Inject(method = "doAttack", at = @At(value = "INVOKE", target = "Lnet/minecraft/util/hit/HitResult;getType()Lnet/minecraft/util/hit/HitResult$Type;"))
-    public void trySqueak(CallbackInfoReturnable<Boolean> cir) {
-        if (player != null && player.isSpectator())
+    @Shadow public abstract @Nullable Entity getCameraEntity();
+
+    @Shadow @Final public GameOptions options;
+
+    @Inject(method = "handleInputEvents", at = @At(value = "TAIL"))
+    public void trySqueak(CallbackInfo ci) {
+        if (player != null && player.isSpectator() && (this.player.equals(getCameraEntity())) && options.attackKey.isPressed())
             SpectateSqueakerNetworking.sendTakeEverythingPacket();
     }
 }

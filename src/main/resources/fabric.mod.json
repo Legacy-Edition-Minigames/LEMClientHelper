@@ -1,7 +1,7 @@
 {
   "schemaVersion": 1,
   "id": "lemclienthelper",
-  "version": "0.0.11-1.19",
+  "version": "0.0.12-1.19",
   "name": "LEM Client Helper",
   "description": "LEM Client Helper",
   "authors": [

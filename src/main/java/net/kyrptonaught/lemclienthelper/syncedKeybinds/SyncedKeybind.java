@@ -20,6 +20,10 @@ public class SyncedKeybind {
         return keyBinding.wasPressed();
     }
 
+    public boolean isHeld(){
+        return keyBinding.isKeybindPressed();
+    }
+
     public KeyBinding getVanillaBind() {
         if (vanillaBind == null)
             vanillaBind = new DisplayOnlyKeyBind(
