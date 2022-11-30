@@ -8,7 +8,6 @@ import net.kyrptonaught.lemclienthelper.ClientData.ClientDataMod;
 import net.kyrptonaught.lemclienthelper.ResourcePreloader.ResourcePreloaderMod;
 import net.kyrptonaught.lemclienthelper.ServerConfigs.ServerConfigsMod;
 import net.kyrptonaught.lemclienthelper.SmallInv.SmallInvMod;
-import net.kyrptonaught.lemclienthelper.SpectateSqueaker.SpectateSqueakerMod;
 import net.kyrptonaught.lemclienthelper.TakeEverything.TakeEverythingMod;
 import net.kyrptonaught.lemclienthelper.syncedKeybinds.SyncedKeybindsMod;
 import net.minecraft.client.option.KeyBinding;
@@ -27,7 +26,6 @@ public class LEMClientHelperMod implements ClientModInitializer {
         SmallInvMod.onInitialize();
         ClientDataMod.onInitialize();
         SyncedKeybindsMod.onInitialize();
-        SpectateSqueakerMod.onInitialize();
         ServerConfigsMod.onInitialize();
 
         // if (FabricLoader.getInstance().isModLoaded("lambdacontrols"))
