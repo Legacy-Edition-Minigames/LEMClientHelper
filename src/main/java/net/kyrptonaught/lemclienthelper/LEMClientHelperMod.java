@@ -10,6 +10,7 @@ import net.kyrptonaught.lemclienthelper.ServerConfigs.ServerConfigsMod;
 import net.kyrptonaught.lemclienthelper.SmallInv.SmallInvMod;
 import net.kyrptonaught.lemclienthelper.SpectateSqueaker.SpectateSqueakerMod;
 import net.kyrptonaught.lemclienthelper.TakeEverything.TakeEverythingMod;
+import net.kyrptonaught.lemclienthelper.customWorldBorder.CustomWorldBorderMod;
 import net.kyrptonaught.lemclienthelper.syncedKeybinds.SyncedKeybindsMod;
 import net.minecraft.client.option.KeyBinding;
 import net.minecraft.client.util.InputUtil;
@@ -29,6 +30,7 @@ public class LEMClientHelperMod implements ClientModInitializer {
         SyncedKeybindsMod.onInitialize();
         SpectateSqueakerMod.onInitialize();
         ServerConfigsMod.onInitialize();
+        CustomWorldBorderMod.onInitialize();
 
         // if (FabricLoader.getInstance().isModLoaded("lambdacontrols"))
         if (FabricLoader.getInstance().isModLoaded("midnightcontrols"))

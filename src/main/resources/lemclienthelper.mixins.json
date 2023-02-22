@@ -13,9 +13,7 @@
     "SpectateSquaker.MinecraftClientMixin",
     "SyncedKeybinds.GameOptionsMixin",
     "TakeEverything.ScreenHandlerMixin",
-    "TextShadow.InGameHudMixin",
-    "TextShadow.StyleMixin",
-    "TextShadow.StyleSerializerMixin"
+    "customWorldBorder.WorldBorderMixin"
   ],
   "injectors": {
     "defaultRequire": 1
