@@ -1,11 +1,12 @@
 package net.kyrptonaught.lemclienthelper.mixin.ResourcePreloader;
 
-import net.minecraft.client.resource.ClientBuiltinResourcePackProvider;
+
+import net.minecraft.client.resource.ServerResourcePackProvider;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.Constant;
 import org.spongepowered.asm.mixin.injection.ModifyConstant;
 
-@Mixin(ClientBuiltinResourcePackProvider.class)
+@Mixin(ServerResourcePackProvider.class)
 public class ClientBuiltInResourcePackProviderMixin {
 
     @ModifyConstant(method = "deleteOldServerPack", constant = @Constant(intValue = 10))

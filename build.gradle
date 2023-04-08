@@ -1,12 +1,8 @@
 plugins {
-	id 'fabric-loom' version '1.0-SNAPSHOT'
+	id 'fabric-loom' version '1.1-SNAPSHOT'
 	id 'maven-publish'
 }
 
-sourceCompatibility = JavaVersion.VERSION_17
-targetCompatibility = JavaVersion.VERSION_17
-
-archivesBaseName = project.archives_base_name
 version = project.mod_version
 group = project.maven_group
 
@@ -31,19 +27,27 @@ dependencies {
 	// Fabric API. This is technically optional, but you probably want it anyway.
 	modImplementation "net.fabricmc.fabric-api:fabric-api:${project.fabric_version}"
 
-	modImplementation('net.kyrptonaught:kyrptconfig:1.5.0-1.19')
-	include('net.kyrptonaught:kyrptconfig:1.5.0-1.19')
+	modImplementation('net.kyrptonaught:kyrptconfig:1.5.1-1.19.3')
+	include('net.kyrptonaught:kyrptconfig:1.5.1-1.19.3')
 
-	modImplementation "com.ptsmods:devlogin:3.1.1"
+	modImplementation ("com.terraformersmc:modmenu:5.0.2"){
+		transitive(false)
+	}
+
+	//modImplementation "com.ptsmods:devlogin:3.1.1"
 
 	//midnightcontrols
-	modImplementation "dev.lambdaurora:spruceui:4.0.0+1.19"
-	modImplementation "maven.modrinth:midnightlib:1.0.0-fabric"
-	modImplementation "maven.modrinth:midnightcontrols:1.7.4+1.19"
+	modImplementation "dev.lambdaurora:spruceui:4.1.0+1.19.3"
+	modImplementation "maven.modrinth:midnightlib:1.1.0-fabric"
+	modImplementation "maven.modrinth:midnightcontrols:1.7.3+1.19.3"
 	api('org.aperlambda:lambdajcommon:1.8.1') {
 		exclude group: 'com.google.code.gson'
 		exclude group: 'com.google.guava'
 	}
+}
+
+base {
+	archivesName = project.archives_base_name
 }
 
 processResources {
@@ -55,15 +59,17 @@ processResources {
 }
 
 tasks.withType(JavaCompile).configureEach {
+	// Minecraft 1.18 (1.18-pre2) upwards uses Java 17.
 	it.options.release = 17
 }
 
 java {
-	withSourcesJar()
+	sourceCompatibility = JavaVersion.VERSION_17
+	targetCompatibility = JavaVersion.VERSION_17
 }
 
 jar {
 	from("LICENSE") {
-		rename { "${it}_${project.archivesBaseName}" }
+		rename { "${it}_${base.archivesName.get()}"}
 	}
 }
