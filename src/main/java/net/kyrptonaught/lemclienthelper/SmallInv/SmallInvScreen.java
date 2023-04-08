@@ -63,6 +63,6 @@ public class SmallInvScreen extends AbstractInventoryScreen<PlayerScreenHandler>
         //InventoryScreen.drawEntity(x + 97, y + 72 + 27, 30, (float) (x + 51) - this.mouseX, (float) (y + 75 - 50) - this.mouseY, this.client.player);
         //InventoryScreen.drawEntity(x + 95, y + 75, 30, (float) (x + 95) - this.mouseX, (float) (y + 75 - 50) - this.mouseY, this.client.player);
         //InventoryScreen.drawEntity(x + 51 + 46, y + 75, 30, (float) (x + 51 + 46) - this.mouseX, (float) (y + 75 - 50) - this.mouseY, this.client.player);
-        InventoryScreen.drawEntity(x + 51 + 51, y + 75 - 2, 30, (float) (x + 51 + 51) - this.mouseX, (float) (y + 75 - 50 - 2) - this.mouseY, this.client.player);
+        InventoryScreen.drawEntity(matrices, x + 51 + 51, y + 75 - 2, 30, (float) (x + 51 + 51) - this.mouseX, (float) (y + 75 - 50 - 2) - this.mouseY, this.client.player);
     }
 }

@@ -153,13 +153,11 @@ public class ResourcePreloaderMod {
     }
 
     private static Map<String, String> getDownloadHeaders() {
-        Map<String, String> map = Maps.newHashMap();
-        map.put("X-Minecraft-Username", MinecraftClient.getInstance().getSession().getUsername());
-        map.put("X-Minecraft-UUID", MinecraftClient.getInstance().getSession().getUuid());
-        map.put("X-Minecraft-Version", SharedConstants.getGameVersion().getName());
-        map.put("X-Minecraft-Version-ID", SharedConstants.getGameVersion().getId());
-        map.put("X-Minecraft-Pack-Format", String.valueOf(ResourceType.CLIENT_RESOURCES.getPackVersion(SharedConstants.getGameVersion())));
-        map.put("User-Agent", "Minecraft Java/" + SharedConstants.getGameVersion().getName());
-        return map;
+        return Map.of("X-Minecraft-Username", MinecraftClient.getInstance().getSession().getUsername(),
+                "X-Minecraft-UUID", MinecraftClient.getInstance().getSession().getUuid(),
+                "X-Minecraft-Version", SharedConstants.getGameVersion().getName(),
+                "X-Minecraft-Version-ID", SharedConstants.getGameVersion().getId(),
+                "X-Minecraft-Pack-Format", String.valueOf(SharedConstants.getGameVersion().getResourceVersion(ResourceType.CLIENT_RESOURCES)),
+                "User-Agent", "Minecraft Java/" + SharedConstants.getGameVersion().getName());
     }
 }

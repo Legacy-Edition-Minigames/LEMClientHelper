@@ -6,7 +6,6 @@ import net.kyrptonaught.lemclienthelper.SmallInv.SmallInvPlayerInv;
 import net.kyrptonaught.lemclienthelper.SmallInv.SmallInvScreen;
 import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.gui.screen.ingame.*;
-import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.screen.GenericContainerScreenHandler;
 import net.minecraft.screen.PlayerScreenHandler;
 import net.minecraft.screen.ScreenHandler;
@@ -30,13 +29,9 @@ public abstract class HandledScreenMixin extends Screen implements SmallInvPlaye
     @Shadow
     protected int backgroundHeight;
 
-    @Shadow
-    protected int backgroundWidth;
-
     protected HandledScreenMixin(Text title) {
         super(title);
     }
-    //@Inject(method = "drawTexture(Lnet/minecraft/client/util/math/MatrixStack;IIIIII)V", at = @At(value = "HEAD"), cancellable = true)
 
     @Inject(method = "init", at = @At("RETURN"))
     public void setPlayerTitleY(CallbackInfo ci) {
@@ -106,6 +101,7 @@ public abstract class HandledScreenMixin extends Screen implements SmallInvPlaye
         }
     }
 
+    /*
     @Override
     public void drawTexture(MatrixStack matrices, int x, int y, int u, int v, int width, int height) {
         if (isSmall) {
@@ -123,4 +119,5 @@ public abstract class HandledScreenMixin extends Screen implements SmallInvPlaye
         }
         super.drawTexture(matrices, x, y, u, v, width, height);
     }
+     */
 }

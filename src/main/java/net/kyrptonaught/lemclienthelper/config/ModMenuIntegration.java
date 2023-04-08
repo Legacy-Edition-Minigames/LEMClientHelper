@@ -136,12 +136,12 @@ public class ModMenuIntegration implements ModMenuApi {
                 int titleX = MinecraftClient.getInstance().getWindow().getScaledWidth() - 90;
 
                 if (progressListener.task == null) {
-                    Screen.drawCenteredText(matrices, textRenderer, progressListener.title, titleX, y + 10 - 4, 16777215);
+                    Screen.drawCenteredTextWithShadow(matrices, textRenderer, progressListener.title, titleX, y + 10 - 4, 16777215);
                 } else {
                     Text task = (Text.literal("")).append(progressListener.task).append(" " + progressListener.progress + "%");
 
-                    Screen.drawCenteredText(matrices, textRenderer, progressListener.title, titleX, y + 2, 16777215);
-                    Screen.drawCenteredText(matrices, textRenderer, task, titleX, y + 11, 16777215);
+                    Screen.drawCenteredTextWithShadow(matrices, textRenderer, progressListener.title, titleX, y + 2, 16777215);
+                    Screen.drawCenteredTextWithShadow(matrices, textRenderer, task, titleX, y + 11, 16777215);
                 }
             }
         }

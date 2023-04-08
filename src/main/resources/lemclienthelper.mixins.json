@@ -3,6 +3,7 @@
   "package": "net.kyrptonaught.lemclienthelper.mixin",
   "compatibilityLevel": "JAVA_17",
   "mixins": [
+    "customWorldBorder.WorldBorderMixin",
     "ResourcePreloader.ClientBuiltInResourcePackProviderMixin",
     "ResourcePreloader.NetworkUtilsMixin",
     "SmallInv.GenericContainerScreenMixin",
@@ -10,10 +11,10 @@
     "SmallInv.MidnightControlsMixin",
     "SmallInv.MinecraftClientMixin",
     "SmallInv.ScreenHandlerMixin",
+    "SmallInv.SmallInvRenderMixin"
     "SpectateSquaker.MinecraftClientMixin",
     "SyncedKeybinds.GameOptionsMixin",
-    "TakeEverything.ScreenHandlerMixin",
-    "customWorldBorder.WorldBorderMixin"
+    "TakeEverything.ScreenHandlerMixin"
   ],
   "injectors": {
     "defaultRequire": 1

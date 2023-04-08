@@ -29,8 +29,8 @@ public abstract class GenericContainerScreenMixin extends HandledScreen<GenericC
     @Inject(method = "drawBackground", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/gui/screen/ingame/GenericContainerScreen;drawTexture(Lnet/minecraft/client/util/math/MatrixStack;IIIIII)V", ordinal = 1), locals = LocalCapture.CAPTURE_FAILSOFT, cancellable = true)
     public void drawSmalInv(MatrixStack matrices, float par2, int par3, int par4, CallbackInfo ci, int i, int j) {
         if (getIsSmall()) {
-            this.drawTexture(matrices, i, j + this.rows * 18 + 17, 0, 126, this.backgroundWidth, 13);
-            this.drawTexture(matrices, i, j + (this.rows * 18 + 17) + 12, 0, 193, this.backgroundWidth, 28);
+            drawTexture(matrices, i, j + this.rows * 18 + 17, 0, 126, this.backgroundWidth, 13);
+            drawTexture(matrices, i, j + (this.rows * 18 + 17) + 12, 0, 193, this.backgroundWidth, 28);
             ci.cancel();
         }
     }

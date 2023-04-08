@@ -13,7 +13,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 @Mixin(InputHandlers.class)
 public class MidnightControlsMixin {
 
-    @Inject(method = "lambda$handleInventorySlotPad$19", at = @At(value = "HEAD"), cancellable = true)
+    @Inject(method = "lambda$handleInventorySlotPad$17", at = @At(value = "HEAD"), cancellable = true)
     private static void skipDisabledSlots(int guiLeft, int guiTop, double mouseX, double mouseY, Slot mouseSlot, int direction, Pair<Slot, Double> entry, CallbackInfoReturnable<Boolean> cir) {
         if (!entry.key.isEnabled()) cir.setReturnValue(false);
     }
