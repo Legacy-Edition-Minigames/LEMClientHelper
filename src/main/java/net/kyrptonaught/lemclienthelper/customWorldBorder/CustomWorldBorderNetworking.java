@@ -12,8 +12,7 @@ import net.minecraft.util.Identifier;
 
 public class CustomWorldBorderNetworking {
     public static final Identifier CUSTOM_BORDER_PACKET = new Identifier("customworldborder", "customborder");
-
-
+    
     public static void sendCustomWorldBorderPacket(ServerPlayerEntity player, double xCenter, double zCenter, double xSize, double zSize) {
         PacketByteBuf buf = new PacketByteBuf(Unpooled.buffer());
         buf.writeDouble(xCenter);
@@ -31,7 +30,7 @@ public class CustomWorldBorderNetworking {
             double zCenter = packet.readDouble();
             double xSize = packet.readDouble();
             double zSize = packet.readDouble();
-            ((CustomWorldBorder) client.world.getWorldBorder()).setShape(xCenter, zCenter, xSize, zSize);
+            client.execute(() -> ((CustomWorldBorder) client.world.getWorldBorder()).setShape(xCenter, zCenter, xSize, zSize));
         });
     }
 }

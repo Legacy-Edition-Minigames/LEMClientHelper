@@ -3,6 +3,7 @@ package net.kyrptonaught.lemclienthelper.mixin.customWorldBorder;
 import net.kyrptonaught.lemclienthelper.customWorldBorder.CustomWorldBorderArea;
 import net.kyrptonaught.lemclienthelper.customWorldBorder.duckInterface.CustomWorldBorder;
 import net.minecraft.world.border.WorldBorder;
+import net.minecraft.world.border.WorldBorderListener;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
@@ -18,19 +19,23 @@ public abstract class WorldBorderMixin implements CustomWorldBorder {
     @Shadow
     public abstract void setCenter(double x, double z);
 
+    @Shadow
+    public abstract void setSize(double size);
+
     @Override
     public void setShape(double xCenter, double zCenter, double xSize, double zSize) {
         setCenter(xCenter, zCenter);
         this.area = new CustomWorldBorderArea((WorldBorder) (Object) this, xSize, zSize);
     }
 
-    @Inject(method = "setSize", at = @At(value = "INVOKE", target = "Lnet/minecraft/world/border/WorldBorder;getListeners()Ljava/util/List;"), cancellable = true)
-    public void DontUpdateSize(double size, CallbackInfo ci) {
-        ci.cancel();
+    @Override
+    public void setShape(double xCenter, double zCenter, double size) {
+        setCenter(xCenter, zCenter);
+        setSize(size);
     }
 
-    @Inject(method = "setCenter", at = @At(value = "INVOKE", target = "Lnet/minecraft/world/border/WorldBorder;getListeners()Ljava/util/List;"), cancellable = true)
-    public void DontUpdateCenter(double x, double z, CallbackInfo ci) {
+    @Inject(method = "addListener", at = @At("HEAD"), cancellable = true)
+    public void noListeners(WorldBorderListener listener, CallbackInfo ci) {
         ci.cancel();
     }
 }
