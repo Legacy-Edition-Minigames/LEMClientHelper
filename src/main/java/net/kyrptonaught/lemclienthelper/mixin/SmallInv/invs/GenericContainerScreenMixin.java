@@ -1,4 +1,4 @@
-package net.kyrptonaught.lemclienthelper.mixin.SmallInv;
+package net.kyrptonaught.lemclienthelper.mixin.SmallInv.invs;
 
 import net.kyrptonaught.lemclienthelper.SmallInv.SmallInvPlayerInv;
 import net.minecraft.client.gui.screen.ingame.GenericContainerScreen;

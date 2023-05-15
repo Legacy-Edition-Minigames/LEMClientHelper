@@ -2,16 +2,18 @@
   "required": true,
   "package": "net.kyrptonaught.lemclienthelper.mixin",
   "compatibilityLevel": "JAVA_17",
-  "mixins": [
+  "client": [
     "customWorldBorder.WorldBorderMixin",
     "ResourcePreloader.ClientBuiltInResourcePackProviderMixin",
     "ResourcePreloader.NetworkUtilsMixin",
-    "SmallInv.GenericContainerScreenMixin",
     "SmallInv.HandledScreenMixin",
     "SmallInv.MidnightControlsMixin",
     "SmallInv.MinecraftClientMixin",
     "SmallInv.ScreenHandlerMixin",
-    "SmallInv.SmallInvRenderMixin",
+    "SmallInv.invs.AnvilScreenMixin",
+    "SmallInv.invs.GenericContainerScreenMixin",
+    "SmallInv.invs.HopperScreenMixin",
+    "SmallInv.invs.ShulkerScreenMixin",
     "SpectateSquaker.MinecraftClientMixin",
     "SyncedKeybinds.GameOptionsMixin",
     "TakeEverything.ScreenHandlerMixin"
