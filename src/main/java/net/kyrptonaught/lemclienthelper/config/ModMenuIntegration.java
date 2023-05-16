@@ -14,8 +14,8 @@ import net.kyrptonaught.lemclienthelper.ServerConfigs.ServerConfigsConfig;
 import net.kyrptonaught.lemclienthelper.ServerConfigs.ServerConfigsMod;
 import net.kyrptonaught.lemclienthelper.SmallInv.SmallInvMod;
 import net.kyrptonaught.lemclienthelper.syncedKeybinds.SyncedKeybind;
-import net.kyrptonaught.lemclienthelper.syncedKeybinds.SyncedKeybindsMod;
 import net.kyrptonaught.lemclienthelper.syncedKeybinds.SyncedKeybindsConfig;
+import net.kyrptonaught.lemclienthelper.syncedKeybinds.SyncedKeybindsMod;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.font.TextRenderer;
 import net.minecraft.client.gui.screen.Screen;
@@ -69,12 +69,12 @@ public class ModMenuIntegration implements ModMenuApi {
             ConfigSection serverConfigSection = new ConfigSection(configScreen, Text.translatable("key.lemclienthelper.serverconfig"));
 
             IntegerItem guiItem = (IntegerItem) serverConfigSection.addConfigItem(new IntegerItem(Text.translatable("key.lemclienthelper.serverconfig.guiscale"), serverConfig.guiScale, 0));
-            guiItem.setMinMax(0,4);
+            guiItem.setMinMax(0, 4);
             guiItem.setSaveConsumer(val -> serverConfig.guiScale = val);
             guiItem.setToolTipWithNewLine("key.lemclienthelper.serverconfig.guiscale.tooltip");
 
             IntegerItem panItem = (IntegerItem) serverConfigSection.addConfigItem(new IntegerItem(Text.translatable("key.lemclienthelper.serverconfig.panscale"), serverConfig.panScale, 0));
-            panItem.setMinMax(0,4);
+            panItem.setMinMax(0, 4);
             panItem.setSaveConsumer(val -> serverConfig.panScale = val);
             panItem.setToolTipWithNewLine("key.lemclienthelper.serverconfig.panscale.tooltip");
 

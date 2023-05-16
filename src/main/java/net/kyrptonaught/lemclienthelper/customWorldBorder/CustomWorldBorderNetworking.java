@@ -12,7 +12,7 @@ import net.minecraft.util.Identifier;
 
 public class CustomWorldBorderNetworking {
     public static final Identifier CUSTOM_BORDER_PACKET = new Identifier("customworldborder", "customborder");
-    
+
     public static void sendCustomWorldBorderPacket(ServerPlayerEntity player, double xCenter, double zCenter, double xSize, double zSize) {
         PacketByteBuf buf = new PacketByteBuf(Unpooled.buffer());
         buf.writeDouble(xCenter);

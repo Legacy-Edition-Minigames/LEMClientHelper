@@ -12,9 +12,7 @@ import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
-import org.spongepowered.asm.mixin.injection.Inject;
-import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
-import org.spongepowered.asm.mixin.injection.callback.LocalCapture;
+import org.spongepowered.asm.mixin.injection.Redirect;
 
 @Mixin(GenericContainerScreen.class)
 public abstract class GenericContainerScreenMixin extends HandledScreen<GenericContainerScreenHandler> implements SmallInvPlayerInv {
@@ -26,12 +24,17 @@ public abstract class GenericContainerScreenMixin extends HandledScreen<GenericC
         super((GenericContainerScreenHandler) handler, inventory, title);
     }
 
-    @Inject(method = "drawBackground", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/gui/screen/ingame/GenericContainerScreen;drawTexture(Lnet/minecraft/client/util/math/MatrixStack;IIIIII)V", ordinal = 1), locals = LocalCapture.CAPTURE_FAILSOFT, cancellable = true)
-    public void drawSmalInv(MatrixStack matrices, float par2, int par3, int par4, CallbackInfo ci, int i, int j) {
+    @Redirect(method = "drawBackground", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/gui/screen/ingame/GenericContainerScreen;drawTexture(Lnet/minecraft/client/util/math/MatrixStack;IIIIII)V", ordinal = 1))
+    public void drawSmallInv(MatrixStack matrices, int x, int y, int u, int v, int width, int height) {
         if (getIsSmall()) {
-            drawTexture(matrices, i, j + this.rows * 18 + 17, 0, 126, this.backgroundWidth, 13);
-            drawTexture(matrices, i, j + (this.rows * 18 + 17) + 12, 0, 193, this.backgroundWidth, 28);
-            ci.cancel();
-        }
+            int j = (this.height - this.backgroundHeight) / 2;
+            drawTexture(matrices, x, j + this.rows * 18 + 17, 0, 126, this.backgroundWidth, 13);
+            drawTexture(matrices, x, j + (this.rows * 18 + 17) + 12, 0, 193, this.backgroundWidth, 28);
+        } else drawTexture(matrices, x, y, u, v, width, height);
+    }
+
+    @Override
+    public boolean isSmallSupported() {
+        return true;
     }
 }

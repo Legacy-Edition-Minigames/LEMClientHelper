@@ -3,9 +3,11 @@ package net.kyrptonaught.lemclienthelper.mixin.SmallInv;
 import net.kyrptonaught.lemclienthelper.SmallInv.MovableSlot;
 import net.kyrptonaught.lemclienthelper.SmallInv.SmallInvMod;
 import net.kyrptonaught.lemclienthelper.SmallInv.SmallInvPlayerInv;
-import net.kyrptonaught.lemclienthelper.SmallInv.SmallInvScreen;
 import net.minecraft.client.gui.screen.Screen;
-import net.minecraft.client.gui.screen.ingame.*;
+import net.minecraft.client.gui.screen.ingame.CreativeInventoryScreen;
+import net.minecraft.client.gui.screen.ingame.GenericContainerScreen;
+import net.minecraft.client.gui.screen.ingame.HandledScreen;
+import net.minecraft.client.gui.screen.ingame.InventoryScreen;
 import net.minecraft.screen.GenericContainerScreenHandler;
 import net.minecraft.screen.PlayerScreenHandler;
 import net.minecraft.screen.ScreenHandler;
@@ -60,7 +62,7 @@ public abstract class HandledScreenMixin extends Screen implements SmallInvPlaye
     public void isClickOutsideSmallBounds(double mouseX, double mouseY, int left, int top, int button, CallbackInfoReturnable<Boolean> cir) {
         if (getIsSmall()) {
             HandledScreen<?> handledScreen = (HandledScreen<?>) (Object) this;
-            if (!(handledScreen instanceof SmallInvScreen) && !(handledScreen instanceof InventoryScreen) &&
+            if (!(handledScreen instanceof InventoryScreen) &&
                     !(handledScreen instanceof CreativeInventoryScreen))
                 if (mouseY >= (top + (this.backgroundHeight - 85 + 30))) cir.setReturnValue(true);
         }
@@ -75,6 +77,8 @@ public abstract class HandledScreenMixin extends Screen implements SmallInvPlaye
 
     @Override
     public void setIsSmall(boolean small) {
+        if (!this.isSmallSupported()) return;
+
         if (getIsSmall() && !small) playerInventoryTitleY -= 4;
         isSmall = small;
         int setY = -1;
@@ -100,24 +104,4 @@ public abstract class HandledScreenMixin extends Screen implements SmallInvPlaye
                 }
         }
     }
-
-    /*
-    @Override
-    public void drawTexture(MatrixStack matrices, int x, int y, int u, int v, int width, int height) {
-        if (isSmall) {
-            HandledScreen<?> handledScreen = (HandledScreen<?>) (Object) this;
-            if (!(handledScreen instanceof SmallInvScreen) && !(handledScreen instanceof InventoryScreen) &&
-                    !(handledScreen instanceof CreativeInventoryScreen) && !(handledScreen instanceof GenericContainerScreen))
-                if (u == 0 && v == 0) {
-                    if (handledScreen instanceof ShulkerBoxScreen) height--;
-                    super.drawTexture(matrices, x, y, 0, 0, width, height - 83); //shrink orig texture
-
-                    super.drawTexture(matrices, x, y + 82, 0, height - 30, width, 29); //add extra separator
-                    super.drawTexture(matrices, x, y + 82, 0, height - 86, width, 2); //draw hotbar
-                    return;
-                }
-        }
-        super.drawTexture(matrices, x, y, u, v, width, height);
-    }
-     */
 }

@@ -13,6 +13,7 @@
     "SmallInv.invs.AnvilScreenMixin",
     "SmallInv.invs.GenericContainerScreenMixin",
     "SmallInv.invs.HopperScreenMixin",
+    "SmallInv.invs.InventoryScreenMixin",
     "SmallInv.invs.ShulkerScreenMixin",
     "SpectateSquaker.MinecraftClientMixin",
     "SyncedKeybinds.GameOptionsMixin",

@@ -12,12 +12,17 @@ import org.spongepowered.asm.mixin.injection.Redirect;
 public abstract class HopperScreenMixin implements SmallInvPlayerInv {
 
     @Redirect(method = "drawBackground", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/gui/screen/ingame/HopperScreen;drawTexture(Lnet/minecraft/client/util/math/MatrixStack;IIIIII)V"))
-    public void drawSmalInv(MatrixStack matrices, int x, int y, int u, int v, int width, int height) {
+    public void drawSmallInv(MatrixStack matrices, int x, int y, int u, int v, int width, int height) {
         if (getIsSmall()) {
             DrawableHelper.drawTexture(matrices, x, y, 0, 0, width, height - 83); //shrink orig texture
 
             DrawableHelper.drawTexture(matrices, x, y + (height - 83) - 1, 0, height - 30, width, 29);//draw hotbar
             DrawableHelper.drawTexture(matrices, x, y + (height - 83) - 1, 0, height - 86, width, 2); //add extra separator
-        }
+        } else DrawableHelper.drawTexture(matrices, x, y, u, v, width, height);
+    }
+
+    @Override
+    public boolean isSmallSupported() {
+        return true;
     }
 }

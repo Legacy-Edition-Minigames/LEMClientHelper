@@ -1,7 +1,6 @@
 package net.kyrptonaught.lemclienthelper.ResourcePreloader;
 
 import com.google.common.collect.Lists;
-import com.google.common.collect.Maps;
 import com.google.common.hash.Hashing;
 import net.kyrptonaught.jankson.Jankson;
 import net.kyrptonaught.lemclienthelper.LEMClientHelperMod;

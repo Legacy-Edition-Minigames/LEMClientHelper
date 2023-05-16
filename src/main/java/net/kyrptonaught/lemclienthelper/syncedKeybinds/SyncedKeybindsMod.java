@@ -5,9 +5,7 @@ import net.fabricmc.fabric.api.client.networking.v1.ClientPlayConnectionEvents;
 import net.kyrptonaught.lemclienthelper.LEMClientHelperMod;
 import net.minecraft.client.MinecraftClient;
 
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 
 public class SyncedKeybindsMod {
     public static final String MOD_ID = "syncedkeybinds";

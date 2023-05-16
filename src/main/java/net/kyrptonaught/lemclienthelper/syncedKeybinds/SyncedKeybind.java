@@ -20,7 +20,7 @@ public class SyncedKeybind {
         return keyBinding.wasPressed();
     }
 
-    public boolean isHeld(){
+    public boolean isHeld() {
         return keyBinding.isKeybindPressed();
     }
 

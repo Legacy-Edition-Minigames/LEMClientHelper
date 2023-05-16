@@ -12,7 +12,7 @@ public class TakeEverythingNetworking {
 
     @Environment(EnvType.CLIENT)
     public static void sendTakeEverythingPacket() {
-            PacketByteBuf buf = new PacketByteBuf(Unpooled.buffer());
-            ClientPlayNetworking.send(TAKE_EVERYTHING_PACKET, buf);
+        PacketByteBuf buf = new PacketByteBuf(Unpooled.buffer());
+        ClientPlayNetworking.send(TAKE_EVERYTHING_PACKET, buf);
     }
 }
