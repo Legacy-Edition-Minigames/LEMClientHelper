@@ -4,7 +4,7 @@ import blue.endless.jankson.Comment;
 import net.kyrptonaught.kyrptconfig.config.AbstractConfigFile;
 
 public class ResourcePreloaderConfig implements AbstractConfigFile {
-    public static final String DEFAULT_URL = "https://raw.githubusercontent.com/DBTDerpbox/LEM-Menu-Server/main/config/serverutils/switchableresourcepacks.json5";
+    public static final String DEFAULT_URL = "https://raw.githubusercontent.com/Legacy-Edition-Minigames/Menu-Server/main/config/serverutils/switchableresourcepacks.json5";
     @Comment("URL to download the list of packs from")
     public String URL = DEFAULT_URL;
 
