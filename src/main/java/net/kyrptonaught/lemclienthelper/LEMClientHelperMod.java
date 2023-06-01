@@ -4,6 +4,7 @@ import net.fabricmc.api.ClientModInitializer;
 import net.fabricmc.fabric.api.client.keybinding.v1.KeyBindingHelper;
 import net.fabricmc.fabric.api.client.rendering.v1.HudRenderCallback;
 import net.fabricmc.loader.api.FabricLoader;
+import net.kyrptonaught.lemclienthelper.customWorldBorder.CustomWorldBorderMod;
 import net.kyrptonaught.kyrptconfig.config.ConfigManager;
 import net.kyrptonaught.lemclienthelper.ClientData.ClientDataMod;
 import net.kyrptonaught.lemclienthelper.ResourcePreloader.ResourcePreloaderMod;
@@ -31,6 +32,7 @@ public class LEMClientHelperMod implements ClientModInitializer {
         SyncedKeybindsMod.onInitialize();
         SpectateSqueakerMod.onInitialize();
         ServerConfigsMod.onInitialize();
+        CustomWorldBorderMod.onInitialize();
 
         // if (FabricLoader.getInstance().isModLoaded("lambdacontrols"))
         if (FabricLoader.getInstance().isModLoaded("midnightcontrols"))
