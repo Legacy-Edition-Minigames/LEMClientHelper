@@ -38,7 +38,7 @@ public class LEMClientHelperMod implements ClientModInitializer {
         if (FabricLoader.getInstance().isModLoaded("midnightcontrols"))
             registerControllerKeys();
         //TODO: Implement this armor hud with config and or server integration
-        //HudRenderCallback.EVENT.register(new ArmorHud());
+        HudRenderCallback.EVENT.register(new ArmorHud());
         configManager.load();
     }
 
