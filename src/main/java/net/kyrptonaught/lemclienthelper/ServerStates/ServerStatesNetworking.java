@@ -11,7 +11,7 @@ public class ServerStatesNetworking {
         //register packets relating to the server stater here
         ClientPlayNetworking.registerGlobalReceiver(SERVER_STATE, (client, handler, buf, responseSender) -> {
             States states = ServerStatesMod.states;
-            states.gameActive = buf.readBoolean();
+            states.isGameActive = buf.readBoolean();
             states.gameID = buf.readIdentifier();
         });
         ClientPlayNetworking.registerGlobalReceiver(ARMOR_HUD_STATE, (client, handler, buf, responseSender) -> {

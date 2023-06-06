@@ -25,7 +25,7 @@ public class ArmorHud implements HudRenderCallback {
     @Override
     public void onHudRender(MatrixStack matrices, float tickdelta){
         //change gameID check to null and gameActive to false when testing
-        if(client.player !=null&& states.gameActive && states.gameID == BATTLE_GAMEMODE){
+        if(client.player !=null&& states.isGameActive && states.gameID == BATTLE_GAMEMODE && states.isArmorHudEnabled){
             NbtCompound nbt = new NbtCompound();
             client.player.writeCustomDataToNbt(nbt);
             int count = 4;
