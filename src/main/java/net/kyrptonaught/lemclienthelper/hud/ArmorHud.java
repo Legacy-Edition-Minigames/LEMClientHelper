@@ -2,6 +2,8 @@ package net.kyrptonaught.lemclienthelper.hud;
 
 import com.mojang.blaze3d.systems.RenderSystem;
 import net.fabricmc.fabric.api.client.rendering.v1.HudRenderCallback;
+import net.kyrptonaught.lemclienthelper.ServerStates.ServerStatesMod;
+import net.kyrptonaught.lemclienthelper.ServerStates.States;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.DrawableHelper;
 import net.minecraft.client.render.GameRenderer;
@@ -13,7 +15,8 @@ import net.minecraft.util.Identifier;
 
 public class ArmorHud implements HudRenderCallback {
     MinecraftClient client = MinecraftClient.getInstance();
-    private static final Identifier ARENA_ID = new Identifier("lem.base", "arena");
+    States states = ServerStatesMod.states;
+    private static final Identifier BATTLE_GAMEMODE = new Identifier("lem", "battle");
     private static final Identifier EMPTY_HEAD = new Identifier("minecraft", "textures/item/empty_armor_slot_helmet.png");
     private static final Identifier EMPTY_CHEST = new Identifier("minecraft", "textures/item/empty_armor_slot_chestplate.png");
     private static final Identifier EMPTY_LEGS = new Identifier("minecraft", "textures/item/empty_armor_slot_leggings.png");
@@ -21,7 +24,8 @@ public class ArmorHud implements HudRenderCallback {
 
     @Override
     public void onHudRender(MatrixStack matrices, float tickdelta){
-        if(client.player !=null&&client.world.getRegistryKey().getValue()==ARENA_ID){
+        //change gameID check to null and gameActive to false when testing
+        if(client.player !=null&& states.gameActive && states.gameID == BATTLE_GAMEMODE){
             NbtCompound nbt = new NbtCompound();
             client.player.writeCustomDataToNbt(nbt);
             int count = 4;
@@ -30,7 +34,6 @@ public class ArmorHud implements HudRenderCallback {
                 int y = (height/2)+(count*16)-(8*4)-16;
                 if (item.getItem() == Items.AIR){
                     RenderSystem.setShader(GameRenderer::getPositionTexProgram);
-                    System.out.println(client.world.getRegistryKey().getValue());
                     RenderSystem.setShaderColor(1f,1f,1f,0.75f);
                     switch (count){
                         case 4:
