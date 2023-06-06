@@ -6,4 +6,5 @@ public class ServerStatesMod {
     public static void onInitialize() {
         ServerStatesNetworking.registerPackets();
     }
+
 }

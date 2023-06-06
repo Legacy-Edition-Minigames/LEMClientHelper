@@ -25,7 +25,7 @@ public class ArmorHud implements HudRenderCallback {
     @Override
     public void onHudRender(MatrixStack matrices, float tickdelta){
         //change gameID check to null and gameActive to false when testing
-        if(client.player !=null&& states.isGameActive && states.gameID == BATTLE_GAMEMODE && states.isArmorHudEnabled){
+        if(client.player !=null && states.isGameActive &&states.gameID==BATTLE_GAMEMODE && states.isArmorHudEnabled){
             NbtCompound nbt = new NbtCompound();
             client.player.writeCustomDataToNbt(nbt);
             int count = 4;
@@ -35,23 +35,23 @@ public class ArmorHud implements HudRenderCallback {
                 if (item.getItem() == Items.AIR){
                     RenderSystem.setShader(GameRenderer::getPositionTexProgram);
                     RenderSystem.setShaderColor(1f,1f,1f,0.75f);
-                    switch (count){
-                        case 4:
-                            RenderSystem.setShaderTexture(0,EMPTY_FEET);
-                            DrawableHelper.drawTexture(matrices,20,y,0,0,16,16,16,16);
-                            break;
-                        case 3:
-                            RenderSystem.setShaderTexture(0,EMPTY_LEGS);
-                            DrawableHelper.drawTexture(matrices,20,y,0,0,16,16,16,16);
-                            break;
-                        case 2:
-                            RenderSystem.setShaderTexture(0,EMPTY_CHEST);
-                            DrawableHelper.drawTexture(matrices,20,y,0,0,16,16,16,16);
-                            break;
-                        case 1:
-                            RenderSystem.setShaderTexture(0,EMPTY_HEAD);
-                            DrawableHelper.drawTexture(matrices,20,y,0,0,16,16,16,16);
-                            break;
+                    switch (count) {
+                        case 4 -> {
+                            RenderSystem.setShaderTexture(0, EMPTY_FEET);
+                            DrawableHelper.drawTexture(matrices, 20, y, 0, 0, 16, 16, 16, 16);
+                        }
+                        case 3 -> {
+                            RenderSystem.setShaderTexture(0, EMPTY_LEGS);
+                            DrawableHelper.drawTexture(matrices, 20, y, 0, 0, 16, 16, 16, 16);
+                        }
+                        case 2 -> {
+                            RenderSystem.setShaderTexture(0, EMPTY_CHEST);
+                            DrawableHelper.drawTexture(matrices, 20, y, 0, 0, 16, 16, 16, 16);
+                        }
+                        case 1 -> {
+                            RenderSystem.setShaderTexture(0, EMPTY_HEAD);
+                            DrawableHelper.drawTexture(matrices, 20, y, 0, 0, 16, 16, 16, 16);
+                        }
                     }
                 }
                 RenderSystem.setShaderColor(1f,1f,1f,0.75f);
