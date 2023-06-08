@@ -1,9 +1,6 @@
 package net.kyrptonaught.lemclienthelper.hud;
 
 import com.mojang.blaze3d.systems.RenderSystem;
-import net.fabricmc.fabric.api.client.rendering.v1.HudRenderCallback;
-import net.kyrptonaught.lemclienthelper.ServerStates.ServerStatesMod;
-import net.kyrptonaught.lemclienthelper.ServerStates.States;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.DrawableHelper;
 import net.minecraft.client.util.math.MatrixStack;
@@ -11,23 +8,22 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
 import net.minecraft.util.Identifier;
 
-public class ArmorHud implements HudRenderCallback {
-    MinecraftClient client = MinecraftClient.getInstance();
-    States states = ServerStatesMod.states;
+public class ArmorHudRenderer {
     private static final Identifier EMPTY_HEAD = new Identifier("minecraft", "textures/item/empty_armor_slot_helmet.png");
     private static final Identifier EMPTY_CHEST = new Identifier("minecraft", "textures/item/empty_armor_slot_chestplate.png");
     private static final Identifier EMPTY_LEGS = new Identifier("minecraft", "textures/item/empty_armor_slot_leggings.png");
     private static final Identifier EMPTY_FEET = new Identifier("minecraft", "textures/item/empty_armor_slot_boots.png");
 
-    @Override
-    public void onHudRender(MatrixStack matrices, float tickdelta){
+    public static void onHudRender(MatrixStack matrices, float tickdelta){
         //change gameID check to null and gameActive to false when testing
-        if(client.player !=null && states.isArmorHudEnabled){
+        MinecraftClient client = MinecraftClient.getInstance();
+        if(client.player !=null && HudMod.SHOULD_RENDER_ARMOR){
             int count =4;
             int height = client.getWindow().getScaledHeight();
             RenderSystem.enableBlend();
             RenderSystem.defaultBlendFunc();
             RenderSystem.setShaderColor(1f,1f,1f,0.75f);
+
             for(ItemStack item : client.player.getArmorItems()){
                 int y = (height/2)+(count*16)-(8*4)-16;
                 if (item.getItem() == Items.AIR){

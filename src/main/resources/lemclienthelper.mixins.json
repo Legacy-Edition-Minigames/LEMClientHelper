@@ -29,8 +29,7 @@
     "SmallInv.invs.StonecutterScreenMixin",
     "SpectateSquaker.MinecraftClientMixin",
     "SyncedKeybinds.GameOptionsMixin",
-    "TakeEverything.ScreenHandlerMixin",
-    "serverStates.ClientConnectionMixin"
+    "TakeEverything.ScreenHandlerMixin"
   ],
   "injectors": {
     "defaultRequire": 1
