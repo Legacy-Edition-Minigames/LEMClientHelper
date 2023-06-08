@@ -6,17 +6,14 @@ import net.kyrptonaught.lemclienthelper.ServerStates.ServerStatesMod;
 import net.kyrptonaught.lemclienthelper.ServerStates.States;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.DrawableHelper;
-import net.minecraft.client.render.GameRenderer;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
-import net.minecraft.nbt.NbtCompound;
 import net.minecraft.util.Identifier;
 
 public class ArmorHud implements HudRenderCallback {
     MinecraftClient client = MinecraftClient.getInstance();
     States states = ServerStatesMod.states;
-    private static final Identifier BATTLE_GAMEMODE = new Identifier("lem", "battle");
     private static final Identifier EMPTY_HEAD = new Identifier("minecraft", "textures/item/empty_armor_slot_helmet.png");
     private static final Identifier EMPTY_CHEST = new Identifier("minecraft", "textures/item/empty_armor_slot_chestplate.png");
     private static final Identifier EMPTY_LEGS = new Identifier("minecraft", "textures/item/empty_armor_slot_leggings.png");
@@ -25,40 +22,33 @@ public class ArmorHud implements HudRenderCallback {
     @Override
     public void onHudRender(MatrixStack matrices, float tickdelta){
         //change gameID check to null and gameActive to false when testing
-        if(client.player !=null && states.isGameActive &&states.gameID==BATTLE_GAMEMODE && states.isArmorHudEnabled){
-            NbtCompound nbt = new NbtCompound();
-            client.player.writeCustomDataToNbt(nbt);
-            int count = 4;
+        if(client.player !=null && states.isArmorHudEnabled){
+            int count =4;
             int height = client.getWindow().getScaledHeight();
+            RenderSystem.enableBlend();
+            RenderSystem.defaultBlendFunc();
+            RenderSystem.setShaderColor(1f,1f,1f,0.75f);
             for(ItemStack item : client.player.getArmorItems()){
                 int y = (height/2)+(count*16)-(8*4)-16;
                 if (item.getItem() == Items.AIR){
-                    RenderSystem.setShader(GameRenderer::getPositionTexProgram);
-                    RenderSystem.setShaderColor(1f,1f,1f,0.75f);
                     switch (count) {
-                        case 4 -> {
-                            RenderSystem.setShaderTexture(0, EMPTY_FEET);
-                            DrawableHelper.drawTexture(matrices, 20, y, 0, 0, 16, 16, 16, 16);
-                        }
-                        case 3 -> {
-                            RenderSystem.setShaderTexture(0, EMPTY_LEGS);
-                            DrawableHelper.drawTexture(matrices, 20, y, 0, 0, 16, 16, 16, 16);
-                        }
-                        case 2 -> {
-                            RenderSystem.setShaderTexture(0, EMPTY_CHEST);
-                            DrawableHelper.drawTexture(matrices, 20, y, 0, 0, 16, 16, 16, 16);
-                        }
-                        case 1 -> {
-                            RenderSystem.setShaderTexture(0, EMPTY_HEAD);
-                            DrawableHelper.drawTexture(matrices, 20, y, 0, 0, 16, 16, 16, 16);
-                        }
+                        case 4 -> RenderSystem.setShaderTexture(0, EMPTY_FEET);
+                        case 3 -> RenderSystem.setShaderTexture(0, EMPTY_LEGS);
+                        case 2 -> RenderSystem.setShaderTexture(0, EMPTY_CHEST);
+                        case 1 -> RenderSystem.setShaderTexture(0, EMPTY_HEAD);
                     }
+                    DrawableHelper.drawTexture(matrices, 20, y, 0, 0, 16, 16, 16, 16);
                 }
-                RenderSystem.setShaderColor(1f,1f,1f,0.75f);
+                count--;
+            }
+            count =4;
+            for(ItemStack item : client.player.getArmorItems()){
+                int y = (height/2)+(count*16)-(8*4)-16;
+                if (item.getItem() != Items.AIR){
+                    client.getItemRenderer().renderInGui(matrices,item,20,y);
+                    client.getItemRenderer().renderGuiItemOverlay(matrices,client.textRenderer,item,20,y);
 
-
-                client.getItemRenderer().renderInGui(matrices,item,20,y);
-                client.getItemRenderer().renderGuiItemOverlay(matrices,client.textRenderer,item,20,y);
+                }
                 count--;
             }
             RenderSystem.setShaderColor(1,1,1,1);
