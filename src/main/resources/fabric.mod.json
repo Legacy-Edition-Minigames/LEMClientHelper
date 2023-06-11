@@ -5,8 +5,10 @@
   "name": "LEM Client Helper",
   "description": "LEM Client Helper",
   "authors": [
-    "Kyrptonaught (Author)",
-    "Virusnest (ArmorBar)"
+    "Kyrptonaught"
+  ],
+  "contributors": [
+    "Virusnest"
   ],
   "contact": {
     "homepage": "https://github.com/Legacy-Edition-Minigames/lemclienthelper",
