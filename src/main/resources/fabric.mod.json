@@ -5,11 +5,12 @@
   "name": "LEM Client Helper",
   "description": "LEM Client Helper",
   "authors": [
-    "kyrptonaught"
+    "Kyrptonaught (Author)",
+    "Virusnest (ArmorBar)"
   ],
   "contact": {
-    "homepage": "https://github.com/kyrptonaught/lemclienthelper",
-    "sources": "https://github.com/kyrptonaught/lemclienthelper"
+    "homepage": "https://github.com/Legacy-Edition-Minigames/lemclienthelper",
+    "sources": "https://github.com/Legacy-Edition-Minigames/lemclienthelper"
   },
   "license": "MIT",
   "icon": "assets/lemclienthelper/icon.png",
