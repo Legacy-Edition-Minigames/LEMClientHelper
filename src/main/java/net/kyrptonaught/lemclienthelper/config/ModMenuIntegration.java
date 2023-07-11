@@ -18,6 +18,7 @@ import net.kyrptonaught.lemclienthelper.syncedKeybinds.SyncedKeybindsConfig;
 import net.kyrptonaught.lemclienthelper.syncedKeybinds.SyncedKeybindsMod;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.font.TextRenderer;
+import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.text.Text;
@@ -128,20 +129,20 @@ public class ModMenuIntegration implements ModMenuApi {
         }
 
         @Override
-        public void render(MatrixStack matrices, int x, int y, int mouseX, int mouseY, float delta) {
-            super.render(matrices, x, y, mouseX, mouseY, delta);
+        public void render(DrawContext context, int x, int y, int mouseX, int mouseY, float delta) {
+            super.render(context, x, y, mouseX, mouseY, delta);
             TextRenderer textRenderer = MinecraftClient.getInstance().textRenderer;
             AllPacks.Progress progressListener = rpOption.progressListener;
             if (progressListener.title != null) {
                 int titleX = MinecraftClient.getInstance().getWindow().getScaledWidth() - 90;
 
                 if (progressListener.task == null) {
-                    Screen.drawCenteredTextWithShadow(matrices, textRenderer, progressListener.title, titleX, y + 10 - 4, 16777215);
+                    context.drawCenteredTextWithShadow(textRenderer, progressListener.title, titleX, y + 10 - 4, 16777215);
                 } else {
                     Text task = (Text.literal("")).append(progressListener.task).append(" " + progressListener.progress + "%");
 
-                    Screen.drawCenteredTextWithShadow(matrices, textRenderer, progressListener.title, titleX, y + 2, 16777215);
-                    Screen.drawCenteredTextWithShadow(matrices, textRenderer, task, titleX, y + 11, 16777215);
+                    context.drawCenteredTextWithShadow(textRenderer, progressListener.title, titleX, y + 2, 16777215);
+                    context.drawCenteredTextWithShadow(textRenderer, task, titleX, y + 11, 16777215);
                 }
             }
         }

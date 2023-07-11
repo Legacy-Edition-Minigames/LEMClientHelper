@@ -1,53 +1,66 @@
 package net.kyrptonaught.lemclienthelper.hud;
 
+import com.mojang.blaze3d.platform.GlStateManager;
 import com.mojang.blaze3d.systems.RenderSystem;
 import net.minecraft.client.MinecraftClient;
-import net.minecraft.client.gui.DrawableHelper;
-import net.minecraft.client.util.math.MatrixStack;
+import net.minecraft.client.gui.DrawContext;
+import net.minecraft.client.render.DiffuseLighting;
+import net.minecraft.client.render.OverlayTexture;
+import net.minecraft.client.render.VertexConsumerProvider;
+import net.minecraft.client.render.model.BakedModel;
+import net.minecraft.client.render.model.json.ModelTransformationMode;
+import net.minecraft.client.texture.SpriteAtlasTexture;
 import net.minecraft.item.ItemStack;
-import net.minecraft.item.Items;
 import net.minecraft.util.Identifier;
 
 public class ArmorHudRenderer {
-    private static final Identifier EMPTY_HEAD = new Identifier("minecraft", "textures/item/empty_armor_slot_helmet.png");
-    private static final Identifier EMPTY_CHEST = new Identifier("minecraft", "textures/item/empty_armor_slot_chestplate.png");
-    private static final Identifier EMPTY_LEGS = new Identifier("minecraft", "textures/item/empty_armor_slot_leggings.png");
-    private static final Identifier EMPTY_FEET = new Identifier("minecraft", "textures/item/empty_armor_slot_boots.png");
+    private static final Identifier[] EMPTY_SLOTS = new Identifier[] {
+            new Identifier("minecraft", "textures/item/empty_armor_slot_boots.png"),
+            new Identifier("minecraft", "textures/item/empty_armor_slot_leggings.png"),
+            new Identifier("minecraft", "textures/item/empty_armor_slot_chestplate.png"),
+            new Identifier("minecraft", "textures/item/empty_armor_slot_helmet.png")
+    };
 
-    public static void onHudRender(MatrixStack matrices, float tickdelta){
-        //change gameID check to null and gameActive to false when testing
+    public static void onHudRender(DrawContext context, float v) {
         MinecraftClient client = MinecraftClient.getInstance();
-        if(client.player !=null && HudMod.SHOULD_RENDER_ARMOR){
-            int count =4;
+        HudMod.SHOULD_RENDER_ARMOR = true;
+        if (client.player != null && HudMod.SHOULD_RENDER_ARMOR) {
             int height = client.getWindow().getScaledHeight();
-            RenderSystem.enableBlend();
-            RenderSystem.defaultBlendFunc();
-            RenderSystem.setShaderColor(1f,1f,1f,0.75f);
 
-            for(ItemStack item : client.player.getArmorItems()){
-                int y = (height/2)+(count*16)-(8*4)-16;
-                if (item.getItem() == Items.AIR){
-                    switch (count) {
-                        case 4 -> RenderSystem.setShaderTexture(0, EMPTY_FEET);
-                        case 3 -> RenderSystem.setShaderTexture(0, EMPTY_LEGS);
-                        case 2 -> RenderSystem.setShaderTexture(0, EMPTY_CHEST);
-                        case 1 -> RenderSystem.setShaderTexture(0, EMPTY_HEAD);
-                    }
-                    DrawableHelper.drawTexture(matrices, 20, y, 0, 0, 16, 16, 16, 16);
+            for (int i = 0; i < 4; i++) {
+                ItemStack armorStack = client.player.getInventory().getArmorStack(i);
+                int y = (height / 2) + ((4 - i) * 16) - (8 * 4) - 16;
+                if (armorStack.isEmpty()) {
+                    context.drawTexture(EMPTY_SLOTS[i], 20, y, 0, 0, 16, 16, 16, 16);
+                } else {
+                    context.drawItem(armorStack, 20, y);
+                    context.drawItemInSlot(client.textRenderer, armorStack, 20, y);
                 }
-                count--;
             }
-            count =4;
-            for(ItemStack item : client.player.getArmorItems()){
-                int y = (height/2)+(count*16)-(8*4)-16;
-                if (item.getItem() != Items.AIR){
-                    client.getItemRenderer().renderInGui(matrices,item,20,y);
-                    client.getItemRenderer().renderGuiItemOverlay(matrices,client.textRenderer,item,20,y);
-
-                }
-                count--;
-            }
-            RenderSystem.setShaderColor(1,1,1,1);
         }
+    }
+
+    private static void renderGuiItemModel(DrawContext context, MinecraftClient client, ItemStack stack, int x, int y) {
+        BakedModel model = client.getItemRenderer().getModel(stack, null, null, 0);
+        context.getMatrices().push();
+        client.getTextureManager().getTexture(SpriteAtlasTexture.BLOCK_ATLAS_TEXTURE).setFilter(false, false);
+        RenderSystem.setShaderTexture(0, SpriteAtlasTexture.BLOCK_ATLAS_TEXTURE);
+        RenderSystem.blendFunc(GlStateManager.SrcFactor.SRC_ALPHA, GlStateManager.DstFactor.ONE_MINUS_SRC_ALPHA);
+        context.getMatrices().translate(x, y, 100);
+        context.getMatrices().translate(8.0, 8.0, 0.0);
+        context.getMatrices().scale(1.0f, -1.0f, 1.0f);
+        context.getMatrices().scale(16.0f, 16.0f, 16.0f);
+        VertexConsumerProvider.Immediate immediate = client.getBufferBuilders().getEntityVertexConsumers();
+        boolean bl = !model.isSideLit();
+        if (bl) {
+            DiffuseLighting.disableGuiDepthLighting();
+        }
+        client.getItemRenderer().renderItem(stack, ModelTransformationMode.GUI, false, context.getMatrices(), immediate, 0xF000F0, OverlayTexture.DEFAULT_UV, model);
+
+        immediate.draw();
+        if (bl) {
+            DiffuseLighting.enableGuiDepthLighting();
+        }
+        context.getMatrices().pop();
     }
 }
