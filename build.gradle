@@ -27,8 +27,8 @@ dependencies {
 	// Fabric API. This is technically optional, but you probably want it anyway.
 	modImplementation "net.fabricmc.fabric-api:fabric-api:${project.fabric_version}"
 
-	modImplementation('net.kyrptonaught:kyrptconfig:1.5.6-1.20')
-	include('net.kyrptonaught:kyrptconfig:1.5.6-1.20')
+	modImplementation('net.kyrptonaught:kyrptconfig:1.5.7-1.20')
+	include('net.kyrptonaught:kyrptconfig:1.5.7-1.20')
 
 	modImplementation ("com.terraformersmc:modmenu:7.1.0"){
 		transitive(false)
