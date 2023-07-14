@@ -21,6 +21,12 @@ public class ArmorHudRenderer {
             new Identifier("minecraft", "textures/item/empty_armor_slot_helmet.png")
     };
 
+    public static int HUD_SCALE = ((HudMod.getConfig().armorHudScale) + 16);
+
+    public static void updateVars() {
+        HUD_SCALE = ((HudMod.getConfig().armorHudScale) + 16);
+    }
+
     public static void onHudRender(DrawContext context, float v) {
         MinecraftClient client = MinecraftClient.getInstance();
         HudMod.SHOULD_RENDER_ARMOR = true;
@@ -29,9 +35,9 @@ public class ArmorHudRenderer {
 
             for (int i = 0; i < 4; i++) {
                 ItemStack armorStack = client.player.getInventory().getArmorStack(i);
-                int y = (height / 2) + ((4 - i) * 16) - (8 * 4) - 16;
+                int y = (height / 2) + ((4 - i) * HUD_SCALE) - ((HUD_SCALE / 2) * 4) - HUD_SCALE;
                 if (armorStack.isEmpty()) {
-                    context.drawTexture(EMPTY_SLOTS[i], 20, y, 0, 0, 16, 16, 16, 16);
+                    context.drawTexture(EMPTY_SLOTS[i], 20, y, 0, 0, HUD_SCALE, HUD_SCALE, HUD_SCALE, HUD_SCALE);
                 } else {
                     context.drawItem(armorStack, 20, y);
                     context.drawItemInSlot(client.textRenderer, armorStack, 20, y);
@@ -47,9 +53,9 @@ public class ArmorHudRenderer {
         RenderSystem.setShaderTexture(0, SpriteAtlasTexture.BLOCK_ATLAS_TEXTURE);
         RenderSystem.blendFunc(GlStateManager.SrcFactor.SRC_ALPHA, GlStateManager.DstFactor.ONE_MINUS_SRC_ALPHA);
         context.getMatrices().translate(x, y, 100);
-        context.getMatrices().translate(8.0, 8.0, 0.0);
+        context.getMatrices().translate((HUD_SCALE/2.0), (HUD_SCALE/2.0), 0.0);
         context.getMatrices().scale(1.0f, -1.0f, 1.0f);
-        context.getMatrices().scale(16.0f, 16.0f, 16.0f);
+        context.getMatrices().scale(HUD_SCALE, HUD_SCALE, HUD_SCALE);
         VertexConsumerProvider.Immediate immediate = client.getBufferBuilders().getEntityVertexConsumers();
         boolean bl = !model.isSideLit();
         if (bl) {
