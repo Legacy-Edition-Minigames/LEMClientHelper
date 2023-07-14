@@ -5,6 +5,7 @@ import com.terraformersmc.modmenu.api.ModMenuApi;
 import net.kyrptonaught.kyrptconfig.config.screen.ConfigScreen;
 import net.kyrptonaught.kyrptconfig.config.screen.ConfigSection;
 import net.kyrptonaught.kyrptconfig.config.screen.items.*;
+import net.kyrptonaught.kyrptconfig.config.screen.items.number.FloatItem;
 import net.kyrptonaught.kyrptconfig.config.screen.items.number.IntegerItem;
 import net.kyrptonaught.lemclienthelper.LEMClientHelperMod;
 import net.kyrptonaught.lemclienthelper.hud.HudConfig;
@@ -86,8 +87,8 @@ public class ModMenuIntegration implements ModMenuApi {
             HudConfig clientGUI = HudMod.getConfig();
             ConfigSection clientGUISection = new ConfigSection(configScreen, Text.translatable("key.lemclienthelper.clientgui"));
 
-            IntegerItem armorHudItem = (IntegerItem) clientGUISection.addConfigItem(new IntegerItem(Text.translatable("key.lemclienthelper.clientgui.armourscale"), clientGUI.armorHudScale, 0));
-            armorHudItem.setMinMax(0,24);
+            FloatItem armorHudItem = (FloatItem) clientGUISection.addConfigItem(new FloatItem(Text.translatable("key.lemclienthelper.clientgui.armourscale"), clientGUI.armorHudScale, 1f));
+            armorHudItem.setMinMax(1f,2f);
             armorHudItem.setSaveConsumer(val -> clientGUI.armorHudScale = val);
             armorHudItem.setToolTipWithNewLine("key.lemclienthelper.clientgui.armourscale.tooltip");
 

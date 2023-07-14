@@ -24,7 +24,7 @@
   "key.lemclienthelper.smallinv.enabled": "Enabled",
   "key.lemclienthelper.clientgui": "Armour HUD",
   "key.lemclienthelper.clientgui.armourscale": "Armour HUD scale modifer",
-  "key.lemclienthelper.clientgui.armourscale.tooltip": "Adds additional scale to the Armour HUD.",
+  "key.lemclienthelper.clientgui.armourscale.tooltip": "Sets the scale the Armour HUD will be rendered at.\nValues between 1-2.",
   "key.lemclienthelper.syncedkeybinds": "Synced Keybinds",
   "key.lemclienthelper.syncedkeys": "Synced Keys",
   "key.lemclienthelper.syncedkeys.tooltip": "These are keybindings synced from a LEM server\nOnly functional on LEM servers",

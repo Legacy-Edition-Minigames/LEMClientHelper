@@ -4,5 +4,5 @@ import net.kyrptonaught.kyrptconfig.config.AbstractConfigFile;
 
 public class HudConfig implements AbstractConfigFile {
     //client side config options that interact with the server go here
-    public int armorHudScale = 0;
+    public float armorHudScale = 1;
 }

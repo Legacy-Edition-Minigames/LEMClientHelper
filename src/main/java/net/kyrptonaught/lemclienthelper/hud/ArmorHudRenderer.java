@@ -7,6 +7,7 @@ import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.render.DiffuseLighting;
 import net.minecraft.client.render.OverlayTexture;
+import net.minecraft.client.render.RenderLayer;
 import net.minecraft.client.render.VertexConsumerProvider;
 import net.minecraft.client.render.model.BakedModel;
 import net.minecraft.client.render.model.json.ModelTransformationMode;
@@ -22,52 +23,35 @@ public class ArmorHudRenderer {
             new Identifier("minecraft", "textures/item/empty_armor_slot_helmet.png")
     };
 
-    public static int HUD_SCALE = ((HudMod.getConfig().armorHudScale) + 16);
+    public static float HUD_SCALE = ((HudMod.getConfig().armorHudScale));
 
     public static void updateVars() {
-        HUD_SCALE = ((HudMod.getConfig().armorHudScale) + 16);
-    }
-
-    private static void renderGuiItemModel(DrawContext context, MinecraftClient client, ItemStack stack, int x, int y, int scale) {
-        BakedModel model = client.getItemRenderer().getModel(stack, null, null, 0);
-        context.getMatrices().push();
-        client.getTextureManager().getTexture(SpriteAtlasTexture.BLOCK_ATLAS_TEXTURE).setFilter(false, false);
-        RenderSystem.setShaderTexture(0, SpriteAtlasTexture.BLOCK_ATLAS_TEXTURE);
-        RenderSystem.blendFunc(GlStateManager.SrcFactor.SRC_ALPHA, GlStateManager.DstFactor.ONE_MINUS_SRC_ALPHA);
-        context.getMatrices().translate(x, y, 100);
-        context.getMatrices().translate((scale/2.0), (scale/2.0), 0.0);
-        context.getMatrices().scale(1.0f, -1.0f, 1.0f);
-        context.getMatrices().scale(scale, scale, scale);
-        VertexConsumerProvider.Immediate immediate = client.getBufferBuilders().getEntityVertexConsumers();
-        boolean bl = !model.isSideLit();
-        if (bl) {
-            DiffuseLighting.disableGuiDepthLighting();
-        }
-        client.getItemRenderer().renderItem(stack, ModelTransformationMode.GUI, false, context.getMatrices(), immediate, 0xF000F0, OverlayTexture.DEFAULT_UV, model);
-
-        immediate.draw();
-        if (bl) {
-            DiffuseLighting.enableGuiDepthLighting();
-        }
-        context.getMatrices().pop();
+        HUD_SCALE = ((HudMod.getConfig().armorHudScale));
     }
 
     public static void onHudRender(DrawContext context, float v) {
         MinecraftClient client = MinecraftClient.getInstance();
-        // HudMod.SHOULD_RENDER_ARMOR = true;
+        //HudMod.SHOULD_RENDER_ARMOR = true;
         if (client.player != null && HudMod.SHOULD_RENDER_ARMOR) {
             int height = client.getWindow().getScaledHeight();
 
+            context.getMatrices().push();
+            context.getMatrices().translate(20,height/2f,0);
+            context.getMatrices().scale(HUD_SCALE, HUD_SCALE, 1f);
+            context.getMatrices().translate(0, -32,0);
+
             for (int i = 0; i < 4; i++) {
                 ItemStack armorStack = client.player.getInventory().getArmorStack(i);
-                int y = (height / 2) + ((4 - i) * HUD_SCALE) - ((HUD_SCALE / 2) * 4) - HUD_SCALE;
+                int y = 16 * (3-i);
+                //int y = ((height / 2) + ((4 - i) * size) - (8 * 4) - size);
                 if (armorStack.isEmpty()) {
-                    context.drawTexture(EMPTY_SLOTS[i], 20, y, 0, 0, HUD_SCALE, HUD_SCALE, HUD_SCALE, HUD_SCALE);
+                    context.drawTexture(EMPTY_SLOTS[i], 0, y, 0, 0, 16, 16, 16, 16);
                 } else {
-                    renderGuiItemModel(context, client, armorStack, 20, y, HUD_SCALE);
-                    context.drawItemInSlot(client.textRenderer, armorStack, 20, y);
+                    context.drawItem(armorStack, 0, y);
+                    context.drawItemInSlot(client.textRenderer, armorStack, 0, y);
                 }
             }
+            context.getMatrices().pop();
         }
     }
 }
