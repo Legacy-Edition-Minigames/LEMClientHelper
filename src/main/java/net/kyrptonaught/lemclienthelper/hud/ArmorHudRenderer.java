@@ -27,7 +27,6 @@ public class ArmorHudRenderer {
             for (int i = 0; i < 4; i++) {
                 ItemStack armorStack = client.player.getInventory().getArmorStack(i);
                 int y = 16 * (3 - i);
-                //int y = ((height / 2) + ((4 - i) * size) - (8 * 4) - size);
                 if (armorStack.isEmpty()) {
                     context.drawTexture(EMPTY_SLOTS[i], 0, y, 0, 0, 16, 16, 16, 16);
                 } else {
