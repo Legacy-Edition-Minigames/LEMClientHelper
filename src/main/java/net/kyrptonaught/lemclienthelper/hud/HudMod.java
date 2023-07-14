@@ -3,7 +3,6 @@ package net.kyrptonaught.lemclienthelper.hud;
 import net.fabricmc.fabric.api.client.networking.v1.ClientPlayConnectionEvents;
 import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking;
 import net.fabricmc.fabric.api.client.rendering.v1.HudRenderCallback;
-import net.kyrptonaught.lemclienthelper.hud.ArmorHudRenderer;
 import net.kyrptonaught.lemclienthelper.LEMClientHelperMod;
 import net.minecraft.util.Identifier;
 

@@ -86,7 +86,7 @@ public class ModMenuIntegration implements ModMenuApi {
             HudConfig clientGUI = HudMod.getConfig();
             ConfigSection clientGUISection = new ConfigSection(configScreen, Text.translatable("key.lemclienthelper.clientgui"));
 
-            IntegerItem armorHudItem = (IntegerItem) clientGUISection.addConfigItem(new IntegerItem(Text.translatable("key.lemclienthelper.clientgui.armourscale"), clientGUI.armorHudScale, 1));
+            IntegerItem armorHudItem = (IntegerItem) clientGUISection.addConfigItem(new IntegerItem(Text.translatable("key.lemclienthelper.clientgui.armourscale"), clientGUI.armorHudScale, 0));
             armorHudItem.setMinMax(0,24);
             armorHudItem.setSaveConsumer(val -> clientGUI.armorHudScale = val);
             armorHudItem.setToolTipWithNewLine("key.lemclienthelper.clientgui.armourscale.tooltip");
