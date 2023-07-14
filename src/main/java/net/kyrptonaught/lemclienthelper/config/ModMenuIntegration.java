@@ -5,8 +5,11 @@ import com.terraformersmc.modmenu.api.ModMenuApi;
 import net.kyrptonaught.kyrptconfig.config.screen.ConfigScreen;
 import net.kyrptonaught.kyrptconfig.config.screen.ConfigSection;
 import net.kyrptonaught.kyrptconfig.config.screen.items.*;
+import net.kyrptonaught.kyrptconfig.config.screen.items.number.FloatItem;
 import net.kyrptonaught.kyrptconfig.config.screen.items.number.IntegerItem;
 import net.kyrptonaught.lemclienthelper.LEMClientHelperMod;
+import net.kyrptonaught.lemclienthelper.hud.HudConfig;
+import net.kyrptonaught.lemclienthelper.hud.HudMod;
 import net.kyrptonaught.lemclienthelper.ResourcePreloader.AllPacks;
 import net.kyrptonaught.lemclienthelper.ResourcePreloader.ResourcePreloaderConfig;
 import net.kyrptonaught.lemclienthelper.ResourcePreloader.ResourcePreloaderMod;
@@ -32,6 +35,7 @@ public class ModMenuIntegration implements ModMenuApi {
             ConfigScreen configScreen = new ConfigScreen(screen, Text.translatable("key.lemclienthelper.title"));
             configScreen.setSavingEvent(() -> {
                 LEMClientHelperMod.configManager.save();
+                HudMod.refreshHud();
             });
 
             ConfigSection rplSection = new ConfigSection(configScreen, Text.translatable("key.lemclienthelper.resourcepreloader"));
@@ -79,6 +83,14 @@ public class ModMenuIntegration implements ModMenuApi {
             panItem.setSaveConsumer(val -> serverConfig.panScale = val);
             panItem.setToolTipWithNewLine("key.lemclienthelper.serverconfig.panscale.tooltip");
 
+
+            HudConfig clientGUI = HudMod.getConfig();
+            ConfigSection clientGUISection = new ConfigSection(configScreen, Text.translatable("key.lemclienthelper.clientgui"));
+
+            FloatItem armorHudItem = (FloatItem) clientGUISection.addConfigItem(new FloatItem(Text.translatable("key.lemclienthelper.clientgui.armourscale"), clientGUI.armorHudScale, 1f));
+            armorHudItem.setMinMax(1f,2f);
+            armorHudItem.setSaveConsumer(val -> clientGUI.armorHudScale = val);
+            armorHudItem.setToolTipWithNewLine("key.lemclienthelper.clientgui.armourscale.tooltip");
 
             ConfigSection smallInvSection = new ConfigSection(configScreen, Text.translatable("key.lemclienthelper.smallinv"));
             smallInvSection.addConfigItem(new BooleanItem(Text.translatable("key.lemclienthelper.smallinv.enabled"), SmallInvMod.getConfig().enabled, true).setSaveConsumer(val -> SmallInvMod.getConfig().enabled = val));
