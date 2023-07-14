@@ -8,8 +8,6 @@
   "key.lemclienthelper.resourcepreloader": "Resource Preloader",
   "key.lemclienthelper.downloadurl": "Download URL",
   "key.lemclienthelper.packdownloads": "Server Packs",
-  "key.lemclienthelper.allowOptifine": "Download Optifine packs",
-  "key.lemclienthelper.hideIncompatiblePacks": "Hide Incompatible Packs",
   "key.lemclienthelper.multiDownload": "Allow Simultaneous Downloads",
   "key.lemclienthelper.deletePacks": "Delete Packs",
   "key.lemclienthelper.previewList": "Preview Pack List",

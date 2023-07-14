@@ -47,10 +47,8 @@ public class ResourcePreloaderMod {
 
             for (int i = allPacks.packs.size() - 1; i >= 0; i--) {
                 AllPacks.RPOption rpOption = allPacks.packs.get(i);
-                if (isCompatiblePack(rpOption))
-                    download(rpOption, true);
-                else if (getConfig().hideIncompatiblePacks)
-                    allPacks.packs.remove(i);
+
+                download(rpOption, true);
             }
             downloadsComplete = false;
             checkIfComplete();
@@ -115,8 +113,6 @@ public class ResourcePreloaderMod {
 
         if (file.exists()) {
             rpOption.progressListener.skip(Text.translatable("key.lemclienthelper.alreadydownloaded"), previewOnly);
-        } else if (!isCompatiblePack(rpOption)) {
-            rpOption.progressListener.skip(Text.translatable("key.lemclienthelper.wrongpackcompatibility"), previewOnly);
         } else if (!previewOnly) {
             Map<String, String> map = getDownloadHeaders();
             try {
@@ -125,12 +121,6 @@ public class ResourcePreloaderMod {
                 System.out.println("Bad URL detected: " + rpOption.url);
             }
         }
-    }
-
-    private static boolean isCompatiblePack(AllPacks.RPOption rpOption) {
-        return rpOption.packCompatibility == AllPacks.RPOption.PACKCOMPATIBILITY.BOTH ||
-                (getConfig().allowOptifine && rpOption.packCompatibility == AllPacks.RPOption.PACKCOMPATIBILITY.OPTIFINE) ||
-                (!getConfig().allowOptifine && rpOption.packCompatibility == AllPacks.RPOption.PACKCOMPATIBILITY.VANILLA);
     }
 
     private static boolean verifyFile(String expectedSha1, File file) {
