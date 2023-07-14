@@ -26,8 +26,8 @@ public class HudMod {
         ClientPlayNetworking.registerGlobalReceiver(ARMOR_HUD_DISABLE, (client, handler, buf, responseSender) -> SHOULD_RENDER_ARMOR = false);
     }
 
-    public static void refreshHud() {
-        ArmorHudRenderer.updateVars();
+    public static boolean shouldDisplay() {
+        return getConfig().alwaysEnabled || SHOULD_RENDER_ARMOR;
     }
 
     public static HudConfig getConfig() {
