@@ -22,8 +22,6 @@ import net.kyrptonaught.lemclienthelper.syncedKeybinds.SyncedKeybindsMod;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.font.TextRenderer;
 import net.minecraft.client.gui.DrawContext;
-import net.minecraft.client.gui.screen.Screen;
-import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.text.Text;
 
 public class ModMenuIntegration implements ModMenuApi {
@@ -36,7 +34,7 @@ public class ModMenuIntegration implements ModMenuApi {
                 LEMClientHelperMod.configManager.save();
             });
 
-            //Resource Preloadere
+            //Resource Preloader
             ResourcePreloaderConfig config = ResourcePreloaderMod.getConfig();
             ConfigSection rplSection = new ConfigSection(configScreen, Text.translatable("key.lemclienthelper.resourcepreloader"));
 
@@ -86,7 +84,7 @@ public class ModMenuIntegration implements ModMenuApi {
             HudConfig clientGUI = HudMod.getConfig();
             ConfigSection clientGUISection = new ConfigSection(configScreen, Text.translatable("key.lemclienthelper.clientgui"));
 
-            clientGUISection.addConfigItem(new BooleanItem(Text.translatable("key.lemclienthelper.clientgui.enabled"), clientGUI.enabled, false).setSaveConsumer(val -> clientGUI.enabled = val));
+            clientGUISection.addConfigItem(new BooleanItem(Text.translatable("key.lemclienthelper.clientgui.enabled"), clientGUI.enabled, true).setSaveConsumer(val -> clientGUI.enabled = val));
             clientGUISection.addConfigItem(new BooleanItem(Text.translatable("key.lemclienthelper.clientgui.alwaysshow"), clientGUI.alwaysEnabled, false).setSaveConsumer(val -> clientGUI.alwaysEnabled = val));
 
             FloatItem armorHudScale = (FloatItem) clientGUISection.addConfigItem(new FloatItem(Text.translatable("key.lemclienthelper.clientgui.armourscale"), clientGUI.armorHudScale, 1f));
@@ -94,7 +92,7 @@ public class ModMenuIntegration implements ModMenuApi {
             armorHudScale.setSaveConsumer(val -> clientGUI.armorHudScale = val);
             armorHudScale.setToolTipWithNewLine("key.lemclienthelper.clientgui.armourscale.tooltip");
 
-            IntegerItem armorHudXOffset = (IntegerItem) clientGUISection.addConfigItem(new IntegerItem(Text.translatable("key.lemclienthelper.clientgui.xOffset"), clientGUI.xOffset, 1));
+            IntegerItem armorHudXOffset = (IntegerItem) clientGUISection.addConfigItem(new IntegerItem(Text.translatable("key.lemclienthelper.clientgui.xOffset"), clientGUI.xOffset, 20));
             armorHudXOffset.setMinMax(0,100);
             armorHudXOffset.setSaveConsumer(val -> clientGUI.xOffset = val);
             armorHudXOffset.setToolTipWithNewLine("key.lemclienthelper.clientgui.xOffset.tooltip");
