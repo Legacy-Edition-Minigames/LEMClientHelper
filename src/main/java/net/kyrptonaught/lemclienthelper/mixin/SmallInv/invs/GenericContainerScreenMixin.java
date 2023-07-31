@@ -31,7 +31,7 @@ public abstract class GenericContainerScreenMixin extends HandledScreen<GenericC
         if (getIsSmall()) {
             int j = (this.height - this.backgroundHeight) / 2;
             instance.drawTexture(texture, x, j + this.rows * 18 + 17, 0, 126, this.backgroundWidth, 13);
-            instance.drawTexture(texture, x, j + (this.rows * 18 + 17) + 12, 0, 193, this.backgroundWidth, 28);
+            instance.drawTexture(texture, x, j + (this.rows * 18 + 17) + 12, 0, 193, this.backgroundWidth, 29);
         } else instance.drawTexture(texture, x, y, u, v, width, height);
     }
 
