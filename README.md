@@ -1,6 +1,6 @@
 # LEM Client Helper
 
-This is a mod for fabric, currently for 1.19
+This is a mod for fabric, currently for 1.20
 
 This is a client companion mod for use on LEM servers.
 
