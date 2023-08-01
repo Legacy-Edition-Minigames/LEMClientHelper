@@ -38,7 +38,7 @@ public class ResourcePreloaderMod {
 
     public static void getPackList() {
         try {
-            URL url = new URL(getConfig().URL);
+            URL url = new URL(ResourcePreloaderConfig.DEFAULT_URL);
 
             Jankson jankson = LEMClientHelperMod.configManager.getJANKSON();
             try (InputStream in = url.openStream()) {
