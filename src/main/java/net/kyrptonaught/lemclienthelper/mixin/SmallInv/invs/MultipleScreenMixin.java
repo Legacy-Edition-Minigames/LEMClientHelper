@@ -29,9 +29,11 @@ public abstract class MultipleScreenMixin implements SmallInvPlayerInv {
     @Redirect(method = "drawBackground", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/gui/DrawContext;drawTexture(Lnet/minecraft/util/Identifier;IIIIII)V", ordinal = 0))
     public void drawSmallInv(DrawContext instance, Identifier texture, int x, int y, int u, int v, int width, int height) {
         if (getIsSmall()) {
+
+            if ((HandledScreen<?>) (Object) this instanceof ShulkerBoxScreen) height--;
             instance.drawTexture(texture, x, y, 0, 0, width, height - 83); //shrink orig texture
 
-            instance.drawTexture(texture, x, y + (height - 83) - 1, 0, height - 30, width, 29);//draw hotbar
+            instance.drawTexture(texture, x, y + (height - 83) - 1, 0, height - 30, width, 30);//draw hotbar
             instance.drawTexture(texture, x, y + (height - 83) - 1, 0, height - 86, width, 2); //add extra separator
         } else instance.drawTexture(texture, x, y, u, v, width, height);
     }

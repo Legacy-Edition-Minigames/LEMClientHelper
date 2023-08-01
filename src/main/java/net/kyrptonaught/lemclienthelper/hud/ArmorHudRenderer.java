@@ -3,7 +3,10 @@ package net.kyrptonaught.lemclienthelper.hud;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.DrawContext;
 import net.minecraft.item.ItemStack;
+import net.minecraft.item.Items;
 import net.minecraft.util.Identifier;
+
+import java.util.List;
 
 public class ArmorHudRenderer {
     private static final Identifier[] EMPTY_SLOTS = new Identifier[]{
@@ -36,5 +39,30 @@ public class ArmorHudRenderer {
             }
             context.getMatrices().pop();
         }
+    }
+
+    public static void onHudRenderDummy(DrawContext context, float xOffset, float scale) {
+        MinecraftClient client = MinecraftClient.getInstance();
+        int height = client.getWindow().getScaledHeight();
+
+        context.getMatrices().push();
+        context.getMatrices().translate(xOffset, height / 2f, 0);
+        context.getMatrices().scale(scale, scale, 1f);
+        context.getMatrices().translate(0, -32, 0);
+
+        List<ItemStack> armors = List.of(Items.GOLDEN_HELMET.getDefaultStack(),ItemStack.EMPTY ,Items.GOLDEN_LEGGINGS.getDefaultStack(),Items.GOLDEN_BOOTS.getDefaultStack());
+
+        for (int i = 0; i < 4; i++) {
+            ItemStack armorStack = armors.get(i);
+            int y = 16 * (3 - i);
+            if (armorStack.isEmpty()) {
+                context.drawTexture(EMPTY_SLOTS[i], 0, y, 0, 0, 16, 16, 16, 16);
+            } else {
+                context.drawItem(armorStack, 0, y);
+                context.drawItemInSlot(client.textRenderer, armorStack, 0, y);
+            }
+        }
+        context.getMatrices().pop();
+
     }
 }

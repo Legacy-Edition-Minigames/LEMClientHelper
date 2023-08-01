@@ -1,17 +1,11 @@
 package net.kyrptonaught.lemclienthelper.ClientData;
 
-import net.fabricmc.fabric.api.client.networking.v1.ClientPlayConnectionEvents;
 import net.fabricmc.loader.api.FabricLoader;
 
 public class ClientDataMod {
 
     public static void onInitialize() {
-        ClientPlayConnectionEvents.JOIN.register((handler, sender, client) -> {
-            FabricLoader loader = FabricLoader.getInstance();
-            boolean hasOptifine = isOptifineLoaded(loader);
-            boolean hasControllerMod = isControllerModLoaded(loader);
-            ClientDataNetworking.sendHasLEMPacket(sender, hasOptifine, hasControllerMod);
-        });
+        ClientDataNetworking.sendHasLEMPacket();
     }
 
     public static boolean isOptifineLoaded(FabricLoader loader) {

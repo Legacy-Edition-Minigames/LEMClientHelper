@@ -38,16 +38,18 @@ public class ModMenuIntegration implements ModMenuApi {
             ResourcePreloaderConfig config = ResourcePreloaderMod.getConfig();
             ConfigSection rplSection = new ConfigSection(configScreen, Text.translatable("key.lemclienthelper.resourcepreloader"));
 
-            rplSection.addConfigItem(new TextItem(Text.translatable("key.lemclienthelper.downloadurl"), config.URL, ResourcePreloaderConfig.DEFAULT_URL).setMaxLength(1024).setSaveConsumer(val -> config.URL = val));
             rplSection.addConfigItem(new BooleanItem(Text.translatable("key.lemclienthelper.multiDownload"), config.multiDownload, true).setSaveConsumer(val -> config.multiDownload = val));
             rplSection.addConfigItem(new BooleanItem(Text.translatable("key.lemclienthelper.toastcomplete"), config.toastComplete, true).setSaveConsumer(val -> config.toastComplete = val));
+
+            SubItem<?> sub = new SubItem<>(Text.translatable("key.lemclienthelper.packdownloads"), true);
 
             rplSection.addConfigItem(new ButtonItem(Text.translatable("key.lemclienthelper.deletePacks")).setClickEvent(() -> {
                 configScreen.save();
                 ResourcePreloaderMod.deletePacks();
+                ResourcePreloaderMod.getPackList();
+                addPacksToSub(sub);
             }));
 
-            SubItem<?> sub = new SubItem<>(Text.translatable("key.lemclienthelper.packdownloads"), true);
 
             rplSection.addConfigItem(new ButtonItem(Text.translatable("key.lemclienthelper.previewList")).setClickEvent(() -> {
                 configScreen.save();
@@ -97,6 +99,8 @@ public class ModMenuIntegration implements ModMenuApi {
             armorHudXOffset.setSaveConsumer(val -> clientGUI.xOffset = val);
             armorHudXOffset.setToolTipWithNewLine("key.lemclienthelper.clientgui.xOffset.tooltip");
 
+            //clientGUISection.addConfigItem(new ArmorHudPreviewItem(Text.translatable("key.lemclienthelper.clientgui.displaypreview"), clientGUI.enabled, false));
+
 
             //Small Inv
             ConfigSection smallInvSection = new ConfigSection(configScreen, Text.translatable("key.lemclienthelper.smallinv"));
@@ -130,41 +134,8 @@ public class ModMenuIntegration implements ModMenuApi {
         if (ResourcePreloaderMod.allPacks != null && ResourcePreloaderMod.allPacks.packs.size() > 0) {
             sub.clearConfigItems();
             ResourcePreloaderMod.allPacks.packs.forEach(rpOption -> {
-                sub.addConfigItem(new RPDownloadItem(rpOption).setToolTip(Text.literal(rpOption.url)));
+                sub.addConfigItem(new ResourcepackDownloadItem(rpOption).setToolTip(Text.literal(rpOption.url)));
             });
-        }
-    }
-
-    public static class RPDownloadItem extends ConfigItem<Object> {
-        private final AllPacks.RPOption rpOption;
-
-        public RPDownloadItem(AllPacks.RPOption option) {
-            super(Text.literal(option.packname), null, null);
-            this.rpOption = option;
-        }
-
-        @Override
-        public int getContentSize() {
-            return 2;
-        }
-
-        @Override
-        public void render(DrawContext context, int x, int y, int mouseX, int mouseY, float delta) {
-            super.render(context, x, y, mouseX, mouseY, delta);
-            TextRenderer textRenderer = MinecraftClient.getInstance().textRenderer;
-            AllPacks.Progress progressListener = rpOption.progressListener;
-            if (progressListener.title != null) {
-                int titleX = MinecraftClient.getInstance().getWindow().getScaledWidth() - 90;
-
-                if (progressListener.task == null) {
-                    context.drawCenteredTextWithShadow(textRenderer, progressListener.title, titleX, y + 10 - 4, 16777215);
-                } else {
-                    Text task = (Text.literal("")).append(progressListener.task).append(" " + progressListener.progress + "%");
-
-                    context.drawCenteredTextWithShadow(textRenderer, progressListener.title, titleX, y + 2, 16777215);
-                    context.drawCenteredTextWithShadow(textRenderer, task, titleX, y + 11, 16777215);
-                }
-            }
         }
     }
 }
