@@ -46,7 +46,7 @@ This is useful if you play on multiple devices, with different display sizes
 
 LCH provides a more accurate Armor Bar than what is displayed without the mod.
 
-![Armor Bar](https://github.com/Legacy-Edition-Minigames/LEMClientHelper/assets/65347035/326825a1-41d4-47b8-bd61-3843ee43e829)
+![Armor Bar](https://github.com/Legacy-Edition-Minigames/LEMClientHelper/assets/65347035/7525e797-2cf1-4593-9f65-230a851fcfb1)
 
 ### Options
 
