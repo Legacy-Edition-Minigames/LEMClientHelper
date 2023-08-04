@@ -12,7 +12,9 @@ This mod adds the following features and options customizable through [Mod Menu]
 
 Resource Preloading allows you to download the resource packs in advance to allow for faster loading times in LEM servers.
 
-Preloading is only accessable via the mod's config page, resources will not be preloaded automatically.
+Preloading is only accessable via the mod's config page, resources will not be preloaded automatically. 
+
+Preloading will automatically continue in the background if you would like to close the config menu and play.
 
 The limit for how many packs can be cached is expanded to support the large amount of resource packs LEM utilizes(10 -> 30).
 
