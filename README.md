@@ -6,7 +6,7 @@ Currently supports Minecraft 1.20.1.
 
 LCH is a Fabric mod that enhances the experience on [Legacy Edition Minigames](https://www.legacyminigames.xyz) servers, by default it does not affect Singleplayer or non-LEM servers.
 
-This mod adds the following features:
+This mod adds the following features and options customizable through [Mod Menu](https://modrinth.com/mod/modmenu):
 
 ## Resource Preloader
 
