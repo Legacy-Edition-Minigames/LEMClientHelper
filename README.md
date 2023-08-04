@@ -2,9 +2,9 @@
 
 # LEM Client Helper
 
-This mod currently supports Minecraft 1.20.1.
+Currently supports Minecraft 1.20.1.
 
-LCH is a mod that enhances the experience on [Legacy Edition Minigames](https://www.legacyminigames.xyz) servers, by default it does not affect Singleplayer or non-LEM servers.
+LCH is a Fabric mod that enhances the experience on [Legacy Edition Minigames](https://www.legacyminigames.xyz) servers, by default it does not affect Singleplayer or non-LEM servers.
 
 This mod adds the following features:
 
@@ -14,7 +14,7 @@ Resource Preloading allows you to download the resource packs in advance to allo
 
 Preloading is only accessable via the mod's config page, resources will not be preloaded automatically.
 
-The limit for how many packs can be cached is expanded to support the large amount of resource packs LEM utilizes.
+The limit for how many packs can be cached is expanded to support the large amount of resource packs LEM utilizes(10 -> 30).
 
 ### Options
 
