@@ -8,6 +8,12 @@ LCH is a Fabric mod that enhances the experience on [Legacy Edition Minigames](h
 
 This mod adds the following features and options customizable through [Mod Menu](https://modrinth.com/mod/modmenu):
 
+## Take Everything
+
+Take Everything allows you to take all items out of a chest with one button.
+
+The default keybind is `Spacebar`, you can change it in Minecraft's Control settings
+
 ## Resource Preloader
 
 Resource Preloading allows you to download the resource packs in advance to allow for faster loading times in LEM servers.
