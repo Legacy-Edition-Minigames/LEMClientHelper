@@ -3,6 +3,7 @@ package net.kyrptonaught.lemclienthelper;
 import net.fabricmc.api.ClientModInitializer;
 import net.fabricmc.fabric.api.client.keybinding.v1.KeyBindingHelper;
 import net.fabricmc.loader.api.FabricLoader;
+import net.kyrptonaught.lemclienthelper.ServerSwitcher.ServerSwitcherMod;
 import net.kyrptonaught.lemclienthelper.customWorldBorder.CustomWorldBorderMod;
 import net.kyrptonaught.kyrptconfig.config.ConfigManager;
 import net.kyrptonaught.lemclienthelper.ClientData.ClientDataMod;
@@ -15,7 +16,9 @@ import net.kyrptonaught.lemclienthelper.hud.HudMod;
 import net.kyrptonaught.lemclienthelper.syncedKeybinds.SyncedKeybindsMod;
 import net.minecraft.client.option.KeyBinding;
 import net.minecraft.client.util.InputUtil;
+
 import net.minecraft.util.Identifier;
+
 
 public class LEMClientHelperMod implements ClientModInitializer {
     public static final String MOD_ID = "lemclienthelper";
@@ -32,6 +35,7 @@ public class LEMClientHelperMod implements ClientModInitializer {
         SpectateSqueakerMod.onInitialize();
         ServerConfigsMod.onInitialize();
         CustomWorldBorderMod.onInitialize();
+        ServerSwitcherMod.onInitialize();
         HudMod.onInitialize();
         // if (FabricLoader.getInstance().isModLoaded("lambdacontrols"))
         if (FabricLoader.getInstance().isModLoaded("midnightcontrols"))
