@@ -11,7 +11,7 @@ public class ServerSwitcher {
         System.out.println("Switching to server: " + serverAddress);
         //NOTE: sends client to the title screen temporarily, then to the server
         client.world.disconnect();
-        ConnectScreen.connect(new DownloadingTerrainScreen(), client, ServerAddress.parse(serverAddress), new ServerInfo("leb",serverAddress,false),false);
+        ConnectScreen.connect(new DownloadingTerrainScreen(), client, ServerAddress.parse(serverAddress), new ServerInfo("lem",serverAddress,false),false);
     }
 }
 
