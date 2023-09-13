@@ -23,6 +23,7 @@
   "key.lemclienthelper.clientgui": "Armor HUD",
   "key.lemclienthelper.clientgui.enabled": "Enabled Armor HUD",
   "key.lemclienthelper.clientgui.alwaysshow": "Always Show Armor HUD",
+  "key.lemclienthelper.clientgui.speedometeralwaysshow": "Always Show Speedometer",
   "key.lemclienthelper.clientgui.armorscale": "Armor HUD Scale Modifier",
   "key.lemclienthelper.clientgui.armorscale.tooltip": "Sets the scale the Armor HUD will be rendered at.\nValues between 1-4.",
   "key.lemclienthelper.clientgui.xOffset": "Armor HUD X Offset",
