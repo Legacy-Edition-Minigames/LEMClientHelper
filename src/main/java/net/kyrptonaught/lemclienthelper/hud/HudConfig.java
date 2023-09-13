@@ -7,11 +7,11 @@ public class HudConfig implements AbstractConfigFile {
 
     public boolean alwaysEnabled = false;
 
-    public boolean speedometerAlwaysEnabled = false;
+    public boolean glideHudAlwaysEnabled = false;
 
     public float armorHudScale = 1;
 
-    public float speedometerHudScale = 1;
+    public float glideHudScale = 1;
 
     public int xOffset = 20;
 }

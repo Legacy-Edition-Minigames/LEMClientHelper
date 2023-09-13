@@ -84,7 +84,7 @@ public class ModMenuIntegration implements ModMenuApi {
 
             clientGUISection.addConfigItem(new BooleanItem(Text.translatable("key.lemclienthelper.clientgui.enabled"), clientGUI.enabled, true).setSaveConsumer(val -> clientGUI.enabled = val));
             clientGUISection.addConfigItem(new BooleanItem(Text.translatable("key.lemclienthelper.clientgui.alwaysshow"), clientGUI.alwaysEnabled, false).setSaveConsumer(val -> clientGUI.alwaysEnabled = val));
-            clientGUISection.addConfigItem(new BooleanItem(Text.translatable("key.lemclienthelper.clientgui.speedometeralwaysshow"), clientGUI.speedometerAlwaysEnabled, false).setSaveConsumer(val -> clientGUI.speedometerAlwaysEnabled = val));
+            // clientGUISection.addConfigItem(new BooleanItem(Text.translatable("key.lemclienthelper.clientgui.glidehudalwaysshow"), clientGUI.glideHudAlwaysEnabled, false).setSaveConsumer(val -> clientGUI.glideHudAlwaysEnabled = val));
 
             FloatItem armorHudScale = (FloatItem) clientGUISection.addConfigItem(new FloatItem(Text.translatable("key.lemclienthelper.clientgui.armorscale"), clientGUI.armorHudScale, 1f));
             armorHudScale.setMinMax(1f,4f);
