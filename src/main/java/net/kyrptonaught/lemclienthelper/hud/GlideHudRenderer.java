@@ -22,8 +22,45 @@ public class GlideHudRenderer {
         new Identifier(LEMClientHelperMod.MOD_ID, "textures/gui/speedometer/arrow/11.png")
     };
 
+    private static final Identifier STOPWATCH = new Identifier(LEMClientHelperMod.MOD_ID, "textures/gui/stopwatch/stopwatch.png");
+    private static final Identifier[] SECONDS = new Identifier[]{
+        new Identifier(LEMClientHelperMod.MOD_ID, "textures/gui/stopwatch/seconds/0.png"),
+        new Identifier(LEMClientHelperMod.MOD_ID, "textures/gui/stopwatch/seconds/1.png"),
+        new Identifier(LEMClientHelperMod.MOD_ID, "textures/gui/stopwatch/seconds/2.png"),
+        new Identifier(LEMClientHelperMod.MOD_ID, "textures/gui/stopwatch/seconds/3.png"),
+        new Identifier(LEMClientHelperMod.MOD_ID, "textures/gui/stopwatch/seconds/4.png"),
+        new Identifier(LEMClientHelperMod.MOD_ID, "textures/gui/stopwatch/seconds/5.png"),
+        new Identifier(LEMClientHelperMod.MOD_ID, "textures/gui/stopwatch/seconds/6.png"),
+        new Identifier(LEMClientHelperMod.MOD_ID, "textures/gui/stopwatch/seconds/7.png"),
+        new Identifier(LEMClientHelperMod.MOD_ID, "textures/gui/stopwatch/seconds/8.png"),
+        new Identifier(LEMClientHelperMod.MOD_ID, "textures/gui/stopwatch/seconds/9.png"),
+        new Identifier(LEMClientHelperMod.MOD_ID, "textures/gui/stopwatch/seconds/10.png"),
+        new Identifier(LEMClientHelperMod.MOD_ID, "textures/gui/stopwatch/seconds/11.png")
+    };
+    private static final Identifier[] MINUTES = new Identifier[]{
+        new Identifier(LEMClientHelperMod.MOD_ID, "textures/gui/stopwatch/minutes/0.png"),
+        new Identifier(LEMClientHelperMod.MOD_ID, "textures/gui/stopwatch/minutes/1.png"),
+        new Identifier(LEMClientHelperMod.MOD_ID, "textures/gui/stopwatch/minutes/2.png"),
+        new Identifier(LEMClientHelperMod.MOD_ID, "textures/gui/stopwatch/minutes/3.png"),
+        new Identifier(LEMClientHelperMod.MOD_ID, "textures/gui/stopwatch/minutes/4.png"),
+        new Identifier(LEMClientHelperMod.MOD_ID, "textures/gui/stopwatch/minutes/5.png"),
+        new Identifier(LEMClientHelperMod.MOD_ID, "textures/gui/stopwatch/minutes/6.png"),
+        new Identifier(LEMClientHelperMod.MOD_ID, "textures/gui/stopwatch/minutes/7.png"),
+        new Identifier(LEMClientHelperMod.MOD_ID, "textures/gui/stopwatch/minutes/8.png"),
+        new Identifier(LEMClientHelperMod.MOD_ID, "textures/gui/stopwatch/minutes/9.png"),
+        new Identifier(LEMClientHelperMod.MOD_ID, "textures/gui/stopwatch/minutes/10.png"),
+        new Identifier(LEMClientHelperMod.MOD_ID, "textures/gui/stopwatch/minutes/11.png")
+    };
+
+    private static long elapsedTime = 0;
+    private static long lastSecondsSpriteChange = 0;
+    private static long lastMinutesSpriteChange = 0;
+    private static int currentStopwatchSecondsSprite = 0;
+    private static int currentStopwatchMinutesSprite = 0;
+
     public static void onHudRender(DrawContext context, float v) {
         renderSpeedometer(context, v);
+        renderStopwatch(context, v);
     }
 
     public static double getPlayerSpeed() {
@@ -88,6 +125,70 @@ public class GlideHudRenderer {
             context.drawText(client.textRenderer, "m/s", -25, -122, 0xffffff, true);
             context.drawText(client.textRenderer, String.format("%.2f", speed), textOffset, -122, 0xffffff, true);
 
+            context.getMatrices().pop();
+        }
+    }
+
+    public static void incrementSecondsSprite() {
+        currentStopwatchSecondsSprite = (currentStopwatchSecondsSprite + 1) % 11;
+    }
+    public static void incrementMinutesSprite() {
+        currentStopwatchMinutesSprite = (currentStopwatchMinutesSprite + 1) % 11;
+    }
+
+    public static void incrementTimer(MinecraftClient client) {
+        if (client.player != null && HudMod.isTimerRunning()) {
+            elapsedTime = (System.nanoTime() - HudMod.getStartTime()); 
+            if (System.nanoTime() - lastSecondsSpriteChange >= 5540000000l && elapsedTime >= 5540000000l) {
+                incrementSecondsSprite();
+                lastSecondsSpriteChange = System.nanoTime();
+            }
+            if (System.nanoTime() - lastMinutesSpriteChange >= 332400000000l && elapsedTime >= 332400000000l) {
+                incrementMinutesSprite();
+                lastMinutesSpriteChange = System.nanoTime();
+            }
+        } if ((client.player != null) && (HudMod.isTimerRunning() == false) && (HudMod.getFinalTime() != 0l)) {
+            elapsedTime = HudMod.getFinalTime();
+        }
+    }
+
+    public static int getStopwatchSecondsSprite() {
+        return currentStopwatchSecondsSprite;
+    }
+    public static int getStopwatchMinutesSprite() {
+        return currentStopwatchMinutesSprite;
+    }
+
+    public static void renderStopwatch(DrawContext context, float v) {
+        MinecraftClient client = MinecraftClient.getInstance();
+        if (client.player != null && HudMod.shouldDisplayGlideHud()) {
+            int height = client.getWindow().getScaledHeight();
+            int width = client.getWindow().getScaledWidth();
+
+            context.getMatrices().push();
+            context.getMatrices().translate((width - (2 * HudMod.getConfig().xOffset)), height / 2f, 0);
+            context.getMatrices().scale((HudMod.getConfig().glideHudScale * 0.75f), (HudMod.getConfig().glideHudScale * 0.75f), 1f);
+            context.getMatrices().translate(0, -24, 0);
+
+            context.drawTexture(STOPWATCH, 0, -96, 0, 0, 16, 16, 16, 16);
+
+            int secondsIndex = getStopwatchSecondsSprite();
+            int minutesIndex = getStopwatchMinutesSprite();
+
+            context.drawTexture(SECONDS[secondsIndex], 0, -96, 0, 0, 16, 16, 16, 16);
+            context.drawTexture(MINUTES[minutesIndex], 0, -96, 0, 0, 16, 16, 16, 16);
+
+            long seconds = elapsedTime / 1000000000L;
+            long minutes = seconds / 60;
+            seconds %= 60;
+            long milliseconds = (elapsedTime / 1000000L) % 1000;
+
+            String timer = String.format("%d:%02d.%03d", minutes, seconds, milliseconds);
+
+            int textWidth = client.textRenderer.getWidth(timer);
+            int textOffset = -4 - textWidth;
+            context.drawText(client.textRenderer, timer, textOffset, -92, 0xffffff, true);
+           
             context.getMatrices().pop();
         }
     }

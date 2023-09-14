@@ -9,6 +9,8 @@ public class HudConfig implements AbstractConfigFile {
 
     public boolean glideHudAlwaysEnabled = false;
 
+    public boolean glideTimerRunning = false;
+
     public float armorHudScale = 1;
 
     public float glideHudScale = 1;
