@@ -181,13 +181,20 @@ public class GlideHudRenderer {
             long seconds = elapsedTime / 1000000000L;
             long minutes = seconds / 60;
             seconds %= 60;
-            long milliseconds = (elapsedTime / 1000000L) % 1000;
+            long milliseconds = (elapsedTime % 1000) / 10;
+            
+            String timer = "";
 
-            String timer = String.format("%d:%02d.%03d", minutes, seconds, milliseconds);
+            if (minutes < 1) {
+                timer = String.format("%2d.%2d",  seconds, milliseconds);
+            } else {
+                timer = String.format("%d:%02d.%2d", minutes, seconds, milliseconds);
+            }
+            
 
             int textWidth = client.textRenderer.getWidth(timer);
             int textOffset = -4 - textWidth;
-            context.drawText(client.textRenderer, timer, textOffset, -92, 0xffffff, true);
+            context.drawText(client.textRenderer, timer, textOffset, -91, 0xffffff, true);
            
             context.getMatrices().pop();
         }
