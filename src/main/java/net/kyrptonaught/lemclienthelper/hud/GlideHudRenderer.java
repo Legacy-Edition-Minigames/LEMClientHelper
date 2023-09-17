@@ -64,7 +64,7 @@ public class GlideHudRenderer {
         renderStopwatch(context, v);
     }
 
-    public static double calculatePlayerSpeed(MinecraftClient client) {
+    public static void calculatePlayerSpeed(MinecraftClient client) {
         var player = client.player;
         var pos = player.getPos();
         double dx = pos.x - player.lastRenderX;
