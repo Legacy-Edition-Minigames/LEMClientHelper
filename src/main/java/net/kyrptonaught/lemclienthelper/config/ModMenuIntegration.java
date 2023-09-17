@@ -10,7 +10,6 @@ import net.kyrptonaught.kyrptconfig.config.screen.items.number.IntegerItem;
 import net.kyrptonaught.lemclienthelper.LEMClientHelperMod;
 import net.kyrptonaught.lemclienthelper.hud.HudConfig;
 import net.kyrptonaught.lemclienthelper.hud.HudMod;
-import net.kyrptonaught.lemclienthelper.ResourcePreloader.AllPacks;
 import net.kyrptonaught.lemclienthelper.ResourcePreloader.ResourcePreloaderConfig;
 import net.kyrptonaught.lemclienthelper.ResourcePreloader.ResourcePreloaderMod;
 import net.kyrptonaught.lemclienthelper.ServerConfigs.ServerConfigsConfig;
@@ -19,9 +18,6 @@ import net.kyrptonaught.lemclienthelper.SmallInv.SmallInvMod;
 import net.kyrptonaught.lemclienthelper.syncedKeybinds.SyncedKeybind;
 import net.kyrptonaught.lemclienthelper.syncedKeybinds.SyncedKeybindsConfig;
 import net.kyrptonaught.lemclienthelper.syncedKeybinds.SyncedKeybindsMod;
-import net.minecraft.client.MinecraftClient;
-import net.minecraft.client.font.TextRenderer;
-import net.minecraft.client.gui.DrawContext;
 import net.minecraft.text.Text;
 
 public class ModMenuIntegration implements ModMenuApi {
@@ -88,6 +84,7 @@ public class ModMenuIntegration implements ModMenuApi {
 
             clientGUISection.addConfigItem(new BooleanItem(Text.translatable("key.lemclienthelper.clientgui.enabled"), clientGUI.enabled, true).setSaveConsumer(val -> clientGUI.enabled = val));
             clientGUISection.addConfigItem(new BooleanItem(Text.translatable("key.lemclienthelper.clientgui.alwaysshow"), clientGUI.alwaysEnabled, false).setSaveConsumer(val -> clientGUI.alwaysEnabled = val));
+            // clientGUISection.addConfigItem(new BooleanItem(Text.translatable("key.lemclienthelper.clientgui.glidehudalwaysshow"), clientGUI.glideHudAlwaysEnabled, false).setSaveConsumer(val -> clientGUI.glideHudAlwaysEnabled = val));
 
             FloatItem armorHudScale = (FloatItem) clientGUISection.addConfigItem(new FloatItem(Text.translatable("key.lemclienthelper.clientgui.armorscale"), clientGUI.armorHudScale, 1f));
             armorHudScale.setMinMax(1f,4f);
