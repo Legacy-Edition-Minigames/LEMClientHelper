@@ -57,13 +57,14 @@ public class GlideHudRenderer {
     private static long lastMinutesSpriteChange = 0;
     private static int currentStopwatchSecondsSprite = 0;
     private static int currentStopwatchMinutesSprite = 0;
+    private static double playerSpeed = 0;
 
     public static void onHudRender(DrawContext context, float v) {
         renderSpeedometer(context, v);
         renderStopwatch(context, v);
     }
 
-    public static double getPlayerSpeed() {
+    public static double calculatePlayerSpeed() {
         MinecraftClient client = MinecraftClient.getInstance();
         var player = client.player;
         var pos = player.getPos();
@@ -83,7 +84,11 @@ public class GlideHudRenderer {
            sqrt(a^2 + b^2) will give meters/tick
            sqrt(a^2 + b^2) * 20 will give the value for the speedometer in m/s
         */
-        return Math.sqrt((dy * dy)+(dx * dx + dz * dz)) * 20;
+        playerSpeed = Math.sqrt((dy * dy)+(dx * dx + dz * dz)) * 20;
+    }
+
+    public static double getPlayerSpeed() {
+        return playerSpeed
     }
 
     public static int calculateArrow(double speed) {
@@ -181,20 +186,13 @@ public class GlideHudRenderer {
             long seconds = elapsedTime / 1000000000L;
             long minutes = seconds / 60;
             seconds %= 60;
-            long milliseconds = (elapsedTime % 1000) / 10;
-            
-            String timer = "";
+            long milliseconds = (elapsedTime / 1000000L) % 1000;
 
-            if (minutes < 1) {
-                timer = String.format("%2d.%2d",  seconds, milliseconds);
-            } else {
-                timer = String.format("%d:%02d.%2d", minutes, seconds, milliseconds);
-            }
-            
+            String timer = String.format("%d:%02d.%03d", minutes, seconds, milliseconds);
 
             int textWidth = client.textRenderer.getWidth(timer);
             int textOffset = -4 - textWidth;
-            context.drawText(client.textRenderer, timer, textOffset, -91, 0xffffff, true);
+            context.drawText(client.textRenderer, timer, textOffset, -92, 0xffffff, true);
            
             context.getMatrices().pop();
         }

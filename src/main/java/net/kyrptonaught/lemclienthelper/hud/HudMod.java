@@ -29,6 +29,7 @@ public class HudMod {
     public static void onInitialize() {
         LEMClientHelperMod.configManager.registerFile(MOD_ID, new HudConfig());
         ClientTickEvents.END_CLIENT_TICK.register(GlideHudRenderer::incrementTimer);
+        ClientTickEvents.END_CLIENT_TICK.register(GlideHudRenderer::calculatePlayerSpeed);
         //register hud's here
         HudRenderCallback.EVENT.register(ArmorHudRenderer::onHudRender);
         HudRenderCallback.EVENT.register(GlideHudRenderer::onHudRender);
