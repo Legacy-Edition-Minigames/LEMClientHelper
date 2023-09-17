@@ -88,7 +88,7 @@ public class GlideHudRenderer {
     }
 
     public static double getPlayerSpeed() {
-        return playerSpeed
+        return playerSpeed;
     }
 
     public static int calculateArrow(double speed) {
