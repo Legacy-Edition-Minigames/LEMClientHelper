@@ -22,11 +22,9 @@ Preloading is only accessable via the mod's config page, resources will not be p
 
 Preloading will automatically continue in the background if you would like to close the config menu and play.
 
-The limit for how many packs can be cached is expanded to support the large amount of resource packs LEM utilizes(10 -> 30).
+The limit for how many packs can be cached is expanded to support the large amount of resource packs LEM utilizes(20 -> 30).
 
 ### Options
-
-- Allow Simultaneous Downloads: Multiple packs will be downloaded at the same time during the preloading process if enabled.
 
 - Completed Notification: A notification will be displayed in-game once a pack has been preloaded.
 
