@@ -24,17 +24,17 @@ public class ResourcepackDownloadItem extends ConfigItem<Object> {
     public void render(DrawContext context, int x, int y, int mouseX, int mouseY, float delta) {
         super.render(context, x, y, mouseX, mouseY, delta);
         TextRenderer textRenderer = MinecraftClient.getInstance().textRenderer;
-        AllPacks.Progress progressListener = rpOption.progressListener;
-        if (progressListener.title != null) {
+
+        if (rpOption.status != null) {
             int titleX = MinecraftClient.getInstance().getWindow().getScaledWidth() - 90;
 
-            if (progressListener.task == null) {
-                context.drawCenteredTextWithShadow(textRenderer, progressListener.title, titleX, y + 10 - 4, 16777215);
+            if (rpOption.status2 == null) {
+                context.drawCenteredTextWithShadow(textRenderer, rpOption.status, titleX, y + 10 - 4, 16777215);
             } else {
-                Text task = (Text.literal("")).append(progressListener.task).append(" " + progressListener.progress + "%");
+                //Text task = (Text.literal("")).append(progressListener.task).append(" " + progressListener.progress + "%");
 
-                context.drawCenteredTextWithShadow(textRenderer, progressListener.title, titleX, y + 2, 16777215);
-                context.drawCenteredTextWithShadow(textRenderer, task, titleX, y + 11, 16777215);
+                context.drawCenteredTextWithShadow(textRenderer, rpOption.status, titleX, y + 2, 16777215);
+                context.drawCenteredTextWithShadow(textRenderer, rpOption.status2, titleX, y + 11, 16777215);
             }
         }
     }

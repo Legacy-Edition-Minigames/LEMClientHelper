@@ -10,7 +10,6 @@ import net.kyrptonaught.kyrptconfig.config.screen.items.number.IntegerItem;
 import net.kyrptonaught.lemclienthelper.LEMClientHelperMod;
 import net.kyrptonaught.lemclienthelper.hud.HudConfig;
 import net.kyrptonaught.lemclienthelper.hud.HudMod;
-import net.kyrptonaught.lemclienthelper.ResourcePreloader.AllPacks;
 import net.kyrptonaught.lemclienthelper.ResourcePreloader.ResourcePreloaderConfig;
 import net.kyrptonaught.lemclienthelper.ResourcePreloader.ResourcePreloaderMod;
 import net.kyrptonaught.lemclienthelper.ServerConfigs.ServerConfigsConfig;
@@ -19,9 +18,6 @@ import net.kyrptonaught.lemclienthelper.SmallInv.SmallInvMod;
 import net.kyrptonaught.lemclienthelper.syncedKeybinds.SyncedKeybind;
 import net.kyrptonaught.lemclienthelper.syncedKeybinds.SyncedKeybindsConfig;
 import net.kyrptonaught.lemclienthelper.syncedKeybinds.SyncedKeybindsMod;
-import net.minecraft.client.MinecraftClient;
-import net.minecraft.client.font.TextRenderer;
-import net.minecraft.client.gui.DrawContext;
 import net.minecraft.text.Text;
 
 public class ModMenuIntegration implements ModMenuApi {
@@ -38,7 +34,6 @@ public class ModMenuIntegration implements ModMenuApi {
             ResourcePreloaderConfig config = ResourcePreloaderMod.getConfig();
             ConfigSection rplSection = new ConfigSection(configScreen, Text.translatable("key.lemclienthelper.resourcepreloader"));
 
-            rplSection.addConfigItem(new BooleanItem(Text.translatable("key.lemclienthelper.multiDownload"), config.multiDownload, true).setSaveConsumer(val -> config.multiDownload = val));
             rplSection.addConfigItem(new BooleanItem(Text.translatable("key.lemclienthelper.toastcomplete"), config.toastComplete, true).setSaveConsumer(val -> config.toastComplete = val));
 
             SubItem<?> sub = new SubItem<>(Text.translatable("key.lemclienthelper.packdownloads"), true);

@@ -57,7 +57,7 @@ public abstract class InventoryScreenMixin extends AbstractInventoryScreen<Playe
             RenderSystem.setShader(GameRenderer::getPositionTexProgram);
             RenderSystem.setShaderColor(1.0f, 1.0f, 1.0f, 1.0f);
             context.drawTexture(TEXTURE, x, y, 0, 0, this.backgroundWidth, this.backgroundHeight, this.backgroundWidth, this.backgroundHeight);
-            InventoryScreen.drawEntity(context, x + 51 + 51, y + 75 - 2, 30, (float) (x + 51 + 51) - this.mouseX, (float) (y + 75 - 50 - 2) - this.mouseY, this.client.player);
+            InventoryScreen.drawEntity(context, x + 26 + 52, y + 8 + 2, x + 75 + 52, y + 78 + 2, 30, 0.0625f, this.mouseX, this.mouseY, this.client.player);
             ci.cancel();
         } else {
             this.backgroundHeight = 166;
