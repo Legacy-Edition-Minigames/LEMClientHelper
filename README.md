@@ -2,7 +2,7 @@
 
 # LEM Client Helper
 
-Currently supports Minecraft 1.20.1.
+Currently supports Minecraft 1.20.4.
 
 LCH is a Fabric mod that enhances the experience on [Legacy Edition Minigames](https://www.legacyminigames.xyz) servers, by default it does not affect Singleplayer or non-LEM servers.
 
