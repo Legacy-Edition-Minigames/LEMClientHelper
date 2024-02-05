@@ -37,9 +37,9 @@ dependencies {
 	//modImplementation "com.ptsmods:devlogin:3.3.2"
 
 	//midnightcontrols
-	modImplementation "dev.lambdaurora:spruceui:5.0.3+1.20.2"
-	modImplementation "maven.modrinth:midnightlib:1.5.0-fabric"
-	modImplementation "maven.modrinth:midnightcontrols:1.9.0+1.20.2"
+	modImplementation "dev.lambdaurora:spruceui:5.0.3+1.20.4"
+	modImplementation "maven.modrinth:midnightlib:1.5.3-fabric"
+	modImplementation "maven.modrinth:midnightcontrols:1.9.3+1.20.4"
 	api('org.aperlambda:lambdajcommon:1.8.1') {
 		exclude group: 'com.google.code.gson'
 		exclude group: 'com.google.guava'
