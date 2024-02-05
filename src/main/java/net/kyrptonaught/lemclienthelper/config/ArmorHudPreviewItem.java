@@ -13,8 +13,8 @@ public class ArmorHudPreviewItem extends BooleanItem {
     @Override
     public void render2(DrawContext context, int x, int y, int mouseX, int mouseY, float delta) {
         super.render2(context, x, y, mouseX, mouseY, delta);
-        if(value){
-            ArmorHudRenderer.onHudRenderDummy(context, 20,1);
+        if (value) {
+            ArmorHudRenderer.onHudRenderDummy(context, 20, 1);
         }
     }
 }

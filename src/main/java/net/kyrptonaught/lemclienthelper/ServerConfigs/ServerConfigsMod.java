@@ -7,6 +7,7 @@ public class ServerConfigsMod {
 
     public static void onInitialize() {
         LEMClientHelperMod.configManager.registerFile(MOD_ID, new ServerConfigsConfig());
+        LEMClientHelperMod.configManager.load(MOD_ID);
     }
 
     public static ServerConfigsConfig getConfig() {

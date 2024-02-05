@@ -17,6 +17,7 @@ public class HudMod {
 
     public static void onInitialize() {
         LEMClientHelperMod.configManager.registerFile(MOD_ID, new HudConfig());
+        LEMClientHelperMod.configManager.load(MOD_ID);
         //register hud's here
         HudRenderCallback.EVENT.register(ArmorHudRenderer::onHudRender);
 

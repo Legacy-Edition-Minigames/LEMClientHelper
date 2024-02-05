@@ -50,7 +50,7 @@ public class ArmorHudRenderer {
         context.getMatrices().scale(scale, scale, 1f);
         context.getMatrices().translate(0, -32, 0);
 
-        List<ItemStack> armors = List.of(Items.GOLDEN_HELMET.getDefaultStack(),ItemStack.EMPTY ,Items.GOLDEN_LEGGINGS.getDefaultStack(),Items.GOLDEN_BOOTS.getDefaultStack());
+        List<ItemStack> armors = List.of(Items.GOLDEN_HELMET.getDefaultStack(), ItemStack.EMPTY, Items.GOLDEN_LEGGINGS.getDefaultStack(), Items.GOLDEN_BOOTS.getDefaultStack());
 
         for (int i = 0; i < 4; i++) {
             ItemStack armorStack = armors.get(i);

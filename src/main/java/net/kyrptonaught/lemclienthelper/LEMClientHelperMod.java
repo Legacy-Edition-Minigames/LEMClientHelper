@@ -3,7 +3,6 @@ package net.kyrptonaught.lemclienthelper;
 import net.fabricmc.api.ClientModInitializer;
 import net.fabricmc.fabric.api.client.keybinding.v1.KeyBindingHelper;
 import net.fabricmc.loader.api.FabricLoader;
-import net.kyrptonaught.lemclienthelper.customWorldBorder.CustomWorldBorderMod;
 import net.kyrptonaught.kyrptconfig.config.ConfigManager;
 import net.kyrptonaught.lemclienthelper.ClientData.ClientDataMod;
 import net.kyrptonaught.lemclienthelper.ResourcePreloader.ResourcePreloaderMod;
@@ -11,6 +10,7 @@ import net.kyrptonaught.lemclienthelper.ServerConfigs.ServerConfigsMod;
 import net.kyrptonaught.lemclienthelper.SmallInv.SmallInvMod;
 import net.kyrptonaught.lemclienthelper.SpectateSqueaker.SpectateSqueakerMod;
 import net.kyrptonaught.lemclienthelper.TakeEverything.TakeEverythingMod;
+import net.kyrptonaught.lemclienthelper.customWorldBorder.CustomWorldBorderMod;
 import net.kyrptonaught.lemclienthelper.hud.HudMod;
 import net.kyrptonaught.lemclienthelper.syncedKeybinds.SyncedKeybindsMod;
 import net.minecraft.client.option.KeyBinding;
@@ -37,7 +37,7 @@ public class LEMClientHelperMod implements ClientModInitializer {
         if (FabricLoader.getInstance().isModLoaded("midnightcontrols"))
             registerControllerKeys();
         //TODO: Implement this armor hud with config and or server integration
-        configManager.load();
+        //configManager.load();
     }
 
     public static void registerControllerKeys() {

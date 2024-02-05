@@ -23,7 +23,9 @@ import java.net.URL;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.util.*;
+import java.util.Map;
+import java.util.OptionalLong;
+import java.util.UUID;
 import java.util.concurrent.atomic.AtomicInteger;
 
 public class ResourcePreloaderMod {
@@ -32,6 +34,7 @@ public class ResourcePreloaderMod {
 
     public static void onInitialize() {
         LEMClientHelperMod.configManager.registerFile(MOD_ID, new ResourcePreloaderConfig());
+        LEMClientHelperMod.configManager.load(MOD_ID);
     }
 
     public static ResourcePreloaderConfig getConfig() {

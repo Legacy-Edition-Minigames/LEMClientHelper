@@ -20,6 +20,7 @@ public class SmallInvMod {
 
     public static void onInitialize() {
         LEMClientHelperMod.configManager.registerFile(MOD_ID, new SmallInvConfig());
+        LEMClientHelperMod.configManager.load(MOD_ID);
         closeSmallInvKey = KeyBindingHelper.registerKeyBinding(new KeyBinding(LEMClientHelperMod.MOD_ID + ".key.closesmallinv", InputUtil.Type.KEYSYM, GLFW.GLFW_KEY_I, "key.category." + LEMClientHelperMod.MOD_ID));
 
         registerSmallSlot(5, 55, 9);
