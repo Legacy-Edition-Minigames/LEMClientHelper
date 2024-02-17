@@ -1,4 +1,4 @@
-![Legacy Edition Minigames Logo](https://github.com/Legacy-Edition-Minigames/LEMClientHelper/assets/65347035/61e5d493-9c2d-48ed-a549-43f2e52d2ffb)
+![Legacy Edition Minigames Logo](https://github.com/Legacy-Edition-Minigames/LEMClientHelper/assets/49575478/7bfcab08-e43d-489e-ae15-340b63758fe1)
 
 # LEM Client Helper
 
