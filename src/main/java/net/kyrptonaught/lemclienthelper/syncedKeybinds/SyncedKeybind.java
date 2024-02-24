@@ -1,5 +1,6 @@
 package net.kyrptonaught.lemclienthelper.syncedKeybinds;
 
+import net.kyrptonaught.kyrptconfig.config.NonConflicting.NonConflictingKeyBinding;
 import net.kyrptonaught.kyrptconfig.keybinding.CustomKeyBinding;
 import net.kyrptonaught.kyrptconfig.keybinding.DisplayOnlyKeyBind;
 import net.kyrptonaught.lemclienthelper.LEMClientHelperMod;
@@ -26,7 +27,7 @@ public class SyncedKeybind {
 
     public KeyBinding getVanillaBind() {
         if (vanillaBind == null)
-            vanillaBind = new DisplayOnlyKeyBind(
+            vanillaBind = new NonConflictingKeyBinding(
                     "lch.key.sync." + ID.replace(":", "."),
                     "key.category." + LEMClientHelperMod.MOD_ID,
                     keyBinding,
