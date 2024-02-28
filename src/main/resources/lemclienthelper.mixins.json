@@ -3,6 +3,7 @@
   "package": "net.kyrptonaught.lemclienthelper.mixin",
   "compatibilityLevel": "JAVA_17",
   "client": [
+    "bookGui.BookScreenMixin",
     "customWorldBorder.WorldBorderMixin",
     "ResourcePreloader.ClientBuiltInResourcePackProviderMixin",
     "SmallInv.HandledScreenMixin",
