@@ -92,10 +92,15 @@ public class ModMenuIntegration implements ModMenuApi {
             armorHudScale.setSaveConsumer(val -> clientGUI.armorHudScale = val);
             armorHudScale.setToolTipWithNewLine("key.lemclienthelper.clientgui.armorscale.tooltip");
 
-            IntegerItem armorHudXOffset = (IntegerItem) clientGUISection.addConfigItem(new IntegerItem(Text.translatable("key.lemclienthelper.clientgui.xOffset"), clientGUI.xOffset, 20));
-            armorHudXOffset.setMinMax(0, 100);
+            FloatItem armorHudXOffset = (FloatItem) clientGUISection.addConfigItem(new FloatItem(Text.translatable("key.lemclienthelper.clientgui.xOffset"), clientGUI.xOffset, 20f));
+            armorHudXOffset.setMinMax(0f, 100f);
             armorHudXOffset.setSaveConsumer(val -> clientGUI.xOffset = val);
             armorHudXOffset.setToolTipWithNewLine("key.lemclienthelper.clientgui.xOffset.tooltip");
+
+            FloatItem armorHudTransparency = (FloatItem) clientGUISection.addConfigItem(new FloatItem(Text.translatable("key.lemclienthelper.clientgui.transparency"), clientGUI.transparency, .75f));
+            armorHudTransparency.setMinMax(0f, 1f);
+            armorHudTransparency.setSaveConsumer(val -> clientGUI.transparency = val);
+            armorHudTransparency.setToolTipWithNewLine("key.lemclienthelper.clientgui.transparency.tooltip");
 
             //clientGUISection.addConfigItem(new ArmorHudPreviewItem(Text.translatable("key.lemclienthelper.clientgui.displaypreview"), clientGUI.enabled, false));
 

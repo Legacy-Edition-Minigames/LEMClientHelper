@@ -28,6 +28,8 @@
   "key.lemclienthelper.clientgui.armorscale.tooltip": "Sets the scale the Armor HUD will be rendered at.\nValues between 1-4.",
   "key.lemclienthelper.clientgui.xOffset": "Armor HUD X Offset",
   "key.lemclienthelper.clientgui.xOffset.tooltip": "Sets the X Offset the Armor HUD will be rendered at.\nValues between 0-100.",
+  "key.lemclienthelper.clientgui.transparency": "Armor HUD Transparency",
+  "key.lemclienthelper.clientgui.transparency.tooltip": "Sets the transparency the Armor HUD will be rendered at.\nValues between 0.0-1.0.",
   "key.lemclienthelper.syncedkeybinds": "Synced Keybinds",
   "key.lemclienthelper.syncedkeys": "Synced Keys",
   "key.lemclienthelper.syncedkeys.tooltip": "These are keybindings synced from a LEM server\nOnly functional on LEM servers",

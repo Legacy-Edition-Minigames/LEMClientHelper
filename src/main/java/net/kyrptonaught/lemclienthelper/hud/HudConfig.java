@@ -9,5 +9,7 @@ public class HudConfig implements AbstractConfigFile {
 
     public float armorHudScale = 1;
 
-    public int xOffset = 20;
+    public float xOffset = 20;
+
+    public float transparency =.75f;
 }
