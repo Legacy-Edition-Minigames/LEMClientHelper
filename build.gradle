@@ -34,7 +34,7 @@ dependencies {
 		transitive(false)
 	}
 
-	modImplementation "com.ptsmods:devlogin:3.5"
+	//modImplementation "com.ptsmods:devlogin:3.5"
 
 	//midnightcontrols
 	modImplementation "dev.lambdaurora:spruceui:5.0.3+1.20.4"
@@ -59,7 +59,6 @@ processResources {
 }
 
 tasks.withType(JavaCompile).configureEach {
-	// Minecraft 1.18 (1.18-pre2) upwards uses Java 17.
 	it.options.release = 17
 }
 
