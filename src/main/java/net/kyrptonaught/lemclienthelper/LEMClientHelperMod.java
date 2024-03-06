@@ -1,5 +1,7 @@
 package net.kyrptonaught.lemclienthelper;
 
+import org.apache.logging.log4j.LogManager;
+
 import net.fabricmc.api.ClientModInitializer;
 import net.fabricmc.fabric.api.client.keybinding.v1.KeyBindingHelper;
 import net.fabricmc.loader.api.FabricLoader;
@@ -36,6 +38,8 @@ public class LEMClientHelperMod implements ClientModInitializer {
         // if (FabricLoader.getInstance().isModLoaded("lambdacontrols"))
         if (FabricLoader.getInstance().isModLoaded("midnightcontrols"))
             registerControllerKeys();
+        if(FabricLoader.getInstance().isModLoaded("legacy"))
+            LogManager.getLogger().warn("Legacy4J has been detected, one or more features may be disabled.");
         //TODO: Implement this armor hud with config and or server integration
         //configManager.load();
     }
