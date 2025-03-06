@@ -7,6 +7,8 @@ public class HudConfig implements AbstractConfigFile {
 
     public boolean alwaysEnabled = false;
 
+    public boolean glideAlwaysEnabled = false;
+
     public float armorHudScale = 1;
 
     public float xOffset = 20;

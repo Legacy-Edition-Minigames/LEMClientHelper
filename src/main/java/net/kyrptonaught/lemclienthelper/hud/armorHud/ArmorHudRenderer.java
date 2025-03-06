@@ -1,6 +1,7 @@
-package net.kyrptonaught.lemclienthelper.hud;
+package net.kyrptonaught.lemclienthelper.hud.armorHud;
 
 import com.mojang.blaze3d.systems.RenderSystem;
+import net.kyrptonaught.lemclienthelper.hud.HudMod;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.render.*;
@@ -22,7 +23,7 @@ public class ArmorHudRenderer {
     public static void onHudRender(DrawContext context, RenderTickCounter v) {
         MinecraftClient client = MinecraftClient.getInstance();
         //HudMod.SHOULD_RENDER_ARMOR = true;
-        if (client.player != null && HudMod.shouldDisplay() && !client.options.hudHidden) {
+        if (client.player != null && HudMod.shouldDisplayArmor() && !client.options.hudHidden) {
             int height = client.getWindow().getScaledHeight();
 
             context.getMatrices().push();

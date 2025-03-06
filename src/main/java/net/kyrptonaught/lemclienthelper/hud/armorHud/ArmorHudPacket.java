@@ -1,4 +1,4 @@
-package net.kyrptonaught.lemclienthelper.hud;
+package net.kyrptonaught.lemclienthelper.hud.armorHud;
 
 import net.minecraft.network.RegistryByteBuf;
 import net.minecraft.network.codec.PacketCodec;

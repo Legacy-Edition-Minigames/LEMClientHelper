@@ -1,7 +1,7 @@
 package net.kyrptonaught.lemclienthelper.config;
 
 import net.kyrptonaught.kyrptconfig.config.screen.items.BooleanItem;
-import net.kyrptonaught.lemclienthelper.hud.ArmorHudRenderer;
+import net.kyrptonaught.lemclienthelper.hud.armorHud.ArmorHudRenderer;
 import net.minecraft.client.gui.DrawContext;
 import net.minecraft.text.Text;
 
