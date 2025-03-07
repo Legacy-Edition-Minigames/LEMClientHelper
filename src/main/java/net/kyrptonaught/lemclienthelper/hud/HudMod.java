@@ -140,15 +140,16 @@ public class HudMod {
                 dispatcher.register(CommandManager.literal(LEMClientHelperMod.MOD_ID)
                         .then(CommandManager.literal("examplePlayerBar")
                                 .then(CommandManager.argument("target", EntityArgumentType.players())
-                                    .executes(context -> {
-                                        ServerPlayNetworking.send(EntityArgumentType.getPlayer(context, "target"),
-                                                new PlayerBarPacket(
-                                                        true,
-                                                        false,
-                                                        new byte[]{1,1,0,0,1}));
-                                        return 0;
-                                    })))));
-        */
+                                        .then(CommandManager.argument("inRound", BoolArgumentType.bool())
+                                        .executes(context -> {
+                                            ServerPlayNetworking.send(EntityArgumentType.getPlayer(context, "target"),
+                                                    new PlayerBarPacket(
+                                                            true,
+                                                            BoolArgumentType.getBool(context, "inRound"),
+                                                            new byte[]{1,1,0,0,1}));
+                                            return 0;
+                                    }))))));
+         */
 
     }
 

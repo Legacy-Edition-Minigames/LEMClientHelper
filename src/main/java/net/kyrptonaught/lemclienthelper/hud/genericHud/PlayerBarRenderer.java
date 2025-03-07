@@ -9,44 +9,22 @@ import net.minecraft.util.Identifier;
 
 public class PlayerBarRenderer {
 
-    // These names *MIGHT* be misleading, small player icons are the 1-8 player playerbar icons
-    // while big player icons are the 9-16 player playerbar icons.
-    // TODO: Fix this???????
-
-    private static final Identifier SMALL_PLAYER_ICON_DEAD = Identifier.of("lemclienthelper", "textures/gui/generic/playerbar/small/dead.png");
-    private static final Identifier BIG_PLAYER_ICON_DEAD = Identifier.of("lemclienthelper", "textures/gui/generic/playerbar/big/dead.png");
-
-
-    //TODO, these are all colour shifted of the same icon, use 1 icon.
-    private static Identifier SMALL_PLAYER_ICONS(int i) {
-        if (i < 0 || i > 9) {
-            throw new IllegalStateException("Attempted to fetch player bar icon index of: " + i + ", index must be between 0-9");
-        } else {
-            return Identifier.of("lemclienthelper", "textures/gui/generic/playerbar/small/" + i + ".png");
-        }
-    }
-
-    private static Identifier SMALL_PLAYER_ICONS_NOT_READY(int i) {
-        if (i < 0 || i > 9) {
-            throw new IllegalStateException("Attempted to fetch player bar icon index of: " + i + ", index must be between 0-9");
-        } else {
-            return Identifier.of("lemclienthelper", "textures/gui/generic/playerbar/small/notready/" + i + ".png");
-        }
-    }
+    private static final Identifier BIG_PLAYER_ICON_DEAD = Identifier.of("lem.base", "textures/playerbar/big/dead.png");
+    private static final Identifier SMALL_PLAYER_ICON_DEAD = Identifier.of("lem.base", "textures/playerbar/small/dead.png");
 
     private static Identifier BIG_PLAYER_ICONS(int i) {
-        if (i < 0 || i > 15) {
-            throw new IllegalStateException("Attempted to fetch speedometer needle index of: " + i + ", index must be between 0-15");
+        if (i < 0 || i > 9) {
+            throw new IllegalStateException("Attempted to fetch player bar icon index of: " + i + ", index must be between 0-9");
         } else {
-            return Identifier.of("lemclienthelper", "textures/gui/generic/playerbar/big/" + i + ".png");
+            return Identifier.of("lem.base", "textures/playerbar/big/" + (i+1) + ".png");
         }
     }
 
-    private static Identifier BIG_PLAYER_ICONS_NOT_READY(int i) {
+    private static Identifier SMALL_PLAYER_ICONS(int i) {
         if (i < 0 || i > 15) {
             throw new IllegalStateException("Attempted to fetch speedometer needle index of: " + i + ", index must be between 0-15");
         } else {
-            return Identifier.of("lemclienthelper", "textures/gui/generic/playerbar/big/notready/" + i + ".png");
+            return Identifier.of("lem.base", "textures/playerbar/small/" + (i+1) + ".png");
         }
     }
 
@@ -77,7 +55,7 @@ public class PlayerBarRenderer {
                     u = p > 8 ? ((182f - (e * p))/(p - 1)) + e : (165f/7f);
 
                     context.getMatrices().translate(91f,0f,0f);                         // Shift start to centre of hotbar,
-                    context.getMatrices().translate(((((p - 1) * u) + e)/-2f), 0f, 0f); // Shift back by half of total playerbar width.
+                    context.getMatrices().translate(((((p - 1) * u) + e)/-2f), 0f, 0f);    // Shift back by half of total playerbar width.
                 }
             } else {
                 e = 10;
@@ -93,20 +71,13 @@ public class PlayerBarRenderer {
             RenderSystem.enableBlend();
             for (int i = 0; i < p; i++) {
                 if (i > 0) {context.getMatrices().translate(u, 0f, 0f);}
+                if (!HudMod.IN_ROUND && HudMod.PLAYER_STATUS[i] == 0) {RenderSystem.setShaderColor(1F,1F,1F, (128F/255F));}
                 if (p < 11) {
-                    if (HudMod.PLAYER_STATUS[i] == 0) {
-                        context.drawTexture(HudMod.IN_ROUND ? SMALL_PLAYER_ICON_DEAD : SMALL_PLAYER_ICONS_NOT_READY(i), x, l, e, 5, e, 5, e, 5);
-                    } else {
-                        context.drawTexture(SMALL_PLAYER_ICONS(i), x, l, e, 5, e, 5, e, 5);
-                    }
+                    context.drawTexture(HudMod.PLAYER_STATUS[i] == 0 ? HudMod.IN_ROUND ? BIG_PLAYER_ICON_DEAD : BIG_PLAYER_ICONS(i) : BIG_PLAYER_ICONS(i), x, l, e, 5, e, 5, e, 5);
                 } else {
-                    if (HudMod.PLAYER_STATUS[i] == 0) {
-                        context.drawTexture(HudMod.IN_ROUND ? BIG_PLAYER_ICON_DEAD : BIG_PLAYER_ICONS_NOT_READY(i),x, l, e, 5, e, 5, e, 5);
-                    } else {
-                        context.drawTexture(BIG_PLAYER_ICONS(i), x, l, e, 5, e, 5, e, 5);
-                    }
+                    context.drawTexture(HudMod.PLAYER_STATUS[i] == 0 ? HudMod.IN_ROUND ? SMALL_PLAYER_ICON_DEAD : SMALL_PLAYER_ICONS(i) : SMALL_PLAYER_ICONS(i),x, l, e, 5, e, 5, e, 5);
                 }
-
+                if (!HudMod.IN_ROUND && HudMod.PLAYER_STATUS[i] == 0) {RenderSystem.setShaderColor(1F,1F,1F, 1F);}
             }
             RenderSystem.disableBlend();
             context.getMatrices().pop();
