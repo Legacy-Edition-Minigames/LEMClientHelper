@@ -47,9 +47,11 @@ public class GlideHudRenderer {
             context.getMatrices().translate((width - HudMod.getConfig().xOffset), height / 2f, 0);
             context.getMatrices().scale(HudMod.getConfig().armorHudScale, HudMod.getConfig().armorHudScale, 1f);
             context.getMatrices().translate(0, -24, 0);
+            if (HudMod.GLIDE_SCORE_ATTACK) {context.getMatrices().translate(0, 24, 0);}
             context.setShaderColor(1f, 1f, 1f, HudMod.getConfig().transparency);
             renderStopwatch(context, client);
             renderSpeedometer(context, client);
+            if (HudMod.GLIDE_SCORE_ATTACK) {renderScore(context, client);}
             context.setShaderColor(1f, 1f, 1f, 1f);
             context.getMatrices().pop();
         }
@@ -89,8 +91,14 @@ public class GlideHudRenderer {
 
         String speed = String.format("%.2f m/s", mps);
         int textWidth = client.textRenderer.getWidth(speed);
-        context.getMatrices().scale(0.75f,0.75f,0.75f);
-        context.drawText(client.textRenderer, speed, (-4 - textWidth), (-34), 0xffffff, true);
-        context.getMatrices().scale((4f/3f),(4f/3f),(4f/3f));
+        context.drawText(client.textRenderer, speed, (-4 - textWidth), (-30), 0xffffff, true);
+    }
+
+    public static void renderScore(DrawContext context, MinecraftClient client) {
+        context.drawTexture(SPEEDOMETER, 0, -10,0,0,16,16,16,16);
+
+        String score = String.valueOf(HudMod.GLIDE_SCORE);
+        int textWidth = client.textRenderer.getWidth(score);
+        context.drawText(client.textRenderer, score, (-4 - textWidth), (-30), 0xffffff, true);
     }
 }
