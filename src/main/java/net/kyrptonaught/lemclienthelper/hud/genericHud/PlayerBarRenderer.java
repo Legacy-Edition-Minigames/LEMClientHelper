@@ -28,9 +28,7 @@ public class PlayerBarRenderer {
         }
     }
 
-    public static void onHudRender(DrawContext context, RenderTickCounter v) {
-        //TODO, check for mods like raised, l4j, lt, bedrockify, etc, anything that messes with the hotbar position,
-        //      and shift the rendering position to match.
+    public static void renderPlayerBar(DrawContext context, RenderTickCounter v) {
         MinecraftClient client = MinecraftClient.getInstance();
         if (client.player != null && HudMod.SHOULD_RENDER_PLAYERBAR && !client.options.hudHidden) {
             context.getMatrices().push();
@@ -71,13 +69,14 @@ public class PlayerBarRenderer {
             RenderSystem.enableBlend();
             for (int i = 0; i < p; i++) {
                 if (i > 0) {context.getMatrices().translate(u, 0f, 0f);}
-                if (!HudMod.IN_ROUND && HudMod.PLAYER_STATUS[i] == 0) {RenderSystem.setShaderColor(1F,1F,1F, (128F/255F));}
+                float[] c = RenderSystem.getShaderColor(); // Get the current shader colour to prevent breaking with hud transparency mods.
+                if (!HudMod.IN_ROUND && HudMod.PLAYER_STATUS[i] == 0) {RenderSystem.setShaderColor(c[0],c[1],c[2], c[3]*(128F/255F));}
                 if (p < 11) {
                     context.drawTexture(HudMod.PLAYER_STATUS[i] == 0 ? HudMod.IN_ROUND ? BIG_PLAYER_ICON_DEAD : BIG_PLAYER_ICONS(i) : BIG_PLAYER_ICONS(i), x, l, e, 5, e, 5, e, 5);
                 } else {
                     context.drawTexture(HudMod.PLAYER_STATUS[i] == 0 ? HudMod.IN_ROUND ? SMALL_PLAYER_ICON_DEAD : SMALL_PLAYER_ICONS(i) : SMALL_PLAYER_ICONS(i),x, l, e, 5, e, 5, e, 5);
                 }
-                if (!HudMod.IN_ROUND && HudMod.PLAYER_STATUS[i] == 0) {RenderSystem.setShaderColor(1F,1F,1F, 1F);}
+                if (!HudMod.IN_ROUND && HudMod.PLAYER_STATUS[i] == 0) {RenderSystem.setShaderColor(c[0],c[1],c[2],c[3]*(255F/128F));}
             }
             RenderSystem.disableBlend();
             context.getMatrices().pop();

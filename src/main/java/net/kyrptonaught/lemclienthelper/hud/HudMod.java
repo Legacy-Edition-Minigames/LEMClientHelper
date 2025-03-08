@@ -8,7 +8,6 @@ import net.fabricmc.fabric.api.networking.v1.PayloadTypeRegistry;
 import net.kyrptonaught.lemclienthelper.LEMClientHelperMod;
 import net.kyrptonaught.lemclienthelper.hud.armorHud.ArmorHudPacket;
 import net.kyrptonaught.lemclienthelper.hud.armorHud.ArmorHudRenderer;
-import net.kyrptonaught.lemclienthelper.hud.genericHud.PlayerBarRenderer;
 import net.kyrptonaught.lemclienthelper.hud.genericHud.packets.PlayerBarPacket;
 import net.kyrptonaught.lemclienthelper.hud.glideHud.packets.GlideHudPacket;
 import net.kyrptonaught.lemclienthelper.hud.glideHud.packets.GlideScorePacket;
@@ -57,7 +56,6 @@ public class HudMod {
         //register hud's here
         HudRenderCallback.EVENT.register(ArmorHudRenderer::onHudRender);
         HudRenderCallback.EVENT.register(GlideHudRenderer::onHudRender);
-        HudRenderCallback.EVENT.register(PlayerBarRenderer::onHudRender);
 
         ClientPlayConnectionEvents.JOIN.register((handler, sender, client) -> SHOULD_RENDER_ARMOR = false);
         ClientPlayConnectionEvents.JOIN.register((handler, sender, client) -> SHOULD_RENDER_GLIDE = false);
