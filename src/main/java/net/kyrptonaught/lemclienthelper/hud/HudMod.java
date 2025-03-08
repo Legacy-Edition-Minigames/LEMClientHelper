@@ -8,15 +8,18 @@ import net.fabricmc.fabric.api.networking.v1.PayloadTypeRegistry;
 import net.kyrptonaught.lemclienthelper.LEMClientHelperMod;
 import net.kyrptonaught.lemclienthelper.hud.armorHud.ArmorHudPacket;
 import net.kyrptonaught.lemclienthelper.hud.armorHud.ArmorHudRenderer;
+import net.kyrptonaught.lemclienthelper.hud.genericHud.packets.BannerPacket;
 import net.kyrptonaught.lemclienthelper.hud.genericHud.packets.PlayerBarPacket;
 import net.kyrptonaught.lemclienthelper.hud.glideHud.packets.GlideHudPacket;
 import net.kyrptonaught.lemclienthelper.hud.glideHud.packets.GlideScorePacket;
 import net.kyrptonaught.lemclienthelper.hud.glideHud.GlideHudRenderer;
 import net.kyrptonaught.lemclienthelper.hud.glideHud.packets.GlideTimerPacket;
 import net.kyrptonaught.lemclienthelper.hud.glideHud.packets.GlideTimerTogglePacket;
+import net.minecraft.text.Text;
 
 /*
 import net.minecraft.command.argument.EntityArgumentType;
+import net.minecraft.command.argument.TextArgumentType;
 import net.minecraft.server.command.CommandManager;
 import net.fabricmc.fabric.api.command.v2.CommandRegistrationCallback;
 import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
@@ -25,6 +28,7 @@ import com.mojang.brigadier.arguments.IntegerArgumentType;
 */
 
 public class HudMod {
+    // TODO: maybe some of these should be moved to a different class.
     public static String MOD_ID = "hud";
 
     public static boolean SHOULD_RENDER_PLAYERBAR = false;
@@ -47,7 +51,13 @@ public class HudMod {
 
     public static int GLIDE_SCORE = 0;
 
-    public static int GLIDE_LAST_RING = 0;
+    public static GlideScorePacket.rings GLIDE_LAST_RING;
+
+    public static boolean BANNER_RECEIVED = false; // Will set to false after banner is finished rendering.
+
+    public static BannerPacket.icons BANNER_ICON = BannerPacket.icons.BATTLE;
+
+    public static Text BANNER_TEXT = null;
 
 
     public static void onInitialize() {
@@ -96,6 +106,13 @@ public class HudMod {
             PLAYER_STATUS = payload.players();
         }));
 
+        PayloadTypeRegistry.playS2C().register(BannerPacket.PACKET_ID, BannerPacket.codec);
+        ClientPlayNetworking.registerGlobalReceiver(BannerPacket.PACKET_ID, ((payload, context) -> {
+            BANNER_ICON = payload.icon();
+            BANNER_TEXT = payload.text();
+            BANNER_RECEIVED = true;
+        }));
+
         /*
         // Debug commands
         CommandRegistrationCallback.EVENT.register((dispatcher, registryAccess, environment) ->
@@ -129,9 +146,12 @@ public class HudMod {
                                         .then(CommandManager.literal("score")
                                                 .then(CommandManager.literal("set")
                                                         .then(CommandManager.argument("score", IntegerArgumentType.integer())
-                                                                .then(CommandManager.argument("lastRing", IntegerArgumentType.integer())
+                                                                .then(CommandManager.argument("lastRing", IntegerArgumentType.integer(0,3))
                                                                         .executes(context -> {
-                                                                            ServerPlayNetworking.send(EntityArgumentType.getPlayer(context, "target"), new GlideScorePacket(IntegerArgumentType.getInteger(context, "score"), IntegerArgumentType.getInteger(context, "lastRing")));
+                                                                            ServerPlayNetworking.send(EntityArgumentType.getPlayer(context, "target"),
+                                                                                    new GlideScorePacket(
+                                                                                            IntegerArgumentType.getInteger(context, "score"),
+                                                                                            GlideScorePacket.rings.values()[IntegerArgumentType.getInteger(context, "lastRing")]));
                                                                             return 0;
                                                                         })))))))));
         CommandRegistrationCallback.EVENT.register((dispatcher, registryAccess, environment) ->
@@ -147,7 +167,20 @@ public class HudMod {
                                                             new byte[]{1,1,0,0,1}));
                                             return 0;
                                     }))))));
-         */
+        CommandRegistrationCallback.EVENT.register((dispatcher, registryAccess, environment) ->
+                dispatcher.register(CommandManager.literal(LEMClientHelperMod.MOD_ID)
+                        .then(CommandManager.literal("sendTestBanner")
+                                .then(CommandManager.argument("target", EntityArgumentType.players())
+                                        .then(CommandManager.argument("icon", IntegerArgumentType.integer(0,4))
+                                                .then(CommandManager.argument("text", TextArgumentType.text(registryAccess))
+                                                    .executes(context -> {
+                                                        ServerPlayNetworking.send(EntityArgumentType.getPlayer(context, "target"),
+                                                                new BannerPacket(
+                                                                    BannerPacket.icons.values()[IntegerArgumentType.getInteger(context,"icon")],
+                                                                    TextArgumentType.getTextArgument(context,"text")));
+                                                                return 0;
+                                                    })))))));*/
+
 
     }
 

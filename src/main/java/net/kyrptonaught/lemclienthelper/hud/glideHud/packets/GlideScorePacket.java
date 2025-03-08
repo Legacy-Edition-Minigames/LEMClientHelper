@@ -10,14 +10,20 @@ import net.minecraft.util.Identifier;
  * GlideScorePacket sets the clients current score.
  *
  * @param score    int, the total score the client has
- * @param lastRing int, the point value of the last ring collected, 0,    3,     5,      7
- *                                                                  grey, green, yellow, blue.
+ * @param lastRing GlideScorePacket.rings, GREY, GREEN, YELLOW, BLUE, the last ring collected
+ *
  */
-public record GlideScorePacket(int score, int lastRing) implements CustomPayload {
+public record GlideScorePacket(int score, rings lastRing) implements CustomPayload {
+    public enum rings {
+        GREY,
+        GREEN,
+        YELLOW,
+        BLUE
+    }
     public static final Id<GlideScorePacket> PACKET_ID = new Id<>(Identifier.of("glidehud", "glide_score_set"));
     public static final PacketCodec<RegistryByteBuf, GlideScorePacket> codec = PacketCodec.tuple(
             PacketCodecs.INTEGER, GlideScorePacket::score,
-            PacketCodecs.INTEGER, GlideScorePacket::lastRing,
+            PacketCodecs.indexed(i -> rings.values()[i], rings::ordinal), GlideScorePacket::lastRing,
             GlideScorePacket::new
     );
 
