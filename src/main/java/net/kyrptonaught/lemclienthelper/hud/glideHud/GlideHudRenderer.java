@@ -1,5 +1,6 @@
 package net.kyrptonaught.lemclienthelper.hud.glideHud;
 
+import net.kyrptonaught.lemclienthelper.ServerInfo.ServerInfoData;
 import net.kyrptonaught.lemclienthelper.hud.HudMod;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.DrawContext;
@@ -39,7 +40,7 @@ public class GlideHudRenderer {
 
     public static void onHudRender(DrawContext context, RenderTickCounter v) {
         MinecraftClient client = MinecraftClient.getInstance();
-        if (client.player != null && HudMod.shouldDisplayGlide() && !client.options.hudHidden) {
+        if (client.player != null && GlideHudMod.shouldDisplayGlide() && !client.options.hudHidden) {
             int height = client.getWindow().getScaledHeight();
             int width = client.getWindow().getScaledWidth();
 
@@ -47,11 +48,11 @@ public class GlideHudRenderer {
             context.getMatrices().translate((width - HudMod.getConfig().xOffset), height / 2f, 0);
             context.getMatrices().scale(HudMod.getConfig().armorHudScale, HudMod.getConfig().armorHudScale, 1f);
             context.getMatrices().translate(0, -24, 0);
-            if (HudMod.GLIDE_SCORE_ATTACK) {context.getMatrices().translate(0, 24, 0);}
+            if (ServerInfoData.getGamemode() == ServerInfoData.GAME_MODES.SCORE_ATTACK) {context.getMatrices().translate(0, 24, 0);}
             context.setShaderColor(1f, 1f, 1f, HudMod.getConfig().transparency);
             renderStopwatch(context, client);
             renderSpeedometer(context, client);
-            if (HudMod.GLIDE_SCORE_ATTACK) {renderScore(context, client);}
+            if (ServerInfoData.getGamemode() == ServerInfoData.GAME_MODES.SCORE_ATTACK) {renderScore(context, client);}
             context.setShaderColor(1f, 1f, 1f, 1f);
             context.getMatrices().pop();
         }
@@ -60,11 +61,11 @@ public class GlideHudRenderer {
 
     public static void renderStopwatch(DrawContext context, MinecraftClient client) {
         context.drawTexture(STOPWATCH, 0, -50,0,0,16,16,16,16);
-        if (HudMod.TIMER_RUNNING) {
-            elapsed = HudMod.ELAPSED_TIME;
-            HudMod.FINAL_TIME = elapsed; //This prevents the time from displaying 0 if the final time packet is not received.
-        } if (!HudMod.TIMER_RUNNING) {
-            elapsed = HudMod.FINAL_TIME;
+        if (GlideHudMod.TIMER_RUNNING) {
+            elapsed = GlideHudMod.ELAPSED_TIME;
+            GlideHudMod.FINAL_TIME = elapsed; //This prevents the time from displaying 0 if the final time packet is not received.
+        } if (!GlideHudMod.TIMER_RUNNING) {
+            elapsed = GlideHudMod.FINAL_TIME;
         }
         int seconds = (elapsed / 20) % 60;
         int minutes = (elapsed / 20) / 60;
@@ -97,7 +98,7 @@ public class GlideHudRenderer {
     public static void renderScore(DrawContext context, MinecraftClient client) {
         context.drawTexture(SPEEDOMETER, 0, -10,0,0,16,16,16,16);
 
-        String score = String.valueOf(HudMod.GLIDE_SCORE);
+        String score = String.valueOf(GlideHudMod.GLIDE_SCORE);
         int textWidth = client.textRenderer.getWidth(score);
         context.drawText(client.textRenderer, score, (-4 - textWidth), (-30), 0xffffff, true);
     }

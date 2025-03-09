@@ -7,6 +7,7 @@ import net.kyrptonaught.kyrptconfig.config.ConfigManager;
 import net.kyrptonaught.lemclienthelper.ClientData.ClientDataMod;
 import net.kyrptonaught.lemclienthelper.ResourcePreloader.ResourcePreloaderMod;
 import net.kyrptonaught.lemclienthelper.ServerConfigs.ServerConfigsMod;
+import net.kyrptonaught.lemclienthelper.ServerInfo.ServerInfoMod;
 import net.kyrptonaught.lemclienthelper.SmallInv.SmallInvMod;
 import net.kyrptonaught.lemclienthelper.SpectateSqueaker.SpectateSqueakerMod;
 import net.kyrptonaught.lemclienthelper.TakeEverything.TakeEverythingMod;
@@ -27,6 +28,7 @@ public class LEMClientHelperMod implements ClientModInitializer {
         ResourcePreloaderMod.onInitialize();
         SmallInvMod.onInitialize();
         ClientDataMod.onInitialize();
+        ServerInfoMod.onInitialize();
         SyncedKeybindsMod.onInitialize();
         SpectateSqueakerMod.onInitialize();
         ServerConfigsMod.onInitialize();

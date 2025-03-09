@@ -1,5 +1,6 @@
 package net.kyrptonaught.lemclienthelper.hud.glideHud.packets;
 
+import net.kyrptonaught.lemclienthelper.hud.glideHud.GlideHudMod;
 import net.minecraft.network.RegistryByteBuf;
 import net.minecraft.network.codec.PacketCodec;
 import net.minecraft.network.codec.PacketCodecs;
@@ -10,20 +11,14 @@ import net.minecraft.util.Identifier;
  * GlideScorePacket sets the clients current score.
  *
  * @param score    int, the total score the client has
- * @param lastRing GlideScorePacket.rings, GREY, GREEN, YELLOW, BLUE, the last ring collected
+ * @param lastRing {@link GlideHudMod.rings}, GREY, GREEN, YELLOW, BLUE, the last ring collected
  *
  */
-public record GlideScorePacket(int score, rings lastRing) implements CustomPayload {
-    public enum rings {
-        GREY,
-        GREEN,
-        YELLOW,
-        BLUE
-    }
+public record GlideScorePacket(int score, GlideHudMod.rings lastRing) implements CustomPayload {
     public static final Id<GlideScorePacket> PACKET_ID = new Id<>(Identifier.of("glidehud", "glide_score_set"));
     public static final PacketCodec<RegistryByteBuf, GlideScorePacket> codec = PacketCodec.tuple(
             PacketCodecs.INTEGER, GlideScorePacket::score,
-            PacketCodecs.indexed(i -> rings.values()[i], rings::ordinal), GlideScorePacket::lastRing,
+            PacketCodecs.indexed(i -> GlideHudMod.rings.values()[i], GlideHudMod.rings::ordinal), GlideScorePacket::lastRing,
             GlideScorePacket::new
     );
 
