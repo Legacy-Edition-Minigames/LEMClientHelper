@@ -16,10 +16,7 @@ import com.mojang.brigadier.arguments.BoolArgumentType;
 import com.mojang.brigadier.arguments.IntegerArgumentType;
 import net.fabricmc.fabric.api.command.v2.CommandRegistrationCallback;
 import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
-import net.kyrptonaught.lemclienthelper.hud.genericHud.packets.BannerPacket;
-import net.kyrptonaught.lemclienthelper.hud.genericHud.packets.PlayerBarPacket;
 import net.minecraft.command.argument.EntityArgumentType;
-import net.minecraft.command.argument.TextArgumentType;
 import net.minecraft.server.command.CommandManager;
 */
 
@@ -73,7 +70,7 @@ public class GlideHudMod {
         /*
         // Debug commands
         CommandRegistrationCallback.EVENT.register((dispatcher, registryAccess, environment) ->
-                dispatcher.register(CommandManager.literal(HudMod.MOD_ID)
+                dispatcher.register(CommandManager.literal(LEMClientHelperMod.MOD_ID)
                         .then(CommandManager.literal("glide")
                                 .then(CommandManager.argument("target", EntityArgumentType.players())
                                         .then(CommandManager.literal("timer")
@@ -110,26 +107,7 @@ public class GlideHudMod {
                                                                                             IntegerArgumentType.getInteger(context, "score"),
                                                                                             rings.values()[IntegerArgumentType.getInteger(context, "lastRing")]));
                                                                             return 0;
-                                                                        })))))))));
-        CommandRegistrationCallback.EVENT.register((dispatcher, registryAccess, environment) ->
-                dispatcher.register(CommandManager.literal(HudMod.MOD_ID)
-                        .then(CommandManager.literal("examplePlayerBar")
-                                .then(CommandManager.argument("target", EntityArgumentType.players())
-                                        .executes(context -> {
-                                            ServerPlayNetworking.send(EntityArgumentType.getPlayer(context, "target"),
-                                                    new PlayerBarPacket(true));
-                                            return 0;
-                                        })))));
-        CommandRegistrationCallback.EVENT.register((dispatcher, registryAccess, environment) ->
-                dispatcher.register(CommandManager.literal(HudMod.MOD_ID)
-                        .then(CommandManager.literal("sendTestBanner")
-                                .then(CommandManager.argument("target", EntityArgumentType.players())
-                                                .then(CommandManager.argument("text", TextArgumentType.text(registryAccess))
-                                                        .executes(context -> {
-                                                            ServerPlayNetworking.send(EntityArgumentType.getPlayer(context, "target"),
-                                                                    new BannerPacket(TextArgumentType.getTextArgument(context,"text")));
-                                                            return 0;
-                                                        }))))));*/
+                                                                        })))))))));*/
     }
 
 

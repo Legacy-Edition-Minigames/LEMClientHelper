@@ -35,6 +35,7 @@ public class PlayerBarRenderer {
             int l = context.getScaledWindowHeight() - 32 + 3;
             int x = context.getScaledWindowWidth() / 2 - 91;
 
+            byte[] s = ServerInfoData.getPlayerStatus();     // Array of player statuses
             int p = ServerInfoData.getPlayerStatus().length; // Amount of player icons
             int e;                                           // Width of texture
             float u;                                         // Width of texture + spacing.
@@ -70,13 +71,13 @@ public class PlayerBarRenderer {
             for (int i = 0; i < p; i++) {
                 if (i > 0) {context.getMatrices().translate(u, 0f, 0f);}
                 float[] c = RenderSystem.getShaderColor(); // Get the current shader colour to prevent breaking with hud transparency mods.
-                if (!ServerInfoData.getInRound() && ServerInfoData.getPlayerStatus()[i] == 0) {RenderSystem.setShaderColor(c[0],c[1],c[2], c[3]*(128F/255F));}
+                if ((!ServerInfoData.getInRound() && s[i] == 0) || s[i] == -1) {RenderSystem.setShaderColor(c[0],c[1],c[2], c[3]*(128F/255F));}
                 if (p < 11) {
-                    context.drawTexture(ServerInfoData.getPlayerStatus()[i] == 0 ? ServerInfoData.getInRound() ? BIG_PLAYER_ICON_DEAD : BIG_PLAYER_ICONS(i) : BIG_PLAYER_ICONS(i), x, l, e, 5, e, 5, e, 5);
+                    context.drawTexture(((s[i] == 0 || s[i] == -1) && ServerInfoData.getInRound()) ? BIG_PLAYER_ICON_DEAD : BIG_PLAYER_ICONS(i), x, l, e, 5, e, 5, e, 5);
                 } else {
-                    context.drawTexture(ServerInfoData.getPlayerStatus()[i] == 0 ? ServerInfoData.getInRound() ? SMALL_PLAYER_ICON_DEAD : SMALL_PLAYER_ICONS(i) : SMALL_PLAYER_ICONS(i),x, l, e, 5, e, 5, e, 5);
+                    context.drawTexture(((s[i] == 0 || s[i] == -1) && ServerInfoData.getInRound()) ? SMALL_PLAYER_ICON_DEAD : SMALL_PLAYER_ICONS(i),x, l, e, 5, e, 5, e, 5);
                 }
-                if (!ServerInfoData.getInRound() && ServerInfoData.getPlayerStatus()[i] == 0) {RenderSystem.setShaderColor(c[0],c[1],c[2],c[3]*(255F/128F));}
+                if ((!ServerInfoData.getInRound() && s[i] == 0) || s[i] == -1) {RenderSystem.setShaderColor(c[0],c[1],c[2],c[3]*(255F/128F));}
             }
             RenderSystem.disableBlend();
             context.getMatrices().pop();

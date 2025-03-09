@@ -2,7 +2,7 @@ package net.kyrptonaught.lemclienthelper.ServerInfo;
 
 public class ServerInfoData {
     private static boolean IN_ROUND = false;
-    private static byte[] PLAYER_STATUS =  new byte[]{};
+    private static byte[] PLAYER_STATUS =  new byte[]{1,0,1,1,1,0,-1,-1};
 
     private static GAME_MODES GAME_MODE = GAME_MODES.CASUAL;
     private static MINIGAME_TYPES MINIGAME = MINIGAME_TYPES.BATTLE;
