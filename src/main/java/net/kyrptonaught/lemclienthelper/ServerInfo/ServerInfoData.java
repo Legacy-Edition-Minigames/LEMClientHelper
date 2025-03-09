@@ -1,11 +1,11 @@
 package net.kyrptonaught.lemclienthelper.ServerInfo;
 
 public class ServerInfoData {
-    private static boolean IN_ROUND = false;
-    private static byte[] PLAYER_STATUS =  new byte[]{1,0,1,1,1,0,-1,-1};
-
     private static GAME_MODES GAME_MODE = GAME_MODES.CASUAL;
     private static MINIGAME_TYPES MINIGAME = MINIGAME_TYPES.BATTLE;
+    private static MINIGAME_PHASES PHASE = MINIGAME_PHASES.NONE;
+
+    private static byte[] PLAYER_STATUS =  new byte[]{1,0,1,1,1,0,-1,-1};
 
     /**
      * Minigame types
@@ -58,6 +58,24 @@ public class ServerInfoData {
         SCORE_ATTACK
     }
 
+    /**
+     * Minigame phase
+     * <ul>
+     *     <li> NONE
+     *     <li> LOADING
+     *     <li> COUNTDOWN
+     *     <li> RUNNING
+     *     <li> END
+     * </ul>
+     */
+    public enum MINIGAME_PHASES {
+        NONE,
+        LOADING,
+        COUNTDOWN,
+        RUNNING,
+        END
+    }
+
     public static void setMinigame(MINIGAME_TYPES minigame) {
         MINIGAME = minigame;
     }
@@ -74,12 +92,12 @@ public class ServerInfoData {
         return GAME_MODE;
     }
 
-    public static void setInRound(boolean inRound) {
-        IN_ROUND = inRound;
+    public static void setPhase(MINIGAME_PHASES phase) {
+        PHASE = phase;
     }
 
-    public static boolean getInRound() {
-        return IN_ROUND;
+    public static MINIGAME_PHASES getPhase() {
+        return PHASE;
     }
 
     public static void setPlayerStatus(byte[] playerStatus) {

@@ -18,30 +18,29 @@ public class serverInfoPackets {
      * new serverInfoPacket(
      *      ServerInfoData.MINIGAME_TYPES.BATTLE,
      *      ServerInfoData.GAME_MODES.CASUAL,
-     *      false,
+     *      ServerInfoData.MINIGAME_PHASES.NONE,
      *      new byte[]{0,0,1,1}
      * );</code>
      * </pre>
      *
      * @param minigame {@link ServerInfoData.MINIGAME_TYPES}. Minigame the client is in.
      *
-     * @param gamemode {@link ServerInfoData.GAME_MODES}. Gamemode the client is in.
+     * @param gamemode {@link ServerInfoData.GAME_MODES}. Gamemode the game is in.
      *
-     * @param inRound boolean, Is the client in a round?
+     * @param phase {@link ServerInfoData.MINIGAME_PHASES}, Phase the game is in.
      *
-     * @param playerStatus byte[]. In Round: 0 - Dead; 1 - Alive; -1 - Spectating;<br>
-     *                             In Lobby: 0 - Not Ready; 1 - Ready
+     * @param playerStatus byte[], -1 — Spectating; 0 — Dead/Not Ready; 1 — Alive/Ready;
      *
      * @see gamemodePacket gamemodePacket
      * @see playerStatusPacket playerStatusPacket
-     * @see inRoundPacket inRoundPacket
+     * @see phasePacket phasePacket
      */
-    public record serverInfoPacket(ServerInfoData.MINIGAME_TYPES minigame, ServerInfoData.GAME_MODES gamemode, boolean inRound, byte[] playerStatus) implements CustomPayload {
+    public record serverInfoPacket(ServerInfoData.MINIGAME_TYPES minigame, ServerInfoData.GAME_MODES gamemode, ServerInfoData.MINIGAME_PHASES phase, byte[] playerStatus) implements CustomPayload {
         public static final Id<serverInfoPacket> PACKET_ID = new Id<>(Identifier.of("serverinfo", "serverinfo_set"));
         public static final PacketCodec<RegistryByteBuf, serverInfoPacket> codec = PacketCodec.tuple(
                 PacketCodecs.indexed(i -> ServerInfoData.MINIGAME_TYPES.values()[i], ServerInfoData.MINIGAME_TYPES::ordinal), serverInfoPacket::minigame,
                 PacketCodecs.indexed(i -> ServerInfoData.GAME_MODES.values()[i], ServerInfoData.GAME_MODES::ordinal), serverInfoPacket::gamemode,
-                PacketCodecs.BOOL, serverInfoPacket::inRound,
+                PacketCodecs.indexed(i -> ServerInfoData.MINIGAME_PHASES.values()[i], ServerInfoData.MINIGAME_PHASES::ordinal), serverInfoPacket::phase,
                 PacketCodecs.BYTE_ARRAY, serverInfoPacket::playerStatus,
                 serverInfoPacket::new
         );
@@ -96,16 +95,16 @@ public class serverInfoPackets {
     }
 
     /**
-     * <pre>inRoundPacket, sends the current inRound status to client.
-     * Intended for use at begining & end of round.</pre>
+     * phasePacket, sends phase to client
      *
-     * @param inRound boolean, Is the client in a round?
+     * @param phase {@link ServerInfoData.MINIGAME_PHASES}. Phase the game is in.
+     *
      */
-    public record inRoundPacket(boolean inRound) implements CustomPayload {
-        public static final Id<inRoundPacket> PACKET_ID = new Id<>(Identifier.of("serverinfo", "inround_set"));
-        public static final PacketCodec<RegistryByteBuf, inRoundPacket> codec = PacketCodec.tuple(
-                PacketCodecs.BOOL, inRoundPacket::inRound,
-                inRoundPacket::new
+    public record phasePacket(ServerInfoData.MINIGAME_PHASES phase) implements CustomPayload {
+        public static final Id<phasePacket> PACKET_ID = new Id<>(Identifier.of("serverinfo", "phase_set"));
+        public static final PacketCodec<RegistryByteBuf, phasePacket> codec = PacketCodec.tuple(
+                PacketCodecs.indexed(i -> ServerInfoData.MINIGAME_PHASES.values()[i], ServerInfoData.MINIGAME_PHASES::ordinal), phasePacket::phase,
+                phasePacket::new
         );
 
         @Override
@@ -120,8 +119,7 @@ public class serverInfoPackets {
      * <code>new byte[]{0,1,0,-1}</code> 4 players, players 1 & 3 are either not ready or dead, player 4 is spectating.
      * </pre>
      *
-     * @param playerStatus byte[]. In Round: 0 - Dead; 1 - Alive; -1 - Spectating;<br>
-     *                             In Lobby: 0 - Not Ready; 1 - Ready
+     * @param playerStatus byte[], -1 — Spectating; 0 — Dead/Not Ready; 1 — Alive/Ready;
      */
     public record playerStatusPacket(byte[] playerStatus) implements CustomPayload {
         public static final Id<playerStatusPacket> PACKET_ID = new Id<>(Identifier.of("serverinfo", "playerstatus_set"));

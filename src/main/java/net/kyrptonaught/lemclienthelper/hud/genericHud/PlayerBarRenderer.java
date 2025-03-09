@@ -7,8 +7,9 @@ import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.render.RenderTickCounter;
 import net.minecraft.util.Identifier;
 
-public class PlayerBarRenderer {
+import static net.kyrptonaught.lemclienthelper.ServerInfo.ServerInfoData.MINIGAME_PHASES.*;
 
+public class PlayerBarRenderer {
     private static final Identifier BIG_PLAYER_ICON_DEAD = Identifier.of("lem.base", "textures/playerbar/big/dead.png");
     private static final Identifier SMALL_PLAYER_ICON_DEAD = Identifier.of("lem.base", "textures/playerbar/small/dead.png");
 
@@ -40,11 +41,12 @@ public class PlayerBarRenderer {
             int e;                                           // Width of texture
             float u;                                         // Width of texture + spacing.
 
+            ServerInfoData.MINIGAME_PHASES Phase = ServerInfoData.getPhase();
             // Horrible awful, no good, very bad, spacing/centring code.
             if (p < 11) {
                 e = 17;
                 u = p > 8 ? 18f : 23f;
-                if (ServerInfoData.getInRound()) {
+                if (Phase != NONE) {
                     // If you're wondering about this calculation,
                     // This is the amount of pixels the matrix is shifted by
                     // after every icon, in order to evenly space all icons, when there are >8.
@@ -59,7 +61,7 @@ public class PlayerBarRenderer {
             } else {
                 e = 10;
                 u = 11f;
-                if (ServerInfoData.getInRound()) {
+                if (Phase != NONE) {
                     u = ((182f - (e * p))/(p - 1))+ e;
 
                     context.getMatrices().translate(91f,0f,0f);
@@ -71,13 +73,13 @@ public class PlayerBarRenderer {
             for (int i = 0; i < p; i++) {
                 if (i > 0) {context.getMatrices().translate(u, 0f, 0f);}
                 float[] c = RenderSystem.getShaderColor(); // Get the current shader colour to prevent breaking with hud transparency mods.
-                if ((!ServerInfoData.getInRound() && s[i] == 0) || s[i] == -1) {RenderSystem.setShaderColor(c[0],c[1],c[2], c[3]*(128F/255F));}
+                if ((Phase == NONE && s[i] == 0) || s[i] == -1) {RenderSystem.setShaderColor(c[0],c[1],c[2], c[3]*(128F/255F));}
                 if (p < 11) {
-                    context.drawTexture(((s[i] == 0 || s[i] == -1) && ServerInfoData.getInRound()) ? BIG_PLAYER_ICON_DEAD : BIG_PLAYER_ICONS(i), x, l, e, 5, e, 5, e, 5);
+                    context.drawTexture(((s[i] == 0 || s[i] == -1) && (Phase != NONE)) ? BIG_PLAYER_ICON_DEAD : BIG_PLAYER_ICONS(i), x, l, e, 5, e, 5, e, 5);
                 } else {
-                    context.drawTexture(((s[i] == 0 || s[i] == -1) && ServerInfoData.getInRound()) ? SMALL_PLAYER_ICON_DEAD : SMALL_PLAYER_ICONS(i),x, l, e, 5, e, 5, e, 5);
+                    context.drawTexture(((s[i] == 0 || s[i] == -1) && (Phase != NONE)) ? SMALL_PLAYER_ICON_DEAD : SMALL_PLAYER_ICONS(i),x, l, e, 5, e, 5, e, 5);
                 }
-                if ((!ServerInfoData.getInRound() && s[i] == 0) || s[i] == -1) {RenderSystem.setShaderColor(c[0],c[1],c[2],c[3]*(255F/128F));}
+                if ((Phase == NONE && s[i] == 0) || s[i] == -1) {RenderSystem.setShaderColor(c[0],c[1],c[2],c[3]*(255F/128F));}
             }
             RenderSystem.disableBlend();
             context.getMatrices().pop();

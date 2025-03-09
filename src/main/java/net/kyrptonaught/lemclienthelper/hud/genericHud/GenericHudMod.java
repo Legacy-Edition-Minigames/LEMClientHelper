@@ -46,7 +46,7 @@ public class GenericHudMod {
                                     .then(CommandManager.argument("target", EntityArgumentType.players())
                                             .executes(context -> {
                                                 ServerPlayNetworking.send(EntityArgumentType.getPlayer(context, "target"),
-                                                        new serverInfoPackets.inRoundPacket(BoolArgumentType.getBool(context,"inRound")));
+                                                        new serverInfoPackets.phasePacket((BoolArgumentType.getBool(context,"inRound") ? ServerInfoData.MINIGAME_PHASES.RUNNING : ServerInfoData.MINIGAME_PHASES.NONE)));
                                                 ServerPlayNetworking.send(EntityArgumentType.getPlayer(context, "target"),
                                                         new PlayerBarPacket(true));
                                                 return 0;

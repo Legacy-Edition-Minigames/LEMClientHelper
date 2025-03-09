@@ -10,7 +10,7 @@ public class ServerInfoNetworking {
         ClientPlayNetworking.registerGlobalReceiver(serverInfoPackets.serverInfoPacket.PACKET_ID, ((payload, context) -> {
             ServerInfoData.setMinigame(payload.minigame());
             ServerInfoData.setGamemode(payload.gamemode());
-            ServerInfoData.setInRound(payload.inRound());
+            ServerInfoData.setPhase(payload.phase());
             ServerInfoData.setPlayerStatus(payload.playerStatus());
         }));
 
@@ -20,8 +20,8 @@ public class ServerInfoNetworking {
         PayloadTypeRegistry.playS2C().register(serverInfoPackets.gamemodePacket.PACKET_ID, serverInfoPackets.gamemodePacket.codec);
         ClientPlayNetworking.registerGlobalReceiver(serverInfoPackets.gamemodePacket.PACKET_ID, ((payload, context) -> ServerInfoData.setGamemode(payload.gamemode())));
 
-        PayloadTypeRegistry.playS2C().register(serverInfoPackets.inRoundPacket.PACKET_ID, serverInfoPackets.inRoundPacket.codec);
-        ClientPlayNetworking.registerGlobalReceiver(serverInfoPackets.inRoundPacket.PACKET_ID, ((payload, context) -> ServerInfoData.setInRound(payload.inRound())));
+        PayloadTypeRegistry.playS2C().register(serverInfoPackets.phasePacket.PACKET_ID, serverInfoPackets.phasePacket.codec);
+        ClientPlayNetworking.registerGlobalReceiver(serverInfoPackets.phasePacket.PACKET_ID, ((payload, context) -> ServerInfoData.setPhase(payload.phase())));
 
         PayloadTypeRegistry.playS2C().register(serverInfoPackets.playerStatusPacket.PACKET_ID, serverInfoPackets.playerStatusPacket.codec);
         ClientPlayNetworking.registerGlobalReceiver(serverInfoPackets.serverInfoPacket.PACKET_ID, ((payload, context) -> ServerInfoData.setPlayerStatus(payload.playerStatus())));
