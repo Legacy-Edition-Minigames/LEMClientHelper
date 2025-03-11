@@ -50,6 +50,21 @@ public class serverInfoPackets {
             return PACKET_ID;
         }
     }
+    public record serverInfoIndicesPacket(int minigame, int gamemode, int phase, byte[] playerStatus) implements CustomPayload {
+        public static final Id<serverInfoIndicesPacket> PACKET_ID = new Id<>(Identifier.of("serverinfo", "serverinfo_indices_set"));
+        public static final PacketCodec<RegistryByteBuf, serverInfoIndicesPacket> codec = PacketCodec.tuple(
+                PacketCodecs.INTEGER, serverInfoIndicesPacket::minigame,
+                PacketCodecs.INTEGER, serverInfoIndicesPacket::gamemode,
+                PacketCodecs.INTEGER, serverInfoIndicesPacket::phase,
+                PacketCodecs.BYTE_ARRAY, serverInfoIndicesPacket::playerStatus,
+                serverInfoIndicesPacket::new
+        );
+
+        @Override
+        public Id<? extends CustomPayload> getId() {
+            return PACKET_ID;
+        }
+    }
 
     /**
      * minigamePacket, sends minigame to client
@@ -93,6 +108,18 @@ public class serverInfoPackets {
             return PACKET_ID;
         }
     }
+    public record gamemodeIndexPacket(int gamemode) implements CustomPayload {
+        public static final Id<gamemodeIndexPacket> PACKET_ID = new Id<>(Identifier.of("serverinfo", "gamemode_index_set"));
+        public static final PacketCodec<RegistryByteBuf, gamemodeIndexPacket> codec = PacketCodec.tuple(
+                PacketCodecs.INTEGER, gamemodeIndexPacket::gamemode,
+                gamemodeIndexPacket::new
+        );
+
+        @Override
+        public Id<? extends CustomPayload> getId() {
+            return PACKET_ID;
+        }
+    }
 
     /**
      * phasePacket, sends phase to client
@@ -105,6 +132,18 @@ public class serverInfoPackets {
         public static final PacketCodec<RegistryByteBuf, phasePacket> codec = PacketCodec.tuple(
                 PacketCodecs.indexed(i -> ServerInfoData.MINIGAME_PHASES.values()[i], ServerInfoData.MINIGAME_PHASES::ordinal), phasePacket::phase,
                 phasePacket::new
+        );
+
+        @Override
+        public Id<? extends CustomPayload> getId() {
+            return PACKET_ID;
+        }
+    }
+    public record phaseIndexPacket(int phase) implements CustomPayload {
+        public static final Id<phaseIndexPacket> PACKET_ID = new Id<>(Identifier.of("serverinfo", "phase_index_set"));
+        public static final PacketCodec<RegistryByteBuf, phaseIndexPacket> codec = PacketCodec.tuple(
+                PacketCodecs.INTEGER, phaseIndexPacket::phase,
+                phaseIndexPacket::new
         );
 
         @Override

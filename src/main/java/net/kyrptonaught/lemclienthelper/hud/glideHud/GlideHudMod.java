@@ -67,6 +67,12 @@ public class GlideHudMod {
             GLIDE_LAST_RING = payload.lastRing();
         }));
 
+        PayloadTypeRegistry.playS2C().register(GlideScorePacket.GlideScoreIndexPacket.PACKET_ID, GlideScorePacket.GlideScoreIndexPacket.codec);
+        ClientPlayNetworking.registerGlobalReceiver(GlideScorePacket.GlideScoreIndexPacket.PACKET_ID, ((payload, context) -> {
+            GLIDE_SCORE = payload.score();
+            GLIDE_LAST_RING = rings.values()[payload.lastRing()];
+        }));
+
         /*
         // Debug commands
         CommandRegistrationCallback.EVENT.register((dispatcher, registryAccess, environment) ->
