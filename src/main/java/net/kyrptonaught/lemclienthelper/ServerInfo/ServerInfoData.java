@@ -65,6 +65,7 @@ public class ServerInfoData {
      *     <li> LOADING
      *     <li> COUNTDOWN
      *     <li> RUNNING
+     *     <li> SHOWDOWN
      *     <li> END
      * </ul>
      */
@@ -73,6 +74,7 @@ public class ServerInfoData {
         LOADING,
         COUNTDOWN,
         RUNNING,
+        SHOWDOWN,
         END
     }
 
