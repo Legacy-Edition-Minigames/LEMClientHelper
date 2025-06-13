@@ -65,7 +65,7 @@ public class GenericHudMod {
                 accessor.getStaticDefinitions().add(UIDefinition.createBeforeInit((a) -> {
                     if ((Boolean)LegacyMixinOptions.legacyGui.get()) {
                         a.getElements().put(FactoryGuiElement.EXPERIENCE_BAR.name() + ".isVisible", () -> {
-                            return SHOULD_RENDER_PLAYERBAR;
+                            return !SHOULD_RENDER_PLAYERBAR;
                         });
                     }
                 }));
