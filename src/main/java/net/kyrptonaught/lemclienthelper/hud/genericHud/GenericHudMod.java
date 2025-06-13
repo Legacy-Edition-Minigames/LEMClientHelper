@@ -5,10 +5,9 @@ import net.fabricmc.fabric.api.client.networking.v1.ClientPlayConnectionEvents;
 import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking;
 import net.fabricmc.fabric.api.client.rendering.v1.HudRenderCallback;
 import net.fabricmc.fabric.api.networking.v1.PayloadTypeRegistry;
+import net.fabricmc.loader.api.FabricLoader;
 import net.kyrptonaught.lemclienthelper.hud.genericHud.packets.BannerPacket;
 import net.kyrptonaught.lemclienthelper.hud.genericHud.packets.PlayerBarPacket;
-import net.minecraft.text.Text;
-
 
 import com.mojang.brigadier.arguments.BoolArgumentType;
 import com.mojang.brigadier.arguments.IntegerArgumentType;
@@ -17,26 +16,63 @@ import net.kyrptonaught.lemclienthelper.ServerInfo.ServerInfoData;
 import net.kyrptonaught.lemclienthelper.ServerInfo.packets.serverInfoPackets;
 import net.fabricmc.fabric.api.command.v2.CommandRegistrationCallback;
 import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
-import net.minecraft.command.argument.EntityArgumentType;
-import net.minecraft.command.argument.TextArgumentType;
-import net.minecraft.server.command.CommandManager;
-import net.minecraft.util.Identifier;
+import net.minecraft.Util;
+import net.minecraft.client.KeyMapping;
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.renderer.RenderType;
+import net.minecraft.commands.Commands;
+import net.minecraft.commands.arguments.EntityArgument;
+import net.minecraft.core.registries.BuiltInRegistries;
+import net.minecraft.network.chat.Component;
+import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.Blocks;
+import net.minecraft.world.level.storage.LevelStorageSource;
+import wily.factoryapi.FactoryAPI;
+import wily.factoryapi.FactoryAPIClient;
+import wily.factoryapi.base.ArbitrarySupplier;
+import wily.factoryapi.base.client.*;
+import wily.factoryapi.util.ColorUtil;
+import wily.factoryapi.util.FactoryGuiElement;
+import wily.factoryapi.util.FactoryScreenUtil;
+import wily.legacy.client.*;
+import net.minecraft.commands.arguments.ComponentArgument;
+import wily.legacy.client.controller.ControllerBinding;
+import wily.legacy.client.controller.LegacyKeyMapping;
+import wily.legacy.client.screen.ControlTooltip;
+import wily.legacy.client.screen.compat.IrisCompat;
+import wily.legacy.client.screen.compat.ModMenuCompat;
+import wily.legacy.client.screen.compat.SodiumCompat;
+import wily.legacy.init.LegacyRegistries;
+import wily.legacy.network.TopMessage;
+import wily.legacy.util.MCAccount;
+import wily.legacy.util.ScreenUtil;
 
 import java.util.Optional;
-
-import static net.kyrptonaught.lemclienthelper.ServerInfo.ServerInfoData.GAME_MODES.SCORE_ATTACK;
-import static net.kyrptonaught.lemclienthelper.ServerInfo.ServerInfoData.MINIGAME_PHASES.COUNTDOWN;
-import static net.kyrptonaught.lemclienthelper.ServerInfo.ServerInfoData.MINIGAME_PHASES.SHOWDOWN;
-import static net.kyrptonaught.lemclienthelper.ServerInfo.ServerInfoData.MINIGAME_TYPES.*;
-
 
 public class GenericHudMod {
     public static boolean SHOULD_RENDER_PLAYERBAR = false;
 
     public static boolean BANNER_RECEIVED = false; // Will set to false after banner is finished rendering.
-    public static Text BANNER_TEXT = null;
+    public static Component BANNER_TEXT = null;
 
     public static void onInitialize() {
+        boolean l4jLoaded = FabricLoader.getInstance().isModLoaded("legacy");
+
+        if (l4jLoaded) {
+            FactoryAPIClient.setup((m) -> {
+                LegacyOptions.CLIENT_STORAGE.load();
+                UIAccessor accessor = FactoryScreenUtil.getGuiAccessor();
+                accessor.getStaticDefinitions().add(UIDefinition.createBeforeInit((a) -> {
+                    if ((Boolean)LegacyMixinOptions.legacyGui.get()) {
+                        a.getElements().put(FactoryGuiElement.EXPERIENCE_BAR.name() + ".isVisible", () -> {
+                            return SHOULD_RENDER_PLAYERBAR;
+                        });
+                    }
+                }));
+            });
+        }
+
+
         HudRenderCallback.EVENT.register(BannerRenderer::onHudRender);
         ClientPlayConnectionEvents.JOIN.register((handler, sender, client) -> SHOULD_RENDER_PLAYERBAR = false);
 
@@ -51,53 +87,53 @@ public class GenericHudMod {
             BANNER_RECEIVED = true;
         }));
 
-        /*
+
         CommandRegistrationCallback.EVENT.register((dispatcher, registryAccess, environment) ->
-                dispatcher.register(CommandManager.literal(LEMClientHelperMod.MOD_ID)
-                        .then(CommandManager.literal("examplePlayerBar")
-                                .then(CommandManager.argument("inRound", BoolArgumentType.bool())
-                                    .then(CommandManager.argument("target", EntityArgumentType.players())
+                dispatcher.register(Commands.literal(LEMClientHelperMod.MOD_ID)
+                        .then(Commands.literal("examplePlayerBar")
+                                .then(Commands.argument("inRound", BoolArgumentType.bool())
+                                    .then(Commands.argument("target", EntityArgument.players())
                                             .executes(context -> {
-                                                ServerPlayNetworking.send(EntityArgumentType.getPlayer(context, "target"),
+                                                ServerPlayNetworking.send(EntityArgument.getPlayer(context, "target"),
                                                         new serverInfoPackets.phasePacket((BoolArgumentType.getBool(context,"inRound") ? ServerInfoData.MINIGAME_PHASES.RUNNING : ServerInfoData.MINIGAME_PHASES.NONE)));
-                                                ServerPlayNetworking.send(EntityArgumentType.getPlayer(context, "target"),
+                                                ServerPlayNetworking.send(EntityArgument.getPlayer(context, "target"),
                                                         new PlayerBarPacket(true));
                                                 return 0;
-                                        }))))));*/
+                                        }))))));
         CommandRegistrationCallback.EVENT.register((dispatcher, registryAccess, environment) ->
-                dispatcher.register(CommandManager.literal(LEMClientHelperMod.MOD_ID)
-                        .then(CommandManager.literal("sendTestBanner")
-                                .then(CommandManager.argument("target", EntityArgumentType.players())
-                                        .then(CommandManager.argument("minigame", IntegerArgumentType.integer(0,2))
-                                                .then(CommandManager.argument("gamemode", IntegerArgumentType.integer(0,7))
-                                                        .then(CommandManager.argument("phase", IntegerArgumentType.integer(0,5))
-                                                            .then(CommandManager.argument("text", TextArgumentType.text(registryAccess))
-                                                                    .then(CommandManager.argument("elapsedMax", FloatArgumentType.floatArg(3f,90f))
+                dispatcher.register(Commands.literal(LEMClientHelperMod.MOD_ID)
+                        .then(Commands.literal("sendTestBanner")
+                                .then(Commands.argument("target", EntityArgument.players())
+                                        .then(Commands.argument("minigame", IntegerArgumentType.integer(0,2))
+                                                .then(Commands.argument("gamemode", IntegerArgumentType.integer(0,7))
+                                                        .then(Commands.argument("phase", IntegerArgumentType.integer(0,5))
+                                                            .then(Commands.argument("text", ComponentArgument.textComponent(registryAccess))
+                                                                    .then(Commands.argument("elapsedMax", FloatArgumentType.floatArg(3f,90f))
                                                                     .executes(context -> {
-                                                                        ServerPlayNetworking.send(EntityArgumentType.getPlayer(context, "target"),
+                                                                        ServerPlayNetworking.send(EntityArgument.getPlayer(context, "target"),
                                                                                 new serverInfoPackets.minigamePacket(
                                                                                         ServerInfoData.MINIGAME_TYPES.values()[IntegerArgumentType.getInteger(context,"minigame")]));
-                                                                        ServerPlayNetworking.send(EntityArgumentType.getPlayer(context, "target"),
+                                                                        ServerPlayNetworking.send(EntityArgument.getPlayer(context, "target"),
                                                                                 new serverInfoPackets.gamemodePacket(
                                                                                         ServerInfoData.GAME_MODES.values()[IntegerArgumentType.getInteger(context,"gamemode")]));
-                                                                        ServerPlayNetworking.send(EntityArgumentType.getPlayer(context, "target"),
+                                                                        ServerPlayNetworking.send(EntityArgument.getPlayer(context, "target"),
                                                                                 new serverInfoPackets.phasePacket(
                                                                                         ServerInfoData.MINIGAME_PHASES.values()[IntegerArgumentType.getInteger(context,"phase")]));
-                                                                        ServerPlayNetworking.send(EntityArgumentType.getPlayer(context, "target"),
-                                                                                new BannerPacket(TextArgumentType.getTextArgument(context,"text"), Optional.of(FloatArgumentType.getFloat(context, "elapsedMax"))));
+                                                                        ServerPlayNetworking.send(EntityArgument.getPlayer(context, "target"),
+                                                                                new BannerPacket(ComponentArgument.getComponent(context,"text"), Optional.of(FloatArgumentType.getFloat(context, "elapsedMax"))));
                                                                         return 0;
                                                         })).executes(context -> {
-                                                                    ServerPlayNetworking.send(EntityArgumentType.getPlayer(context, "target"),
+                                                                    ServerPlayNetworking.send(EntityArgument.getPlayer(context, "target"),
                                                                             new serverInfoPackets.minigamePacket(
                                                                                     ServerInfoData.MINIGAME_TYPES.values()[IntegerArgumentType.getInteger(context, "minigame")]));
-                                                                    ServerPlayNetworking.send(EntityArgumentType.getPlayer(context, "target"),
+                                                                    ServerPlayNetworking.send(EntityArgument.getPlayer(context, "target"),
                                                                             new serverInfoPackets.gamemodePacket(
                                                                                     ServerInfoData.GAME_MODES.values()[IntegerArgumentType.getInteger(context, "gamemode")]));
-                                                                    ServerPlayNetworking.send(EntityArgumentType.getPlayer(context, "target"),
+                                                                    ServerPlayNetworking.send(EntityArgument.getPlayer(context, "target"),
                                                                             new serverInfoPackets.phasePacket(
                                                                                     ServerInfoData.MINIGAME_PHASES.values()[IntegerArgumentType.getInteger(context, "phase")]));
-                                                                    ServerPlayNetworking.send(EntityArgumentType.getPlayer(context, "target"),
-                                                                            new BannerPacket(TextArgumentType.getTextArgument(context, "text"),Optional.empty()));
+                                                                    ServerPlayNetworking.send(EntityArgument.getPlayer(context, "target"),
+                                                                            new BannerPacket(ComponentArgument.getComponent(context, "text"),Optional.empty()));
                                                                     return 0;
                                                                 })))))))));
 

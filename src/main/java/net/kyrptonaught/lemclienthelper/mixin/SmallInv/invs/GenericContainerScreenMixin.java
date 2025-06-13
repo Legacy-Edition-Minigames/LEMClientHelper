@@ -2,37 +2,37 @@ package net.kyrptonaught.lemclienthelper.mixin.SmallInv.invs;
 
 
 import net.kyrptonaught.lemclienthelper.SmallInv.SmallInvPlayerInv;
-import net.minecraft.client.gui.DrawContext;
-import net.minecraft.client.gui.screen.ingame.GenericContainerScreen;
-import net.minecraft.client.gui.screen.ingame.HandledScreen;
-import net.minecraft.entity.player.PlayerInventory;
-import net.minecraft.screen.GenericContainerScreenHandler;
-import net.minecraft.screen.ScreenHandler;
-import net.minecraft.text.Text;
-import net.minecraft.util.Identifier;
+import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
+import net.minecraft.client.gui.screens.inventory.ContainerScreen;
+import net.minecraft.network.chat.Component;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.entity.player.Inventory;
+import net.minecraft.world.inventory.AbstractContainerMenu;
+import net.minecraft.world.inventory.ChestMenu;
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Redirect;
 
-@Mixin(GenericContainerScreen.class)
-public abstract class GenericContainerScreenMixin extends HandledScreen<GenericContainerScreenHandler> implements SmallInvPlayerInv {
+@Mixin(ContainerScreen.class)
+public abstract class GenericContainerScreenMixin extends AbstractContainerScreen<ChestMenu> implements SmallInvPlayerInv {
     @Shadow
     @Final
-    private int rows;
+    private int containerRows;
 
-    public GenericContainerScreenMixin(ScreenHandler handler, PlayerInventory inventory, Text title) {
-        super((GenericContainerScreenHandler) handler, inventory, title);
+    public GenericContainerScreenMixin(AbstractContainerMenu handler, Inventory inventory, Component title) {
+        super((ChestMenu) handler, inventory, title);
     }
 
-    @Redirect(method = "drawBackground", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/gui/DrawContext;drawTexture(Lnet/minecraft/util/Identifier;IIIIII)V", ordinal = 1))
-    public void drawSmallInv(DrawContext instance, Identifier texture, int x, int y, int u, int v, int width, int height) {
+    @Redirect(method = "renderBg", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/gui/GuiGraphics;blit(Lnet/minecraft/resources/ResourceLocation;IIIIII)V", ordinal = 1))
+    public void drawSmallInv(GuiGraphics instance, ResourceLocation texture, int x, int y, int u, int v, int width, int height) {
         if (getIsSmall()) {
-            int j = (this.height - this.backgroundHeight) / 2;
-            instance.drawTexture(texture, x, j + this.rows * 18 + 17, 0, 126, this.backgroundWidth, 13);
-            instance.drawTexture(texture, x, j + (this.rows * 18 + 17) + 12, 0, 193, this.backgroundWidth, 29);
-        } else instance.drawTexture(texture, x, y, u, v, width, height);
+            int j = (this.height - this.imageHeight) / 2;
+            instance.blit(texture, x, j + this.containerRows * 18 + 17, 0, 126, this.imageWidth, 13);
+            instance.blit(texture, x, j + (this.containerRows * 18 + 17) + 12, 0, 193, this.imageWidth, 29);
+        } else instance.blit(texture, x, y, u, v, width, height);
     }
 
     @Override

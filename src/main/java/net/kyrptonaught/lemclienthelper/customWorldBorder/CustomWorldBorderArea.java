@@ -1,12 +1,12 @@
 package net.kyrptonaught.lemclienthelper.customWorldBorder;
 
-import net.minecraft.util.function.BooleanBiFunction;
-import net.minecraft.util.shape.VoxelShape;
-import net.minecraft.util.shape.VoxelShapes;
-import net.minecraft.world.border.WorldBorder;
-import net.minecraft.world.border.WorldBorderStage;
+import net.minecraft.world.phys.shapes.BooleanOp;
+import 	net.minecraft.world.phys.shapes.VoxelShape;
+import net.minecraft.world.phys.shapes.Shapes;
+import net.minecraft.world.level.border.BorderStatus;
+import net.minecraft.world.level.border.WorldBorder;
 
-public class CustomWorldBorderArea implements WorldBorder.Area {
+public class CustomWorldBorderArea implements WorldBorder.BorderExtent {
     private final WorldBorder worldBorder;
     private final double xSize, zSize;
 
@@ -18,22 +18,22 @@ public class CustomWorldBorderArea implements WorldBorder.Area {
 
 
     @Override
-    public double getBoundWest() {
+    public double getMinX() {
         return worldBorder.getCenterX() - xSize;
     }
 
     @Override
-    public double getBoundEast() {
+    public double getMaxX() {
         return worldBorder.getCenterX() + xSize;
     }
 
     @Override
-    public double getBoundNorth() {
+    public double getMinZ() {
         return worldBorder.getCenterZ() - zSize;
     }
 
     @Override
-    public double getBoundSouth() {
+    public double getMaxZ() {
         return worldBorder.getCenterZ() + zSize;
     }
 
@@ -43,40 +43,40 @@ public class CustomWorldBorderArea implements WorldBorder.Area {
     }
 
     @Override
-    public double getShrinkingSpeed() {
+    public double getLerpSpeed() {
         return 0;
     }
 
     @Override
-    public long getSizeLerpTime() {
+    public long getLerpRemainingTime() {
         return 0;
     }
 
     @Override
-    public double getSizeLerpTarget() {
+    public double getLerpTarget() {
         return 0;
     }
 
     @Override
-    public WorldBorderStage getStage() {
-        return WorldBorderStage.STATIONARY;
+    public BorderStatus getStatus() {
+        return BorderStatus.STATIONARY;
     }
 
     @Override
-    public void onMaxRadiusChanged() {
+    public void onAbsoluteMaxSizeChange() {
     }
 
     @Override
-    public void onCenterChanged() {
+    public void onCenterChange() {
     }
 
     @Override
-    public WorldBorder.Area getAreaInstance() {
+    public WorldBorder.BorderExtent update() {
         return this;
     }
 
     @Override
-    public VoxelShape asVoxelShape() {
-        return VoxelShapes.combineAndSimplify(VoxelShapes.UNBOUNDED, VoxelShapes.cuboid(Math.floor(this.getBoundWest()), Double.NEGATIVE_INFINITY, Math.floor(this.getBoundNorth()), Math.ceil(this.getBoundEast()), Double.POSITIVE_INFINITY, Math.ceil(this.getBoundSouth())), BooleanBiFunction.ONLY_FIRST);
+    public VoxelShape getCollisionShape() {
+        return Shapes.join(Shapes.INFINITY, Shapes.box(Math.floor(this.getMinX()), Double.NEGATIVE_INFINITY, Math.floor(this.getMinZ()), Math.ceil(this.getMaxX()), Double.POSITIVE_INFINITY, Math.ceil(this.getMaxZ())), BooleanOp.ONLY_FIRST);
     }
 }

@@ -2,10 +2,10 @@ package net.kyrptonaught.lemclienthelper.SmallInv;
 
 
 import com.mojang.datafixers.util.Pair;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.item.ItemStack;
-import net.minecraft.screen.slot.Slot;
-import net.minecraft.util.Identifier;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.inventory.Slot;
+import net.minecraft.world.item.ItemStack;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.Optional;
@@ -14,97 +14,97 @@ public class ExtendedSlot extends Slot {
     private final Slot baseSlot;
 
     public ExtendedSlot(Slot slot) {
-        super(slot.inventory, slot.getIndex(), slot.x, slot.y);
+        super(slot.container, slot.getContainerSlot(), slot.x, slot.y);
         baseSlot = slot;
-        this.id = slot.id;
+        this.index = slot.index;
     }
 
-    public void onQuickTransfer(ItemStack newItem, ItemStack original) {
-        baseSlot.onQuickTransfer(newItem, original);
+    public void onQuickCraft(ItemStack newItem, ItemStack original) {
+        baseSlot.onQuickCraft(newItem, original);
     }
 
-    protected void onCrafted(ItemStack stack, int amount) {
-        super.onCrafted(stack, amount);
+    protected void onQuickCraft(ItemStack stack, int amount) {
+        super.onQuickCraft(stack, amount);
     }
 
-    protected void onTake(int amount) {
-        super.onTake(amount);
+    protected void onSwapCraft(int amount) {
+        super.onSwapCraft(amount);
     }
 
-    protected void onCrafted(ItemStack stack) {
-        super.onCrafted(stack);
+    protected void checkTakeAchievements(ItemStack stack) {
+        super.checkTakeAchievements(stack);
     }
 
-    public void onTakeItem(PlayerEntity player, ItemStack stack) {
-        baseSlot.onTakeItem(player, stack);
+    public void onTake(Player player, ItemStack stack) {
+        baseSlot.onTake(player, stack);
     }
 
-    public boolean canInsert(ItemStack stack) {
-        return baseSlot.canInsert(stack);
+    public boolean mayPlace(ItemStack stack) {
+        return baseSlot.mayPlace(stack);
     }
 
-    public ItemStack getStack() {
-        return baseSlot.getStack();
+    public ItemStack getItem() {
+        return baseSlot.getItem();
     }
 
-    public boolean hasStack() {
-        return baseSlot.hasStack();
+    public boolean hasItem() {
+        return baseSlot.hasItem();
     }
 
-    public void setStack(ItemStack stack) {
-        baseSlot.setStack(stack);
+    public void setByPlayer(ItemStack stack) {
+        baseSlot.setByPlayer(stack);
     }
 
-    public void markDirty() {
-        baseSlot.markDirty();
+    public void setChanged() {
+        baseSlot.setChanged();
     }
 
-    public int getMaxItemCount() {
-        return baseSlot.getMaxItemCount();
+    public int getMaxStackSize() {
+        return baseSlot.getMaxStackSize();
     }
 
-    public int getMaxItemCount(ItemStack stack) {
-        return baseSlot.getMaxItemCount(stack);
+    public int getMaxStackSize(ItemStack stack) {
+        return baseSlot.getMaxStackSize(stack);
     }
 
     @Nullable
-    public Pair<Identifier, Identifier> getBackgroundSprite() {
-        return baseSlot.getBackgroundSprite();
+    public Pair<ResourceLocation, ResourceLocation> getNoItemIcon() {
+        return baseSlot.getNoItemIcon();
     }
 
-    public ItemStack takeStack(int amount) {
-        return baseSlot.takeStack(amount);
+    public ItemStack remove(int amount) {
+        return baseSlot.remove(amount);
     }
 
-    public boolean canTakeItems(PlayerEntity playerEntity) {
-        return baseSlot.canTakeItems(playerEntity);
+    public boolean mayPickup(Player playerEntity) {
+        return baseSlot.mayPickup(playerEntity);
     }
 
-    public boolean isEnabled() {
-        return baseSlot.isEnabled();
+    public boolean isActive() {
+        return baseSlot.isActive();
     }
 
-    public Optional<ItemStack> tryTakeStackRange(int min, int max, PlayerEntity player) {
-        return baseSlot.tryTakeStackRange(min, max, player);
+    public Optional<ItemStack> tryRemove(int min, int max, Player player) {
+        return baseSlot.tryRemove(min, max, player);
     }
 
-    public ItemStack takeStackRange(int min, int max, PlayerEntity player) {
-        return baseSlot.takeStackRange(min, max, player);
+    public ItemStack safeTake(int min, int max, Player player) {
+        return baseSlot.safeTake(min, max, player);
     }
 
-    public ItemStack insertStack(ItemStack stack) {
-        return baseSlot.insertStack(stack);
+    public ItemStack safeInsert(ItemStack stack) {
+        return baseSlot.safeInsert(stack);
     }
 
-    public ItemStack insertStack(ItemStack stack, int count) {
-        return baseSlot.insertStack(stack, count);
+    public ItemStack safeInsert(ItemStack stack, int count) {
+        return baseSlot.safeInsert(stack, count);
     }
 
-    public boolean canTakePartial(PlayerEntity player) {
-        return baseSlot.canTakePartial(player);
+    public boolean allowModification(Player player) {
+        return baseSlot.allowModification(player);
     }
 
-    public int getIndex() {
-        return baseSlot.getIndex();
+    public int getContainerSlot() {
+        return baseSlot.getContainerSlot();
     }
 }

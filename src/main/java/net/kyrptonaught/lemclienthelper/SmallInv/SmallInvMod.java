@@ -1,15 +1,15 @@
 package net.kyrptonaught.lemclienthelper.SmallInv;
 
+import com.mojang.blaze3d.platform.InputConstants;
 import net.fabricmc.fabric.api.client.keybinding.v1.KeyBindingHelper;
 import net.kyrptonaught.lemclienthelper.LEMClientHelperMod;
-import net.minecraft.client.option.KeyBinding;
-import net.minecraft.client.util.InputUtil;
-import net.minecraft.component.DataComponentTypes;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.item.ItemStack;
-import net.minecraft.item.Items;
-import net.minecraft.util.Pair;
+import net.minecraft.client.KeyMapping;
+import net.minecraft.core.component.DataComponents;
+import net.minecraft.world.item.Items;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.ItemStack;
 import org.lwjgl.glfw.GLFW;
+import oshi.util.tuples.Pair;
 
 import java.util.HashMap;
 
@@ -18,12 +18,12 @@ public class SmallInvMod {
     public static String MOD_ID = "smallinv";
     public static HashMap<Integer, Pair<Integer, Integer>> SMALLINVSLOTS = new HashMap<>();
 
-    public static KeyBinding closeSmallInvKey;
+    public static KeyMapping closeSmallInvKey;
 
     public static void onInitialize() {
         LEMClientHelperMod.configManager.registerFile(MOD_ID, new SmallInvConfig());
         LEMClientHelperMod.configManager.load(MOD_ID);
-        closeSmallInvKey = KeyBindingHelper.registerKeyBinding(new KeyBinding(LEMClientHelperMod.MOD_ID + ".key.closesmallinv", InputUtil.Type.KEYSYM, GLFW.GLFW_KEY_I, "key.category." + LEMClientHelperMod.MOD_ID));
+        closeSmallInvKey = KeyBindingHelper.registerKeyBinding(new KeyMapping(LEMClientHelperMod.MOD_ID + ".key.closesmallinv", InputConstants.Type.KEYSYM, GLFW.GLFW_KEY_I, "key.category." + LEMClientHelperMod.MOD_ID));
 
         registerSmallSlot(5, 55, 9);
         registerSmallSlot(6, 55, 27);
@@ -45,12 +45,12 @@ public class SmallInvMod {
         return (SmallInvConfig) LEMClientHelperMod.configManager.getConfig(MOD_ID);
     }
 
-    public static boolean isSmallInv(PlayerEntity player) {
+    public static boolean isSmallInv(Player player) {
         //if (true) return true; // force enabling for testing
         if (!getConfig().enabled) return false;
 
         //give @p knowledge_book{display:{Name:'{"text":" "}'},SmallInv:1,CustomModelData:1}
-        for (ItemStack itemStack : player.getInventory().main) {
+        for (ItemStack itemStack : player.getInventory().items) {
             if (isSmallSlot(itemStack))
                 return true;
         }
@@ -58,9 +58,9 @@ public class SmallInvMod {
     }
 
     public static void tryMoveSlot(MovableSlot slot) {
-        if (SMALLINVSLOTS.containsKey(slot.id)) {
-            Pair<Integer, Integer> pos = SMALLINVSLOTS.get(slot.id);
-            slot.setPos(pos.getLeft(), pos.getRight());
+        if (SMALLINVSLOTS.containsKey(slot.index)) {
+            Pair<Integer, Integer> pos = SMALLINVSLOTS.get(slot.index);
+            slot.setPos(pos.getA(), pos.getB());
             slot.isEnabled = true;
         } else slot.isEnabled = false;
     }
@@ -70,19 +70,19 @@ public class SmallInvMod {
     }
 
     public static boolean isKeybindPressed(int pressedKeyCode, boolean isMouse) {
-        InputUtil.Key keycode = KeyBindingHelper.getBoundKeyOf(closeSmallInvKey);
+        InputConstants.Key keycode = KeyBindingHelper.getBoundKeyOf(closeSmallInvKey);
 
         if (isMouse) {
-            if (keycode.getCategory() != InputUtil.Type.MOUSE) return false;
+            if (keycode.getType() != InputConstants.Type.MOUSE) return false;
         } else {
-            if (keycode.getCategory() != InputUtil.Type.KEYSYM) return false;
+            if (keycode.getType() != InputConstants.Type.KEYSYM) return false;
         }
-        return keycode.getCode() == pressedKeyCode;
+        return keycode.getValue() == pressedKeyCode;
     }
 
     public static boolean isSmallSlot(ItemStack stack) {
-        return stack.isOf(Items.KNOWLEDGE_BOOK) &&
-                stack.contains(DataComponentTypes.CUSTOM_DATA) &&
-                stack.get(DataComponentTypes.CUSTOM_DATA).contains("SmallInv");
+        return stack.is(Items.KNOWLEDGE_BOOK) &&
+                stack.has(DataComponents.CUSTOM_DATA) &&
+                stack.get(DataComponents.CUSTOM_DATA).contains("SmallInv");
     }
 }

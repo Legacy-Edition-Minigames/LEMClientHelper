@@ -1,16 +1,16 @@
 package net.kyrptonaught.lemclienthelper.TakeEverything;
 
+import com.mojang.blaze3d.platform.InputConstants;
 import net.fabricmc.fabric.api.client.keybinding.v1.KeyBindingHelper;
 import net.fabricmc.fabric.api.networking.v1.PayloadTypeRegistry;
 import net.kyrptonaught.kyrptconfig.config.NonConflicting.NonConflictingKeyBinding;
 import net.kyrptonaught.lemclienthelper.LEMClientHelperMod;
-import net.minecraft.client.option.KeyBinding;
-import net.minecraft.client.util.InputUtil;
+import net.minecraft.client.KeyMapping;
 
 public class TakeEverythingMod {
     public static String MOD_ID = "take_everything";
 
-    public static KeyBinding takeEverythingKey;
+    public static KeyMapping takeEverythingKey;
 
     public static void onInitialize() {
         LEMClientHelperMod.configManager.registerFile(MOD_ID, new TakeEverythingConfig());
@@ -33,7 +33,7 @@ public class TakeEverythingMod {
         LambdControlsCompat.register();
     }
 
-    public static boolean isKeybindPressed(int pressedKeyCode, InputUtil.Type type) {
+    public static boolean isKeybindPressed(int pressedKeyCode, InputConstants.Type type) {
         return getConfig().keybinding.matches(pressedKeyCode, type);
     }
 }

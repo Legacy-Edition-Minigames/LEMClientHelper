@@ -14,8 +14,8 @@ import net.kyrptonaught.lemclienthelper.TakeEverything.TakeEverythingMod;
 import net.kyrptonaught.lemclienthelper.customWorldBorder.CustomWorldBorderMod;
 import net.kyrptonaught.lemclienthelper.hud.HudMod;
 import net.kyrptonaught.lemclienthelper.syncedKeybinds.SyncedKeybindsMod;
-import net.minecraft.client.option.KeyBinding;
-import net.minecraft.client.util.InputUtil;
+import net.minecraft.client.KeyMapping;
+import com.mojang.blaze3d.platform.InputConstants;
 
 public class LEMClientHelperMod implements ClientModInitializer {
     public static final String MOD_ID = "lemclienthelper";
@@ -45,14 +45,14 @@ public class LEMClientHelperMod implements ClientModInitializer {
         TakeEverythingMod.registerControllerKeys();
     }
 
-    public static boolean isKeybindPressed(KeyBinding keyBinding, int pressedKeyCode, boolean isMouse) {
-        InputUtil.Key keycode = KeyBindingHelper.getBoundKeyOf(keyBinding);
+    public static boolean isKeybindPressed(KeyMapping keyBinding, int pressedKeyCode, boolean isMouse) {
+        InputConstants.Key keycode = KeyBindingHelper.getBoundKeyOf(keyBinding);
 
         if (isMouse) {
-            if (keycode.getCategory() != InputUtil.Type.MOUSE) return false;
+            if (keycode.getType() != InputConstants.Type.MOUSE) return false;
         } else {
-            if (keycode.getCategory() != InputUtil.Type.KEYSYM) return false;
+            if (keycode.getType() != InputConstants.Type.KEYSYM) return false;
         }
-        return keycode.getCode() == pressedKeyCode;
+        return keycode.getValue() == pressedKeyCode;
     }
 }

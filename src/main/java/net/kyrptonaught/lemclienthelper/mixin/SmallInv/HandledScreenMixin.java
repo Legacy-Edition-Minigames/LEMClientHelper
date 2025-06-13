@@ -3,15 +3,15 @@ package net.kyrptonaught.lemclienthelper.mixin.SmallInv;
 import net.kyrptonaught.lemclienthelper.SmallInv.MovableSlot;
 import net.kyrptonaught.lemclienthelper.SmallInv.SmallInvMod;
 import net.kyrptonaught.lemclienthelper.SmallInv.SmallInvPlayerInv;
-import net.minecraft.client.gui.screen.Screen;
-import net.minecraft.client.gui.screen.ingame.CreativeInventoryScreen;
-import net.minecraft.client.gui.screen.ingame.GenericContainerScreen;
-import net.minecraft.client.gui.screen.ingame.HandledScreen;
-import net.minecraft.client.gui.screen.ingame.InventoryScreen;
-import net.minecraft.screen.GenericContainerScreenHandler;
-import net.minecraft.screen.PlayerScreenHandler;
-import net.minecraft.screen.ScreenHandler;
-import net.minecraft.text.Text;
+import net.minecraft.client.gui.screens.Screen;
+import net.minecraft.client.gui.screens.inventory.ContainerScreen;
+import net.minecraft.client.gui.screens.inventory.CreativeModeInventoryScreen;
+import net.minecraft.client.gui.screens.inventory.InventoryScreen;
+import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
+import net.minecraft.network.chat.Component;
+import net.minecraft.world.inventory.AbstractContainerMenu;
+import net.minecraft.world.inventory.ChestMenu;
+import net.minecraft.world.inventory.InventoryMenu;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
@@ -19,27 +19,27 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
-@Mixin(HandledScreen.class)
+@Mixin(AbstractContainerScreen.class)
 public abstract class HandledScreenMixin extends Screen implements SmallInvPlayerInv {
 
     @Shadow
-    protected int playerInventoryTitleY;
+    protected int inventoryLabelY;
 
     @Shadow
-    public abstract ScreenHandler getScreenHandler();
+    public abstract AbstractContainerMenu getMenu();
 
     @Shadow
-    protected int backgroundHeight;
+    protected int imageHeight;
 
-    protected HandledScreenMixin(Text title) {
+    protected HandledScreenMixin(Component title) {
         super(title);
     }
 
     @Inject(method = "init", at = @At("RETURN"))
     public void setPlayerTitleY(CallbackInfo ci) {
         if (getIsSmall())
-            if (((Object) this instanceof GenericContainerScreen)) this.playerInventoryTitleY += 3;
-            else this.playerInventoryTitleY += 5;
+            if (((Object) this instanceof ContainerScreen)) this.inventoryLabelY += 3;
+            else this.inventoryLabelY += 5;
     }
 
     @Inject(method = "keyPressed", at = @At("HEAD"), cancellable = true)
@@ -58,13 +58,13 @@ public abstract class HandledScreenMixin extends Screen implements SmallInvPlaye
         }
     }
 
-    @Inject(method = "isClickOutsideBounds", at = @At("HEAD"), cancellable = true)
+    @Inject(method = "hasClickedOutside", at = @At("HEAD"), cancellable = true)
     public void isClickOutsideSmallBounds(double mouseX, double mouseY, int left, int top, int button, CallbackInfoReturnable<Boolean> cir) {
         if (getIsSmall()) {
-            HandledScreen<?> handledScreen = (HandledScreen<?>) (Object) this;
+            AbstractContainerScreen<?> handledScreen = (AbstractContainerScreen<?>) (Object) this;
             if (!(handledScreen instanceof InventoryScreen) &&
-                    !(handledScreen instanceof CreativeInventoryScreen))
-                if (mouseY >= (top + (this.backgroundHeight - 85 + 30))) cir.setReturnValue(true);
+                    !(handledScreen instanceof CreativeModeInventoryScreen))
+                if (mouseY >= (top + (this.imageHeight - 85 + 30))) cir.setReturnValue(true);
         }
     }
 
@@ -79,14 +79,14 @@ public abstract class HandledScreenMixin extends Screen implements SmallInvPlaye
     public void setIsSmall(boolean small) {
         if (!this.isSmallSupported()) return;
 
-        if (getIsSmall() && !small) playerInventoryTitleY -= 4;
+        if (getIsSmall() && !small) inventoryLabelY -= 4;
         isSmall = small;
         int setY = -1;
-        ScreenHandler handler = getScreenHandler();
-        if (handler instanceof CreativeInventoryScreen.CreativeScreenHandler) return;
+        AbstractContainerMenu handler = getMenu();
+        if (handler instanceof CreativeModeInventoryScreen.ItemPickerMenu) return;
         for (int i = 0; i < handler.slots.size(); i++) {
             if (handler.slots.get(i) instanceof MovableSlot slot)
-                if (handler instanceof PlayerScreenHandler) {
+                if (handler instanceof InventoryMenu) {
                     if (small)
                         SmallInvMod.tryMoveSlot(slot);
                     else slot.resetPos();
@@ -94,7 +94,7 @@ public abstract class HandledScreenMixin extends Screen implements SmallInvPlaye
                     if (small) {
                         if (setY == -1) {
                             setY = slot.y + 4;
-                            if (handler instanceof GenericContainerScreenHandler) setY--;
+                            if (handler instanceof ChestMenu) setY--;
                         }
                         if (i >= handler.slots.size() - 9) {
                             slot.setPos(slot.x, setY);

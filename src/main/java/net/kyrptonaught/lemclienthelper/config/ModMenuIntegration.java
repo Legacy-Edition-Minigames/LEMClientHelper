@@ -21,28 +21,28 @@ import net.kyrptonaught.lemclienthelper.hud.HudMod;
 import net.kyrptonaught.lemclienthelper.syncedKeybinds.SyncedKeybind;
 import net.kyrptonaught.lemclienthelper.syncedKeybinds.SyncedKeybindsConfig;
 import net.kyrptonaught.lemclienthelper.syncedKeybinds.SyncedKeybindsMod;
-import net.minecraft.text.Text;
-import net.minecraft.util.Identifier;
+import net.minecraft.network.chat.Component;
+import net.minecraft.resources.ResourceLocation;
 
 public class ModMenuIntegration implements ModMenuApi {
 
     @Override
     public ConfigScreenFactory<?> getModConfigScreenFactory() {
         return (screen) -> {
-            ConfigScreen configScreen = new ConfigScreen(screen, Text.translatable("key.lemclienthelper.title"));
+            ConfigScreen configScreen = new ConfigScreen(screen, Component.translatable("key.lemclienthelper.title"));
             configScreen.setSavingEvent(() -> {
                 LEMClientHelperMod.configManager.save();
             });
 
             //Resource Preloader
             ResourcePreloaderConfig config = ResourcePreloaderMod.getConfig();
-            ConfigSection rplSection = new ConfigSection(configScreen, Text.translatable("key.lemclienthelper.resourcepreloader"));
+            ConfigSection rplSection = new ConfigSection(configScreen, Component.translatable("key.lemclienthelper.resourcepreloader"));
 
-            rplSection.addConfigItem(new BooleanItem(Text.translatable("key.lemclienthelper.toastcomplete"), config.toastComplete, true).setSaveConsumer(val -> config.toastComplete = val));
+            rplSection.addConfigItem(new BooleanItem(Component.translatable("key.lemclienthelper.toastcomplete"), config.toastComplete, true).setSaveConsumer(val -> config.toastComplete = val));
 
-            SubItem<?> sub = new SubItem<>(Text.translatable("key.lemclienthelper.packdownloads"), true);
+            SubItem<?> sub = new SubItem<>(Component.translatable("key.lemclienthelper.packdownloads"), true);
 
-            rplSection.addConfigItem(new ButtonItem(Text.translatable("key.lemclienthelper.deletePacks")).setClickEvent(() -> {
+            rplSection.addConfigItem(new ButtonItem(Component.translatable("key.lemclienthelper.deletePacks")).setClickEvent(() -> {
                 configScreen.save();
                 ResourcePreloaderMod.deletePacks();
                 ResourcePreloaderMod.getPackList();
@@ -50,13 +50,13 @@ public class ModMenuIntegration implements ModMenuApi {
             }));
 
 
-            rplSection.addConfigItem(new ButtonItem(Text.translatable("key.lemclienthelper.previewList")).setClickEvent(() -> {
+            rplSection.addConfigItem(new ButtonItem(Component.translatable("key.lemclienthelper.previewList")).setClickEvent(() -> {
                 configScreen.save();
                 ResourcePreloaderMod.getPackList();
                 addPacksToSub(sub);
             }));
 
-            rplSection.addConfigItem(new ButtonItem(Text.translatable("key.lemclienthelper.startdownload")).setClickEvent(() -> {
+            rplSection.addConfigItem(new ButtonItem(Component.translatable("key.lemclienthelper.startdownload")).setClickEvent(() -> {
                 configScreen.save();
                 ResourcePreloaderMod.getPackList();
                 ResourcePreloaderMod.downloadPacks();
@@ -68,14 +68,14 @@ public class ModMenuIntegration implements ModMenuApi {
 
             //Server Configs
             ServerConfigsConfig serverConfig = ServerConfigsMod.getConfig();
-            ConfigSection serverConfigSection = new ConfigSection(configScreen, Text.translatable("key.lemclienthelper.serverconfig"));
+            ConfigSection serverConfigSection = new ConfigSection(configScreen, Component.translatable("key.lemclienthelper.serverconfig"));
 
-            IntegerItem guiItem = (IntegerItem) serverConfigSection.addConfigItem(new IntegerItem(Text.translatable("key.lemclienthelper.serverconfig.guiscale"), serverConfig.guiScale, 0));
+            IntegerItem guiItem = (IntegerItem) serverConfigSection.addConfigItem(new IntegerItem(Component.translatable("key.lemclienthelper.serverconfig.guiscale"), serverConfig.guiScale, 0));
             guiItem.setMinMax(0, 4);
             guiItem.setSaveConsumer(val -> serverConfig.guiScale = val);
             guiItem.setToolTipWithNewLine("key.lemclienthelper.serverconfig.guiscale.tooltip");
 
-            IntegerItem panItem = (IntegerItem) serverConfigSection.addConfigItem(new IntegerItem(Text.translatable("key.lemclienthelper.serverconfig.panscale"), serverConfig.panScale, 0));
+            IntegerItem panItem = (IntegerItem) serverConfigSection.addConfigItem(new IntegerItem(Component.translatable("key.lemclienthelper.serverconfig.panscale"), serverConfig.panScale, 0));
             panItem.setMinMax(0, 4);
             panItem.setSaveConsumer(val -> serverConfig.panScale = val);
             panItem.setToolTipWithNewLine("key.lemclienthelper.serverconfig.panscale.tooltip");
@@ -83,46 +83,46 @@ public class ModMenuIntegration implements ModMenuApi {
 
             //Hud
             HudConfig clientGUI = HudMod.getConfig();
-            ConfigSection clientGUISection = new ConfigSection(configScreen, Text.translatable("key.lemclienthelper.clientgui"));
+            ConfigSection clientGUISection = new ConfigSection(configScreen, Component.translatable("key.lemclienthelper.clientgui"));
 
-            clientGUISection.addConfigItem(new BooleanItem(Text.translatable("key.lemclienthelper.clientgui.enabled"), clientGUI.enabled, true).setSaveConsumer(val -> clientGUI.enabled = val));
-            clientGUISection.addConfigItem(new BooleanItem(Text.translatable("key.lemclienthelper.clientgui.alwaysshow"), clientGUI.alwaysEnabled, false).setSaveConsumer(val -> clientGUI.alwaysEnabled = val));
-            clientGUISection.addConfigItem(new BooleanItem(Text.translatable("key.lemclienthelper.clientgui.glidealwaysshow"), clientGUI.glideAlwaysEnabled, true).setSaveConsumer(val -> clientGUI.glideAlwaysEnabled = val));
+            clientGUISection.addConfigItem(new BooleanItem(Component.translatable("key.lemclienthelper.clientgui.enabled"), clientGUI.enabled, true).setSaveConsumer(val -> clientGUI.enabled = val));
+            clientGUISection.addConfigItem(new BooleanItem(Component.translatable("key.lemclienthelper.clientgui.alwaysshow"), clientGUI.alwaysEnabled, false).setSaveConsumer(val -> clientGUI.alwaysEnabled = val));
+            clientGUISection.addConfigItem(new BooleanItem(Component.translatable("key.lemclienthelper.clientgui.glidealwaysshow"), clientGUI.glideAlwaysEnabled, true).setSaveConsumer(val -> clientGUI.glideAlwaysEnabled = val));
 
-            FloatItem armorHudScale = (FloatItem) clientGUISection.addConfigItem(new FloatItem(Text.translatable("key.lemclienthelper.clientgui.armorscale"), clientGUI.armorHudScale, 1f));
+            FloatItem armorHudScale = (FloatItem) clientGUISection.addConfigItem(new FloatItem(Component.translatable("key.lemclienthelper.clientgui.armorscale"), clientGUI.armorHudScale, 1f));
             armorHudScale.setMinMax(1f, 4f);
             armorHudScale.setSaveConsumer(val -> clientGUI.armorHudScale = val);
             armorHudScale.setToolTipWithNewLine("key.lemclienthelper.clientgui.armorscale.tooltip");
 
-            FloatItem armorHudXOffset = (FloatItem) clientGUISection.addConfigItem(new FloatItem(Text.translatable("key.lemclienthelper.clientgui.xOffset"), clientGUI.xOffset, 20f));
+            FloatItem armorHudXOffset = (FloatItem) clientGUISection.addConfigItem(new FloatItem(Component.translatable("key.lemclienthelper.clientgui.xOffset"), clientGUI.xOffset, 20f));
             armorHudXOffset.setMinMax(0f, 100f);
             armorHudXOffset.setSaveConsumer(val -> clientGUI.xOffset = val);
             armorHudXOffset.setToolTipWithNewLine("key.lemclienthelper.clientgui.xOffset.tooltip");
 
-            FloatItem armorHudTransparency = (FloatItem) clientGUISection.addConfigItem(new FloatItem(Text.translatable("key.lemclienthelper.clientgui.transparency"), clientGUI.transparency, .75f));
+            FloatItem armorHudTransparency = (FloatItem) clientGUISection.addConfigItem(new FloatItem(Component.translatable("key.lemclienthelper.clientgui.transparency"), clientGUI.transparency, .75f));
             armorHudTransparency.setMinMax(0f, 1f);
             armorHudTransparency.setSaveConsumer(val -> clientGUI.transparency = val);
             armorHudTransparency.setToolTipWithNewLine("key.lemclienthelper.clientgui.transparency.tooltip");
 
-            //clientGUISection.addConfigItem(new ArmorHudPreviewItem(Text.translatable("key.lemclienthelper.clientgui.displaypreview"), clientGUI.enabled, false));
+            //clientGUISection.addConfigItem(new ArmorHudPreviewItem(Component.translatable("key.lemclienthelper.clientgui.displaypreview"), clientGUI.enabled, false));
 
 
             //Small Inv
-            ConfigSection smallInvSection = new ConfigSection(configScreen, Text.translatable("key.lemclienthelper.smallinv"));
-            smallInvSection.addConfigItem(new BooleanItem(Text.translatable("key.lemclienthelper.smallinv.enabled"), SmallInvMod.getConfig().enabled, true).setSaveConsumer(val -> SmallInvMod.getConfig().enabled = val));
+            ConfigSection smallInvSection = new ConfigSection(configScreen, Component.translatable("key.lemclienthelper.smallinv"));
+            smallInvSection.addConfigItem(new BooleanItem(Component.translatable("key.lemclienthelper.smallinv.enabled"), SmallInvMod.getConfig().enabled, true).setSaveConsumer(val -> SmallInvMod.getConfig().enabled = val));
 
 
             //Synced Keybinds
             SyncedKeybindsConfig syncedKeybindsConfig = SyncedKeybindsMod.getConfig();
-            ConfigSection syncedKeybinds = new ConfigSection(configScreen, Text.translatable("key.lemclienthelper.syncedkeybinds"));
+            ConfigSection syncedKeybinds = new ConfigSection(configScreen, Component.translatable("key.lemclienthelper.syncedkeybinds"));
 
-            SubItem<KeybindItem> syncedKeybindItems = new SubItem<>(Text.translatable("key.lemclienthelper.syncedkeys"), true);
+            SubItem<KeybindItem> syncedKeybindItems = new SubItem<>(Component.translatable("key.lemclienthelper.syncedkeys"), true);
             syncedKeybindItems.setToolTipWithNewLine("key.lemclienthelper.syncedkeys.tooltip");
             syncedKeybinds.addConfigItem(syncedKeybindItems);
 
-            for (Identifier id : syncedKeybindsConfig.keybinds.keySet()) {
+            for (ResourceLocation id : syncedKeybindsConfig.keybinds.keySet()) {
                 SyncedKeybindsConfig.KeybindConfigItem keybindConfigItem = syncedKeybindsConfig.keybinds.get(id);
-                KeybindItem keybindItem = (KeybindItem) new KeybindItem(Text.translatable(id.toTranslationKey("lch.key.sync")), keybindConfigItem.keybinding, keybindConfigItem.defaultKeybinding).setSaveConsumer(val -> {
+                KeybindItem keybindItem = (KeybindItem) new KeybindItem(Component.translatable(id.toLanguageKey("lch.key.sync")), keybindConfigItem.keybinding, keybindConfigItem.defaultKeybinding).setSaveConsumer(val -> {
                     keybindConfigItem.keybinding = val;
                     SyncedKeybind syncedKeybind = SyncedKeybindsMod.syncedKeybindList.get(id);
                     if (syncedKeybind != null)
@@ -139,7 +139,7 @@ public class ModMenuIntegration implements ModMenuApi {
         if (ResourcePreloaderMod.allPacks != null && ResourcePreloaderMod.allPacks.packs.size() > 0) {
             sub.clearConfigItems();
             ResourcePreloaderMod.allPacks.packs.forEach(rpOption -> {
-                sub.addConfigItem(new ResourcepackDownloadItem(rpOption).setToolTip(Text.literal(rpOption.url)));
+                sub.addConfigItem(new ResourcepackDownloadItem(rpOption).setToolTip(Component.literal(rpOption.url)));
             });
         }
     }

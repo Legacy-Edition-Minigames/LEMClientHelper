@@ -1,6 +1,6 @@
 package net.kyrptonaught.lemclienthelper.SmallInv;
 
-import net.minecraft.screen.slot.Slot;
+import net.minecraft.world.inventory.Slot;
 
 public class MovableSlot extends ExtendedSlot {
     public boolean isEnabled = true;
@@ -11,8 +11,8 @@ public class MovableSlot extends ExtendedSlot {
     }
 
     @Override
-    public boolean isEnabled() {
-        return isEnabled && super.isEnabled();
+    public boolean isActive() {
+        return isEnabled && super.isActive();
     }
 
     public void setPos(int x, int y) {

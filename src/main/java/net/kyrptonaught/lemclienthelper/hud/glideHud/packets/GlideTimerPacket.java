@@ -1,22 +1,22 @@
 package net.kyrptonaught.lemclienthelper.hud.glideHud.packets;
 
-import net.minecraft.network.RegistryByteBuf;
-import net.minecraft.network.codec.PacketCodec;
-import net.minecraft.network.codec.PacketCodecs;
-import net.minecraft.network.packet.CustomPayload;
-import net.minecraft.util.Identifier;
+import net.minecraft.network.RegistryFriendlyByteBuf;
+import net.minecraft.network.codec.ByteBufCodecs;
+import net.minecraft.network.codec.StreamCodec;
+import net.minecraft.network.protocol.common.custom.CustomPacketPayload;
+import net.minecraft.resources.ResourceLocation;
 
 /**
  * GlideTimerPacket, sets the value of the timer
  *
  * @param ticks int, elapsed time in ticks.
  */
-public record GlideTimerPacket(int ticks) implements CustomPayload {
-    public static final Id<GlideTimerPacket> PACKET_ID = new Id<>(Identifier.of("glidehud", "glide_timer_set"));
-    public static final PacketCodec<RegistryByteBuf, GlideTimerPacket> codec = PacketCodecs.INTEGER.xmap(GlideTimerPacket::new, GlideTimerPacket::ticks).cast();
+public record GlideTimerPacket(int ticks) implements CustomPacketPayload {
+    public static final Type<GlideTimerPacket> PACKET_ID = new Type<>(ResourceLocation.fromNamespaceAndPath("glidehud", "glide_timer_set"));
+    public static final StreamCodec<RegistryFriendlyByteBuf, GlideTimerPacket> codec = ByteBufCodecs.INT.map(GlideTimerPacket::new, GlideTimerPacket::ticks).cast();
 
     @Override
-    public Id<? extends CustomPayload> getId() {
+    public Type<? extends CustomPacketPayload> type() {
         return PACKET_ID;
     }
 }

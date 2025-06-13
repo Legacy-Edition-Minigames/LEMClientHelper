@@ -1,17 +1,17 @@
 package net.kyrptonaught.lemclienthelper.SpectateSqueaker;
 
-import net.minecraft.network.RegistryByteBuf;
-import net.minecraft.network.codec.PacketCodec;
-import net.minecraft.network.codec.PacketCodecs;
-import net.minecraft.network.packet.CustomPayload;
-import net.minecraft.util.Identifier;
+import net.minecraft.network.RegistryFriendlyByteBuf;
+import net.minecraft.network.codec.StreamCodec;
+import net.minecraft.network.codec.ByteBufCodecs;
+import net.minecraft.network.protocol.common.custom.CustomPacketPayload;
+import net.minecraft.resources.ResourceLocation;
 
-public record SqueakPacket(boolean enabled) implements CustomPayload {
-    public static final Id<SqueakPacket> PACKET_ID = new Id<>(Identifier.of(SpectateSqueakerMod.MOD_ID, "squeak_packet"));
-    public static final PacketCodec<RegistryByteBuf, SqueakPacket> codec = PacketCodecs.BOOL.xmap(SqueakPacket::new, SqueakPacket::enabled).cast();
+public record SqueakPacket(boolean enabled) implements CustomPacketPayload {
+    public static final Type<SqueakPacket> PACKET_ID = new Type<>(ResourceLocation.fromNamespaceAndPath(SpectateSqueakerMod.MOD_ID, "squeak_packet"));
+    public static final StreamCodec<RegistryFriendlyByteBuf, SqueakPacket> codec = ByteBufCodecs.BOOL.map(SqueakPacket::new, SqueakPacket::enabled).cast();
 
     @Override
-    public Id<? extends CustomPayload> getId() {
+    public Type<? extends CustomPacketPayload> type() {
         return PACKET_ID;
     }
 }

@@ -1,11 +1,11 @@
 package net.kyrptonaught.lemclienthelper.ServerInfo.packets;
 
 import net.kyrptonaught.lemclienthelper.ServerInfo.ServerInfoData;
-import net.minecraft.network.RegistryByteBuf;
-import net.minecraft.network.codec.PacketCodec;
-import net.minecraft.network.codec.PacketCodecs;
-import net.minecraft.network.packet.CustomPayload;
-import net.minecraft.util.Identifier;
+import net.minecraft.network.RegistryFriendlyByteBuf;
+import net.minecraft.network.codec.ByteBufCodecs;
+import net.minecraft.network.codec.StreamCodec;
+import net.minecraft.network.protocol.common.custom.CustomPacketPayload;
+import net.minecraft.resources.ResourceLocation;
 
 public class serverInfoPackets {
     /**
@@ -35,33 +35,33 @@ public class serverInfoPackets {
      * @see playerStatusPacket playerStatusPacket
      * @see phasePacket phasePacket
      */
-    public record serverInfoPacket(ServerInfoData.MINIGAME_TYPES minigame, ServerInfoData.GAME_MODES gamemode, ServerInfoData.MINIGAME_PHASES phase, byte[] playerStatus) implements CustomPayload {
-        public static final Id<serverInfoPacket> PACKET_ID = new Id<>(Identifier.of("serverinfo", "serverinfo_set"));
-        public static final PacketCodec<RegistryByteBuf, serverInfoPacket> codec = PacketCodec.tuple(
-                PacketCodecs.indexed(i -> ServerInfoData.MINIGAME_TYPES.values()[i], ServerInfoData.MINIGAME_TYPES::ordinal), serverInfoPacket::minigame,
-                PacketCodecs.indexed(i -> ServerInfoData.GAME_MODES.values()[i], ServerInfoData.GAME_MODES::ordinal), serverInfoPacket::gamemode,
-                PacketCodecs.indexed(i -> ServerInfoData.MINIGAME_PHASES.values()[i], ServerInfoData.MINIGAME_PHASES::ordinal), serverInfoPacket::phase,
-                PacketCodecs.BYTE_ARRAY, serverInfoPacket::playerStatus,
+    public record serverInfoPacket(ServerInfoData.MINIGAME_TYPES minigame, ServerInfoData.GAME_MODES gamemode, ServerInfoData.MINIGAME_PHASES phase, byte[] playerStatus) implements CustomPacketPayload {
+        public static final Type<serverInfoPacket> PACKET_ID = new Type<>(ResourceLocation.fromNamespaceAndPath("serverinfo", "serverinfo_set"));
+        public static final StreamCodec<RegistryFriendlyByteBuf, serverInfoPacket> codec = StreamCodec.composite(
+                ByteBufCodecs.idMapper(i -> ServerInfoData.MINIGAME_TYPES.values()[i], ServerInfoData.MINIGAME_TYPES::ordinal), serverInfoPacket::minigame,
+                ByteBufCodecs.idMapper(i -> ServerInfoData.GAME_MODES.values()[i], ServerInfoData.GAME_MODES::ordinal), serverInfoPacket::gamemode,
+                ByteBufCodecs.idMapper(i -> ServerInfoData.MINIGAME_PHASES.values()[i], ServerInfoData.MINIGAME_PHASES::ordinal), serverInfoPacket::phase,
+                ByteBufCodecs.BYTE_ARRAY, serverInfoPacket::playerStatus,
                 serverInfoPacket::new
         );
 
         @Override
-        public Id<? extends CustomPayload> getId() {
+        public Type<? extends CustomPacketPayload> type() {
             return PACKET_ID;
         }
     }
-    public record serverInfoIndicesPacket(int minigame, int gamemode, int phase, byte[] playerStatus) implements CustomPayload {
-        public static final Id<serverInfoIndicesPacket> PACKET_ID = new Id<>(Identifier.of("serverinfo", "serverinfo_indices_set"));
-        public static final PacketCodec<RegistryByteBuf, serverInfoIndicesPacket> codec = PacketCodec.tuple(
-                PacketCodecs.INTEGER, serverInfoIndicesPacket::minigame,
-                PacketCodecs.INTEGER, serverInfoIndicesPacket::gamemode,
-                PacketCodecs.INTEGER, serverInfoIndicesPacket::phase,
-                PacketCodecs.BYTE_ARRAY, serverInfoIndicesPacket::playerStatus,
+    public record serverInfoIndicesPacket(int minigame, int gamemode, int phase, byte[] playerStatus) implements CustomPacketPayload {
+        public static final Type<serverInfoIndicesPacket> PACKET_ID = new Type<>(ResourceLocation.fromNamespaceAndPath("serverinfo", "serverinfo_indices_set"));
+        public static final StreamCodec<RegistryFriendlyByteBuf, serverInfoIndicesPacket> codec = StreamCodec.composite(
+                ByteBufCodecs.INT, serverInfoIndicesPacket::minigame,
+                ByteBufCodecs.INT, serverInfoIndicesPacket::gamemode,
+                ByteBufCodecs.INT, serverInfoIndicesPacket::phase,
+                ByteBufCodecs.BYTE_ARRAY, serverInfoIndicesPacket::playerStatus,
                 serverInfoIndicesPacket::new
         );
 
         @Override
-        public Id<? extends CustomPayload> getId() {
+        public Type<? extends CustomPacketPayload> type() {
             return PACKET_ID;
         }
     }
@@ -76,15 +76,15 @@ public class serverInfoPackets {
      */
     @SuppressWarnings("DeprecatedIsStillUsed")
     @Deprecated
-    public record minigamePacket(ServerInfoData.MINIGAME_TYPES minigame) implements CustomPayload {
-        public static final Id<minigamePacket> PACKET_ID = new Id<>(Identifier.of("serverinfo", "minigame_set"));
-        public static final PacketCodec<RegistryByteBuf, minigamePacket> codec = PacketCodec.tuple(
-                PacketCodecs.indexed(i -> ServerInfoData.MINIGAME_TYPES.values()[i], ServerInfoData.MINIGAME_TYPES::ordinal), minigamePacket::minigame,
+    public record minigamePacket(ServerInfoData.MINIGAME_TYPES minigame) implements CustomPacketPayload {
+        public static final Type<minigamePacket> PACKET_ID = new Type<>(ResourceLocation.fromNamespaceAndPath("serverinfo", "minigame_set"));
+        public static final StreamCodec<RegistryFriendlyByteBuf, minigamePacket> codec = StreamCodec.composite(
+                ByteBufCodecs.idMapper(i -> ServerInfoData.MINIGAME_TYPES.values()[i], ServerInfoData.MINIGAME_TYPES::ordinal), minigamePacket::minigame,
                 minigamePacket::new
         );
 
         @Override
-        public Id<? extends CustomPayload> getId() {
+        public Type<? extends CustomPacketPayload> type() {
             return PACKET_ID;
         }
     }
@@ -96,27 +96,27 @@ public class serverInfoPackets {
      * @param gamemode {@link ServerInfoData.GAME_MODES}. Gamemode the client is in.
      *
      */
-    public record gamemodePacket(ServerInfoData.GAME_MODES gamemode) implements CustomPayload {
-        public static final Id<gamemodePacket> PACKET_ID = new Id<>(Identifier.of("serverinfo", "gamemode_set"));
-        public static final PacketCodec<RegistryByteBuf, gamemodePacket> codec = PacketCodec.tuple(
-                PacketCodecs.indexed(i -> ServerInfoData.GAME_MODES.values()[i], ServerInfoData.GAME_MODES::ordinal), gamemodePacket::gamemode,
+    public record gamemodePacket(ServerInfoData.GAME_MODES gamemode) implements CustomPacketPayload {
+        public static final Type<gamemodePacket> PACKET_ID = new Type<>(ResourceLocation.fromNamespaceAndPath("serverinfo", "gamemode_set"));
+        public static final StreamCodec<RegistryFriendlyByteBuf, gamemodePacket> codec = StreamCodec.composite(
+                ByteBufCodecs.idMapper(i -> ServerInfoData.GAME_MODES.values()[i], ServerInfoData.GAME_MODES::ordinal), gamemodePacket::gamemode,
                 gamemodePacket::new
         );
 
         @Override
-        public Id<? extends CustomPayload> getId() {
+        public Type<? extends CustomPacketPayload> type() {
             return PACKET_ID;
         }
     }
-    public record gamemodeIndexPacket(int gamemode) implements CustomPayload {
-        public static final Id<gamemodeIndexPacket> PACKET_ID = new Id<>(Identifier.of("serverinfo", "gamemode_index_set"));
-        public static final PacketCodec<RegistryByteBuf, gamemodeIndexPacket> codec = PacketCodec.tuple(
-                PacketCodecs.INTEGER, gamemodeIndexPacket::gamemode,
+    public record gamemodeIndexPacket(int gamemode) implements CustomPacketPayload {
+        public static final Type<gamemodeIndexPacket> PACKET_ID = new Type<>(ResourceLocation.fromNamespaceAndPath("serverinfo", "gamemode_index_set"));
+        public static final StreamCodec<RegistryFriendlyByteBuf, gamemodeIndexPacket> codec = StreamCodec.composite(
+                ByteBufCodecs.INT, gamemodeIndexPacket::gamemode,
                 gamemodeIndexPacket::new
         );
 
         @Override
-        public Id<? extends CustomPayload> getId() {
+        public Type<? extends CustomPacketPayload> type() {
             return PACKET_ID;
         }
     }
@@ -127,27 +127,27 @@ public class serverInfoPackets {
      * @param phase {@link ServerInfoData.MINIGAME_PHASES}. Phase the game is in.
      *
      */
-    public record phasePacket(ServerInfoData.MINIGAME_PHASES phase) implements CustomPayload {
-        public static final Id<phasePacket> PACKET_ID = new Id<>(Identifier.of("serverinfo", "phase_set"));
-        public static final PacketCodec<RegistryByteBuf, phasePacket> codec = PacketCodec.tuple(
-                PacketCodecs.indexed(i -> ServerInfoData.MINIGAME_PHASES.values()[i], ServerInfoData.MINIGAME_PHASES::ordinal), phasePacket::phase,
+    public record phasePacket(ServerInfoData.MINIGAME_PHASES phase) implements CustomPacketPayload {
+        public static final Type<phasePacket> PACKET_ID = new Type<>(ResourceLocation.fromNamespaceAndPath("serverinfo", "phase_set"));
+        public static final StreamCodec<RegistryFriendlyByteBuf, phasePacket> codec = StreamCodec.composite(
+                ByteBufCodecs.idMapper(i -> ServerInfoData.MINIGAME_PHASES.values()[i], ServerInfoData.MINIGAME_PHASES::ordinal), phasePacket::phase,
                 phasePacket::new
         );
 
         @Override
-        public Id<? extends CustomPayload> getId() {
+        public Type<? extends CustomPacketPayload> type() {
             return PACKET_ID;
         }
     }
-    public record phaseIndexPacket(int phase) implements CustomPayload {
-        public static final Id<phaseIndexPacket> PACKET_ID = new Id<>(Identifier.of("serverinfo", "phase_index_set"));
-        public static final PacketCodec<RegistryByteBuf, phaseIndexPacket> codec = PacketCodec.tuple(
-                PacketCodecs.INTEGER, phaseIndexPacket::phase,
+    public record phaseIndexPacket(int phase) implements CustomPacketPayload {
+        public static final Type<phaseIndexPacket> PACKET_ID = new Type<>(ResourceLocation.fromNamespaceAndPath("serverinfo", "phase_index_set"));
+        public static final StreamCodec<RegistryFriendlyByteBuf, phaseIndexPacket> codec = StreamCodec.composite(
+                ByteBufCodecs.INT, phaseIndexPacket::phase,
                 phaseIndexPacket::new
         );
 
         @Override
-        public Id<? extends CustomPayload> getId() {
+        public Type<? extends CustomPacketPayload> type() {
             return PACKET_ID;
         }
     }
@@ -160,15 +160,15 @@ public class serverInfoPackets {
      *
      * @param playerStatus byte[], -1 — Spectating; 0 — Dead/Not Ready; 1 — Alive/Ready;
      */
-    public record playerStatusPacket(byte[] playerStatus) implements CustomPayload {
-        public static final Id<playerStatusPacket> PACKET_ID = new Id<>(Identifier.of("serverinfo", "playerstatus_set"));
-        public static final PacketCodec<RegistryByteBuf, playerStatusPacket> codec = PacketCodec.tuple(
-                PacketCodecs.BYTE_ARRAY, playerStatusPacket::playerStatus,
+    public record playerStatusPacket(byte[] playerStatus) implements CustomPacketPayload {
+        public static final Type<playerStatusPacket> PACKET_ID = new Type<>(ResourceLocation.fromNamespaceAndPath("serverinfo", "playerstatus_set"));
+        public static final StreamCodec<RegistryFriendlyByteBuf, playerStatusPacket> codec = StreamCodec.composite(
+                ByteBufCodecs.BYTE_ARRAY, playerStatusPacket::playerStatus,
                 playerStatusPacket::new
         );
 
         @Override
-        public Id<? extends CustomPayload> getId() {
+        public Type<? extends CustomPacketPayload> type() {
             return PACKET_ID;
         }
     }
