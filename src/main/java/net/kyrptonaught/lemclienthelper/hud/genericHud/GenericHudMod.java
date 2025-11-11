@@ -6,6 +6,7 @@ import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking;
 import net.fabricmc.fabric.api.client.rendering.v1.HudRenderCallback;
 import net.fabricmc.fabric.api.networking.v1.PayloadTypeRegistry;
 import net.fabricmc.loader.api.FabricLoader;
+import net.kyrptonaught.lemclienthelper.hud.genericHud.HideVanillaHUD;
 import net.kyrptonaught.lemclienthelper.hud.genericHud.packets.BannerPacket;
 import net.kyrptonaught.lemclienthelper.hud.genericHud.packets.PlayerBarPacket;
 
@@ -65,7 +66,13 @@ public class GenericHudMod {
                 accessor.getStaticDefinitions().add(UIDefinition.createBeforeInit((a) -> {
                     if ((Boolean)LegacyMixinOptions.legacyGui.get()) {
                         a.getElements().put(FactoryGuiElement.EXPERIENCE_BAR.name() + ".isVisible", () -> {
-                            return !SHOULD_RENDER_PLAYERBAR;
+                            return HideVanillaHUD.visibe.getValue(HideVanillaHUD.HUD_ELEMENT.EXPERIENCE) && HideVanillaHUD.visibe.getValue(HideVanillaHUD.HUD_ELEMENT.STATS) && HideVanillaHUD.visibe.getValue(HideVanillaHUD.HUD_ELEMENT.ALL);
+                        });
+                        a.getElements().put(FactoryGuiElement.PLAYER_HEALTH.name() + ".isVisible", () -> {
+                            return HideVanillaHUD.visibe.getValue(HideVanillaHUD.HEARTS.HOTBAR) && HideVanillaHUD.visibe.getValue(HideVanillaHUD.HUD_ELEMENT.STATS) && HideVanillaHUD.visibe.getValue(HideVanillaHUD.HUD_ELEMENT.ALL);
+                        });
+                        a.getElements().put(FactoryGuiElement.HOTBAR.name() + ".isVisible", () -> {
+                            return HideVanillaHUD.visibe.getValue(HideVanillaHUD.HUD_ELEMENT.HOTBAR) && HideVanillaHUD.visibe.getValue(HideVanillaHUD.HUD_ELEMENT.ALL);
                         });
                     }
                 }));
@@ -77,7 +84,10 @@ public class GenericHudMod {
         ClientPlayConnectionEvents.JOIN.register((handler, sender, client) -> SHOULD_RENDER_PLAYERBAR = false);
 
         PayloadTypeRegistry.playS2C().register(PlayerBarPacket.PACKET_ID, PlayerBarPacket.codec);
-        ClientPlayNetworking.registerGlobalReceiver(PlayerBarPacket.PACKET_ID, ((payload, context) -> SHOULD_RENDER_PLAYERBAR = payload.enabled()));
+        ClientPlayNetworking.registerGlobalReceiver(PlayerBarPacket.PACKET_ID, ((payload, context) -> { 
+                SHOULD_RENDER_PLAYERBAR = payload.enabled();
+                HideVanillaHUD.visibe.put(HideVanillaHUD.HUD_ELEMENT.EXPERIENCE, !payload.enabled());
+        }));
 
         PayloadTypeRegistry.playS2C().register(BannerPacket.PACKET_ID, BannerPacket.codec);
         ClientPlayNetworking.registerGlobalReceiver(BannerPacket.PACKET_ID, ((payload, context) -> {
