@@ -1,7 +1,7 @@
 {
   "schemaVersion": 1,
   "id": "lemclienthelper",
-  "version": "0.0.27-1.21",
+  "version": "${version}",
   "name": "LEM Client Helper",
   "description": "LEM Client Helper",
   "authors": [
@@ -16,7 +16,7 @@
     "homepage": "https://github.com/Legacy-Edition-Minigames/lemclienthelper",
     "sources": "https://github.com/Legacy-Edition-Minigames/lemclienthelper"
   },
-  "license": "MIT",
+  "license": "PolyForm-Perimeter-1.0.0",
   "icon": "assets/lemclienthelper/icon.png",
   "environment": "client",
   "entrypoints": {
