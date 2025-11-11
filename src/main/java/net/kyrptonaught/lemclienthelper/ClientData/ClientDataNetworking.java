@@ -22,8 +22,14 @@ public class ClientDataNetworking {
 
             FriendlyByteBuf respondeBuf = new FriendlyByteBuf(Unpooled.buffer());
             respondeBuf.writeBoolean(true); //LEMClientHelper, Always true
+            // TODO: Start sending LCH version, this can help when diagnosing issues caused by differences between
+            //       server Heirloom ver and client LCH ver.
+            // respondeBuf.writeString(LEMClientHelperMod.MOD_VERSION);
             respondeBuf.writeBoolean(ClientDataMod.isOptifineLoaded(loader));
             respondeBuf.writeBoolean(ClientDataMod.isControllerModLoaded(loader));
+            // TODO: Send L4J info, 
+            //       (Note, probably should also send version for this, as L4J tends to change alot update to update.)
+            // respondeBuf.writeBoolean(ClientDataMod.isL4JLoaded(loader));
             respondeBuf.writeInt(ServerConfigsMod.getConfig().guiScale);
             respondeBuf.writeInt(ServerConfigsMod.getConfig().panScale);
 

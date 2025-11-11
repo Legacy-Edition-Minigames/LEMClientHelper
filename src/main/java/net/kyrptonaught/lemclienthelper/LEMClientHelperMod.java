@@ -19,6 +19,10 @@ import com.mojang.blaze3d.platform.InputConstants;
 
 public class LEMClientHelperMod implements ClientModInitializer {
     public static final String MOD_ID = "lemclienthelper";
+
+    //TODO Find a better way to get this value.
+    public static final String MOD_VERSION = FabricLoader.getInstance().getModContainer(MOD_ID).getMetadata().getVersion().getFriendlyString();
+    
     public static ConfigManager.MultiConfigManager configManager = new ConfigManager.MultiConfigManager(MOD_ID);
 
 
