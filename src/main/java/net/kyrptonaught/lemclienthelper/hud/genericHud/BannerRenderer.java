@@ -45,14 +45,14 @@ public class BannerRenderer {
         int x = (width/2) - (int)((24 * shieldScale)/2);
         int y = ((13 * height)/50) - (int)((34 * shieldScale)/2);
 
-        context.pose().pushPose();
+        context.pose().pushMatrix();
         RenderSystem.enableBlend();
 
         if (elapsed >= 0.1f) { renderParticles(context,elapsed,(width/2),height); }
         renderShield(context,x,y);
         if (elapsed >= (16f/30f)) { renderBanner(context,elapsed,width,height); }
 
-        context.pose().popPose();
+        context.pose().popMatrix();
 
         if (elapsed >= elapsedMax) {
             reset();

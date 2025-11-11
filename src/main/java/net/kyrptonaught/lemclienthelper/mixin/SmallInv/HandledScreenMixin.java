@@ -8,6 +8,8 @@ import net.minecraft.client.gui.screens.inventory.ContainerScreen;
 import net.minecraft.client.gui.screens.inventory.CreativeModeInventoryScreen;
 import net.minecraft.client.gui.screens.inventory.InventoryScreen;
 import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
+import net.minecraft.client.input.KeyEvent;
+import net.minecraft.client.input.MouseButtonEvent;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraft.world.inventory.ChestMenu;
@@ -43,23 +45,23 @@ public abstract class HandledScreenMixin extends Screen implements SmallInvPlaye
     }
 
     @Inject(method = "keyPressed", at = @At("HEAD"), cancellable = true)
-    public void keyPressed(int keyCode, int scanCode, int modifiers, CallbackInfoReturnable<Boolean> cir) {
-        if (SmallInvMod.isKeybindPressed(keyCode, false)) {
+    public void keyPressed(KeyEvent keyEvent, CallbackInfoReturnable<Boolean> cir) {
+        if (SmallInvMod.isKeybindPressed(keyEvent.key(), false)) {
             setIsSmall(false);
             cir.setReturnValue(true);
         }
     }
 
     @Inject(method = "mouseClicked", at = @At("HEAD"), cancellable = true)
-    public void mouseClicked(double mouseX, double mouseY, int button, CallbackInfoReturnable<Boolean> cir) {
-        if (SmallInvMod.isKeybindPressed(button, true)) {
+    public void mouseClicked(MouseButtonEvent mouseButtonEvent, boolean bl, CallbackInfoReturnable<Boolean> cir) {
+        if (SmallInvMod.isKeybindPressed(mouseButtonEvent.button(), true)) {
             setIsSmall(false);
             cir.setReturnValue(true);
         }
     }
 
     @Inject(method = "hasClickedOutside", at = @At("HEAD"), cancellable = true)
-    public void isClickOutsideSmallBounds(double mouseX, double mouseY, int left, int top, int button, CallbackInfoReturnable<Boolean> cir) {
+    public void isClickOutsideSmallBounds(double mouseX, double mouseY, int left, int top, CallbackInfoReturnable<Boolean> cir) {
         if (getIsSmall()) {
             AbstractContainerScreen<?> handledScreen = (AbstractContainerScreen<?>) (Object) this;
             if (!(handledScreen instanceof InventoryScreen) &&

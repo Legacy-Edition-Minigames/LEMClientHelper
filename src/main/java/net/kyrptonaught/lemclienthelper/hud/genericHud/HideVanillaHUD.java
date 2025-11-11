@@ -1,17 +1,20 @@
-package net.kyrptonaught.lemclienthelper.hud.glideHud;
+package net.kyrptonaught.lemclienthelper.hud.genericHud;
 
 import java.util.HashMap;
 
-import net.kyrptonaught.lemclienthelper.ServerInfo.ServerInfoData;
-import net.kyrptonaught.lemclienthelper.hud.HudMod;
-import net.minecraft.client.DeltaTracker;
-import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.GuiGraphics;
-import net.minecraft.resources.ResourceLocation;
-import net.minecraft.util.Mth;
-
 public class HideVanillaHUD {
-    public static final enum HUD_ELEMENT {
+
+    /**
+     * <pre>
+     * ALL - All Elements
+     * EXPERIENCE - Experience Bar/Locator Bar
+     * HEARTS - Player health
+     * HOTBAR - Player hotbar
+     * HUNGER - Player hunger
+     * STATS - EXPERIENCE, HEARTS, &, HUNGER
+     * </pre>
+     */
+    public enum HUD_ELEMENT {
         ALL,
         EXPERIENCE,
         HEARTS,
@@ -22,10 +25,4 @@ public class HideVanillaHUD {
 
     public static HashMap<HUD_ELEMENT, Boolean> visible;
 
-    init {
-        visible.clear();
-        HUD_ELEMENT.forEach(element -> 
-            visibe.putIfAbsent(element, true)
-        );
-    }
 }

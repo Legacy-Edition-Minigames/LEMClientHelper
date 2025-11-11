@@ -32,14 +32,14 @@ public class ArmorHudRenderer {
         if (client.player != null && ArmorHudMod.shouldDisplayArmor() && !client.options.hideGui) {
             int height = client.getWindow().getGuiScaledHeight();
 
-            context.pose().pushPose();
+            context.pose().pushMatrix();
             context.pose().translate(HudMod.getConfig().xOffset, height / 2f, 0);
             context.pose().scale(HudMod.getConfig().armorHudScale, HudMod.getConfig().armorHudScale, 1f);
             context.pose().translate(0, -32, 0);
             context.setColor(1f, 1f, 1f, HudMod.getConfig().transparency);
 
             for (int i = 0; i < 4; i++) {
-                ItemStack armorStack = client.player.getInventory().getArmor(i);
+                ItemStack armorStack = client.player.getInventory().getItem(i);
                 int y = 16 * (3 - i);
                 if (armorStack.isEmpty()) {
                     draw(context, EMPTY_SLOTS[i], 0, y);
@@ -49,7 +49,7 @@ public class ArmorHudRenderer {
                 }
             }
             context.setColor(1f, 1f, 1f, 1f);
-            context.pose().popPose();
+            context.pose().popMatrix();
         }
     }
 
@@ -57,7 +57,7 @@ public class ArmorHudRenderer {
         Minecraft client = Minecraft.getInstance();
         int height = client.getWindow().getGuiScaledHeight();
 
-        context.pose().pushPose();
+        context.pose().pushMatrix();
         context.pose().translate(xOffset, height / 2f, 0);
         context.pose().scale(scale, scale, 1f);
         context.pose().translate(0, -32, 0);
@@ -76,7 +76,7 @@ public class ArmorHudRenderer {
             }
         }
         context.setColor(1f, 1f, 1f, 1f);
-        context.pose().popPose();
+        context.pose().popMatrix();
     }
 
     private static void draw(GuiGraphics context, ResourceLocation texture, float x, float y) {

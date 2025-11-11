@@ -44,7 +44,7 @@ public class GlideHudRenderer {
             int height = client.getWindow().getGuiScaledHeight();
             int width = client.getWindow().getGuiScaledWidth();
 
-            context.pose().pushPose();
+            context.pose().pushMatrix();
             context.pose().translate((width - HudMod.getConfig().xOffset), height / 2f, 0);
             context.pose().scale(HudMod.getConfig().armorHudScale, HudMod.getConfig().armorHudScale, 1f);
             context.pose().translate(0, -24, 0);
@@ -54,7 +54,7 @@ public class GlideHudRenderer {
             renderSpeedometer(context, client);
             if (ServerInfoData.getGamemode() == ServerInfoData.GAME_MODES.SCORE_ATTACK) {renderScore(context, client);}
             context.setColor(1f, 1f, 1f, 1f);
-            context.pose().popPose();
+            context.pose().popMatrix();
         }
     }
 

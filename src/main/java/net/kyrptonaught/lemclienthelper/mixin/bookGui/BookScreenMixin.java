@@ -2,6 +2,7 @@ package net.kyrptonaught.lemclienthelper.mixin.bookGui;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.screens.inventory.BookViewScreen;
+import net.minecraft.network.chat.ClickEvent;
 import net.minecraft.network.chat.Style;
 import org.lwjgl.glfw.GLFW;
 import org.spongepowered.asm.mixin.Mixin;
@@ -17,8 +18,8 @@ public class BookScreenMixin {
     @Unique
     private static Double mouseX, mouseY;
 
-    @Inject(method = "handleComponentClicked", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/gui/screens/inventory/BookViewScreen;closeScreen()V"))
-    public void saveMouse(Style style, CallbackInfoReturnable<Boolean> cir) {
+    @Inject(method = "handleClickEvent", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/gui/screens/inventory/BookViewScreen;closeContainerOnServer()V"))
+    public void saveMouse(Minecraft minecraft, ClickEvent clickEvent, CallbackInfo ci) {
         mouseX = Minecraft.getInstance().mouseHandler.xpos();
         mouseY = Minecraft.getInstance().mouseHandler.ypos();
     }
@@ -26,7 +27,7 @@ public class BookScreenMixin {
     @Inject(method = "init", at = @At(value = "HEAD"))
     public void loadMouse(CallbackInfo ci) {
         if (mouseX != null && mouseY != null) {
-            GLFW.glfwSetCursorPos(Minecraft.getInstance().getWindow().getWindow(), mouseX, mouseY);
+            GLFW.glfwSetCursorPos(Minecraft.getInstance().getWindow().handle(), mouseX, mouseY);
             mouseX = null;
             mouseY = null;
         }

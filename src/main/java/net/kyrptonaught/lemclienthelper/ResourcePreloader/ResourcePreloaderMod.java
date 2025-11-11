@@ -72,7 +72,7 @@ public class ResourcePreloaderMod {
                 Util.nonCriticalIoPool().execute(() -> downloadPack(rpOption, downloadsDirectory, SHA1, headers, proxy, () -> {
                     counter.getAndDecrement();
                     if (counter.get() <= 0 && getConfig().toastComplete) {
-                        SystemToast.add(Minecraft.getInstance().getToasts(), SystemToast.SystemToastId.PERIODIC_NOTIFICATION, Component.translatable("key.lemclienthelper.alldownloadcomplete"), null);
+                        SystemToast.add(Minecraft.getInstance().getToastManager(), SystemToast.SystemToastId.PERIODIC_NOTIFICATION, Component.translatable("key.lemclienthelper.alldownloadcomplete"), null);
                     }
                 }));
             }
@@ -114,7 +114,7 @@ public class ResourcePreloaderMod {
 
     private static Map<String, String> getHeaders(User session) {
         WorldVersion gameVersion = SharedConstants.getCurrentVersion();
-        return Map.of("X-Minecraft-Username", session.getName(), "X-Minecraft-UUID", UndashedUuid.toString(session.getProfileId()), "X-Minecraft-Version", gameVersion.getName(), "X-Minecraft-Version-ID", gameVersion.getId(), "X-Minecraft-Pack-Format", String.valueOf(gameVersion.getPackVersion(PackType.CLIENT_RESOURCES)), "User-Agent", "Minecraft Java/" + gameVersion.getName());
+        return Map.of("X-Minecraft-Username", session.getName(), "X-Minecraft-UUID", UndashedUuid.toString(session.getProfileId()), "X-Minecraft-Version", gameVersion.name(), "X-Minecraft-Version-ID", gameVersion.id(), "X-Minecraft-Pack-Format", String.valueOf(gameVersion.packVersion(PackType.CLIENT_RESOURCES)), "User-Agent", "Minecraft Java/" + gameVersion.name());
     }
 
     private static HttpUtil.DownloadProgressListener createListener(AllPacks.RPOption rpOption, Runnable onComplete) {

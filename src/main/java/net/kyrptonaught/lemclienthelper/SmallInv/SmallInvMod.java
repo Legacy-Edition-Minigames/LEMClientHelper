@@ -5,6 +5,7 @@ import net.fabricmc.fabric.api.client.keybinding.v1.KeyBindingHelper;
 import net.kyrptonaught.lemclienthelper.LEMClientHelperMod;
 import net.minecraft.client.KeyMapping;
 import net.minecraft.core.component.DataComponents;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
@@ -23,7 +24,7 @@ public class SmallInvMod {
     public static void onInitialize() {
         LEMClientHelperMod.configManager.registerFile(MOD_ID, new SmallInvConfig());
         LEMClientHelperMod.configManager.load(MOD_ID);
-        closeSmallInvKey = KeyBindingHelper.registerKeyBinding(new KeyMapping(LEMClientHelperMod.MOD_ID + ".key.closesmallinv", InputConstants.Type.KEYSYM, GLFW.GLFW_KEY_I, "key.category." + LEMClientHelperMod.MOD_ID));
+        closeSmallInvKey = KeyBindingHelper.registerKeyBinding(new KeyMapping(LEMClientHelperMod.MOD_ID + ".key.closesmallinv", InputConstants.Type.KEYSYM, GLFW.GLFW_KEY_I, KeyMapping.Category.register(ResourceLocation.fromNamespaceAndPath(LEMClientHelperMod.MOD_ID, "keys"))));
 
         registerSmallSlot(5, 55, 9);
         registerSmallSlot(6, 55, 27);
@@ -50,7 +51,7 @@ public class SmallInvMod {
         if (!getConfig().enabled) return false;
 
         //give @p knowledge_book{display:{Name:'{"text":" "}'},SmallInv:1,CustomModelData:1}
-        for (ItemStack itemStack : player.getInventory().items) {
+        for (ItemStack itemStack : player.getInventory().getNonEquipmentItems()) {
             if (isSmallSlot(itemStack))
                 return true;
         }
@@ -83,6 +84,6 @@ public class SmallInvMod {
     public static boolean isSmallSlot(ItemStack stack) {
         return stack.is(Items.KNOWLEDGE_BOOK) &&
                 stack.has(DataComponents.CUSTOM_DATA) &&
-                stack.get(DataComponents.CUSTOM_DATA).contains("SmallInv");
+                stack.getOrDefault(DataComponents.CUSTOM_DATA,null).copyTag().contains("SmallInv");
     }
 }

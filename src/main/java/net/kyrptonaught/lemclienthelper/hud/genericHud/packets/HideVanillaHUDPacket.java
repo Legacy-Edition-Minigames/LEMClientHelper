@@ -1,6 +1,7 @@
 package net.kyrptonaught.lemclienthelper.hud.genericHud.packets;
 
 import net.kyrptonaught.lemclienthelper.hud.genericHud.HideVanillaHUD;
+import net.kyrptonaught.lemclienthelper.hud.glideHud.GlideHudMod;
 import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.codec.ByteBufCodecs;
@@ -14,8 +15,8 @@ import java.util.Optional;
 /**
  * HideVanillaHUDPacket sends banner to client
  *
- * @param element an enumerator, HOTBAR, HEARTS, HUNGER, STATS (Hearts & Hunger), ALL (Hearts, Hunger, & Hotbar).
- * @param visibe boolean, Is the element visible, false for hidden, true for shown.
+ * @param element HideVanillaHUD.HUD_ELEMENT, {@link HideVanillaHUD.HUD_ELEMENT}.
+ * @param visible boolean, Is the element visible, false for hidden, true for shown.
  */
 public record HideVanillaHUDPacket(HideVanillaHUD.HUD_ELEMENT element, boolean visible) implements CustomPacketPayload {
     public static final Type<HideVanillaHUDPacket> PACKET_ID = new Type<>(ResourceLocation.fromNamespaceAndPath("hud", "hidevanilla"));

@@ -6,7 +6,6 @@ import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking;
 import net.fabricmc.fabric.api.client.rendering.v1.HudRenderCallback;
 import net.fabricmc.fabric.api.networking.v1.PayloadTypeRegistry;
 import net.fabricmc.loader.api.FabricLoader;
-import net.kyrptonaught.lemclienthelper.hud.genericHud.HideVanillaHUD;
 import net.kyrptonaught.lemclienthelper.hud.genericHud.packets.BannerPacket;
 import net.kyrptonaught.lemclienthelper.hud.genericHud.packets.PlayerBarPacket;
 
@@ -45,8 +44,6 @@ import wily.legacy.client.screen.compat.ModMenuCompat;
 import wily.legacy.client.screen.compat.SodiumCompat;
 import wily.legacy.init.LegacyRegistries;
 import wily.legacy.network.TopMessage;
-import wily.legacy.util.MCAccount;
-import wily.legacy.util.ScreenUtil;
 
 import java.util.Optional;
 
@@ -64,15 +61,15 @@ public class GenericHudMod {
                 LegacyOptions.CLIENT_STORAGE.load();
                 UIAccessor accessor = FactoryScreenUtil.getGuiAccessor();
                 accessor.getStaticDefinitions().add(UIDefinition.createBeforeInit((a) -> {
-                    if ((Boolean)LegacyMixinOptions.legacyGui.get()) {
+                    if (LegacyMixinOptions.legacyGui.get()) {
                         a.getElements().put(FactoryGuiElement.EXPERIENCE_BAR.name() + ".isVisible", () -> {
-                            return HideVanillaHUD.visibe.getValue(HideVanillaHUD.HUD_ELEMENT.EXPERIENCE) && HideVanillaHUD.visibe.getValue(HideVanillaHUD.HUD_ELEMENT.STATS) && HideVanillaHUD.visibe.getValue(HideVanillaHUD.HUD_ELEMENT.ALL);
+                            return HideVanillaHUD.visible.getOrDefault(HideVanillaHUD.HUD_ELEMENT.EXPERIENCE, true) && HideVanillaHUD.visible.getOrDefault(HideVanillaHUD.HUD_ELEMENT.STATS,true) && HideVanillaHUD.visible.getOrDefault(HideVanillaHUD.HUD_ELEMENT.ALL, true);
                         });
                         a.getElements().put(FactoryGuiElement.PLAYER_HEALTH.name() + ".isVisible", () -> {
-                            return HideVanillaHUD.visibe.getValue(HideVanillaHUD.HEARTS.HOTBAR) && HideVanillaHUD.visibe.getValue(HideVanillaHUD.HUD_ELEMENT.STATS) && HideVanillaHUD.visibe.getValue(HideVanillaHUD.HUD_ELEMENT.ALL);
+                            return HideVanillaHUD.visible.getOrDefault(HideVanillaHUD.HUD_ELEMENT.HEARTS, true) && HideVanillaHUD.visible.getOrDefault(HideVanillaHUD.HUD_ELEMENT.STATS,true) && HideVanillaHUD.visible.getOrDefault(HideVanillaHUD.HUD_ELEMENT.ALL, true);
                         });
                         a.getElements().put(FactoryGuiElement.HOTBAR.name() + ".isVisible", () -> {
-                            return HideVanillaHUD.visibe.getValue(HideVanillaHUD.HUD_ELEMENT.HOTBAR) && HideVanillaHUD.visibe.getValue(HideVanillaHUD.HUD_ELEMENT.ALL);
+                            return HideVanillaHUD.visible.getOrDefault(HideVanillaHUD.HUD_ELEMENT.HOTBAR, true) && HideVanillaHUD.visible.getOrDefault(HideVanillaHUD.HUD_ELEMENT.ALL, true);
                         });
                     }
                 }));
@@ -86,7 +83,7 @@ public class GenericHudMod {
         PayloadTypeRegistry.playS2C().register(PlayerBarPacket.PACKET_ID, PlayerBarPacket.codec);
         ClientPlayNetworking.registerGlobalReceiver(PlayerBarPacket.PACKET_ID, ((payload, context) -> { 
                 SHOULD_RENDER_PLAYERBAR = payload.enabled();
-                HideVanillaHUD.visibe.put(HideVanillaHUD.HUD_ELEMENT.EXPERIENCE, !payload.enabled());
+                HideVanillaHUD.visible.put(HideVanillaHUD.HUD_ELEMENT.EXPERIENCE, !payload.enabled());
         }));
 
         PayloadTypeRegistry.playS2C().register(BannerPacket.PACKET_ID, BannerPacket.codec);
@@ -130,7 +127,7 @@ public class GenericHudMod {
                                                                                 new serverInfoPackets.phasePacket(
                                                                                         ServerInfoData.MINIGAME_PHASES.values()[IntegerArgumentType.getInteger(context,"phase")]));
                                                                         ServerPlayNetworking.send(EntityArgument.getPlayer(context, "target"),
-                                                                                new BannerPacket(ComponentArgument.getComponent(context,"text"), Optional.of(FloatArgumentType.getFloat(context, "elapsedMax"))));
+                                                                                new BannerPacket(ComponentArgument.getRawComponent(context,"text"), Optional.of(FloatArgumentType.getFloat(context, "elapsedMax"))));
                                                                         return 0;
                                                         })).executes(context -> {
                                                                     ServerPlayNetworking.send(EntityArgument.getPlayer(context, "target"),
@@ -143,7 +140,7 @@ public class GenericHudMod {
                                                                             new serverInfoPackets.phasePacket(
                                                                                     ServerInfoData.MINIGAME_PHASES.values()[IntegerArgumentType.getInteger(context, "phase")]));
                                                                     ServerPlayNetworking.send(EntityArgument.getPlayer(context, "target"),
-                                                                            new BannerPacket(ComponentArgument.getComponent(context, "text"),Optional.empty()));
+                                                                            new BannerPacket(ComponentArgument.getRawComponent(context, "text"),Optional.empty()));
                                                                     return 0;
                                                                 })))))))));
 

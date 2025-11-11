@@ -48,7 +48,7 @@ public class CustomWorldBorderArea implements WorldBorder.BorderExtent {
     }
 
     @Override
-    public long getLerpRemainingTime() {
+    public long getLerpTime() {
         return 0;
     }
 
