@@ -4,6 +4,8 @@ import com.mojang.brigadier.arguments.FloatArgumentType;
 import net.fabricmc.fabric.api.client.networking.v1.ClientPlayConnectionEvents;
 import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking;
 import net.fabricmc.fabric.api.client.rendering.v1.HudRenderCallback;
+import net.fabricmc.fabric.api.client.rendering.v1.hud.HudElementRegistry;
+import net.fabricmc.fabric.api.client.rendering.v1.hud.VanillaHudElements;
 import net.fabricmc.fabric.api.networking.v1.PayloadTypeRegistry;
 import net.fabricmc.loader.api.FabricLoader;
 import net.kyrptonaught.lemclienthelper.hud.genericHud.packets.BannerPacket;
@@ -16,34 +18,17 @@ import net.kyrptonaught.lemclienthelper.ServerInfo.ServerInfoData;
 import net.kyrptonaught.lemclienthelper.ServerInfo.packets.serverInfoPackets;
 import net.fabricmc.fabric.api.command.v2.CommandRegistrationCallback;
 import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
-import net.minecraft.Util;
-import net.minecraft.client.KeyMapping;
-import net.minecraft.client.Minecraft;
-import net.minecraft.client.renderer.RenderType;
 import net.minecraft.commands.Commands;
 import net.minecraft.commands.arguments.EntityArgument;
-import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.network.chat.Component;
-import net.minecraft.world.level.block.Block;
-import net.minecraft.world.level.block.Blocks;
-import net.minecraft.world.level.storage.LevelStorageSource;
-import wily.factoryapi.FactoryAPI;
+import net.minecraft.resources.ResourceLocation;
 import wily.factoryapi.FactoryAPIClient;
-import wily.factoryapi.base.ArbitrarySupplier;
-import wily.factoryapi.base.client.*;
-import wily.factoryapi.util.ColorUtil;
+import wily.factoryapi.base.client.UIAccessor;
+import wily.factoryapi.base.client.UIDefinition;
 import wily.factoryapi.util.FactoryGuiElement;
 import wily.factoryapi.util.FactoryScreenUtil;
 import wily.legacy.client.*;
 import net.minecraft.commands.arguments.ComponentArgument;
-import wily.legacy.client.controller.ControllerBinding;
-import wily.legacy.client.controller.LegacyKeyMapping;
-import wily.legacy.client.screen.ControlTooltip;
-import wily.legacy.client.screen.compat.IrisCompat;
-import wily.legacy.client.screen.compat.ModMenuCompat;
-import wily.legacy.client.screen.compat.SodiumCompat;
-import wily.legacy.init.LegacyRegistries;
-import wily.legacy.network.TopMessage;
 
 import java.util.Optional;
 
@@ -76,8 +61,9 @@ public class GenericHudMod {
             });
         }
 
+        HudElementRegistry.attachElementAfter(VanillaHudElements.INFO_BAR, ResourceLocation.fromNamespaceAndPath(LEMClientHelperMod.MOD_ID, "player_bar"), PlayerBarRenderer::renderPlayerBar);
+        HudElementRegistry.attachElementAfter(VanillaHudElements.BOSS_BAR, ResourceLocation.fromNamespaceAndPath(LEMClientHelperMod.MOD_ID, "banner"), BannerRenderer::onHudRender);
 
-        HudRenderCallback.EVENT.register(BannerRenderer::onHudRender);
         ClientPlayConnectionEvents.JOIN.register((handler, sender, client) -> SHOULD_RENDER_PLAYERBAR = false);
 
         PayloadTypeRegistry.playS2C().register(PlayerBarPacket.PACKET_ID, PlayerBarPacket.codec);
