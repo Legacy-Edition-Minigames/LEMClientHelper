@@ -4,15 +4,15 @@ import net.kyrptonaught.kyrptconfig.config.NonConflicting.NonConflictingKeyBindi
 import net.kyrptonaught.kyrptconfig.keybinding.CustomKeyBinding;
 import net.kyrptonaught.kyrptconfig.keybinding.DisplayOnlyKeyBind;
 import net.kyrptonaught.lemclienthelper.LEMClientHelperMod;
-import net.minecraft.client.option.KeyBinding;
-import net.minecraft.util.Identifier;
+import net.minecraft.client.KeyMapping;
+import net.minecraft.resources.ResourceLocation;
 
 public class SyncedKeybind {
-    public Identifier ID;
+    public ResourceLocation ID;
     private final CustomKeyBinding keyBinding;
-    private KeyBinding vanillaBind;
+    private KeyMapping vanillaBind;
 
-    public SyncedKeybind(Identifier id, SyncedKeybindsConfig.KeybindConfigItem keybindConfigItem) {
+    public SyncedKeybind(ResourceLocation id, SyncedKeybindsConfig.KeybindConfigItem keybindConfigItem) {
         this.ID = id;
         keyBinding = CustomKeyBinding.configDefault(SyncedKeybindsMod.MOD_ID, keybindConfigItem.defaultKeybinding);
         keyBinding.setRaw(keybindConfigItem.keybinding);
@@ -26,10 +26,10 @@ public class SyncedKeybind {
         return keyBinding.isKeybindPressed();
     }
 
-    public KeyBinding getVanillaBind() {
+    public KeyMapping getVanillaBind() {
         if (vanillaBind == null)
             vanillaBind = new NonConflictingKeyBinding(
-                    ID.toTranslationKey("lch.key.sync"),
+                    ID.toLanguageKey("lch.key.sync"),
                     "key.category." + LEMClientHelperMod.MOD_ID,
                     keyBinding,
                     setKey -> {

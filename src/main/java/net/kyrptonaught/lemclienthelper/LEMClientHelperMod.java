@@ -7,17 +7,22 @@ import net.kyrptonaught.kyrptconfig.config.ConfigManager;
 import net.kyrptonaught.lemclienthelper.ClientData.ClientDataMod;
 import net.kyrptonaught.lemclienthelper.ResourcePreloader.ResourcePreloaderMod;
 import net.kyrptonaught.lemclienthelper.ServerConfigs.ServerConfigsMod;
+import net.kyrptonaught.lemclienthelper.ServerInfo.ServerInfoMod;
 import net.kyrptonaught.lemclienthelper.SmallInv.SmallInvMod;
 import net.kyrptonaught.lemclienthelper.SpectateSqueaker.SpectateSqueakerMod;
 import net.kyrptonaught.lemclienthelper.TakeEverything.TakeEverythingMod;
 import net.kyrptonaught.lemclienthelper.customWorldBorder.CustomWorldBorderMod;
 import net.kyrptonaught.lemclienthelper.hud.HudMod;
 import net.kyrptonaught.lemclienthelper.syncedKeybinds.SyncedKeybindsMod;
-import net.minecraft.client.option.KeyBinding;
-import net.minecraft.client.util.InputUtil;
+import net.minecraft.client.KeyMapping;
+import com.mojang.blaze3d.platform.InputConstants;
 
 public class LEMClientHelperMod implements ClientModInitializer {
     public static final String MOD_ID = "lemclienthelper";
+
+    //TODO Find a better way to get this value.
+    public static final String MOD_VERSION = FabricLoader.getInstance().getModContainer(MOD_ID).orElseThrow().getMetadata().getVersion().getFriendlyString();
+    
     public static ConfigManager.MultiConfigManager configManager = new ConfigManager.MultiConfigManager(MOD_ID);
 
 
@@ -27,6 +32,7 @@ public class LEMClientHelperMod implements ClientModInitializer {
         ResourcePreloaderMod.onInitialize();
         SmallInvMod.onInitialize();
         ClientDataMod.onInitialize();
+        ServerInfoMod.onInitialize();
         SyncedKeybindsMod.onInitialize();
         SpectateSqueakerMod.onInitialize();
         ServerConfigsMod.onInitialize();
@@ -43,14 +49,14 @@ public class LEMClientHelperMod implements ClientModInitializer {
         TakeEverythingMod.registerControllerKeys();
     }
 
-    public static boolean isKeybindPressed(KeyBinding keyBinding, int pressedKeyCode, boolean isMouse) {
-        InputUtil.Key keycode = KeyBindingHelper.getBoundKeyOf(keyBinding);
+    public static boolean isKeybindPressed(KeyMapping keyBinding, int pressedKeyCode, boolean isMouse) {
+        InputConstants.Key keycode = KeyBindingHelper.getBoundKeyOf(keyBinding);
 
         if (isMouse) {
-            if (keycode.getCategory() != InputUtil.Type.MOUSE) return false;
+            if (keycode.getType() != InputConstants.Type.MOUSE) return false;
         } else {
-            if (keycode.getCategory() != InputUtil.Type.KEYSYM) return false;
+            if (keycode.getType() != InputConstants.Type.KEYSYM) return false;
         }
-        return keycode.getCode() == pressedKeyCode;
+        return keycode.getValue() == pressedKeyCode;
     }
 }

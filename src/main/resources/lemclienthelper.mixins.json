@@ -5,11 +5,13 @@
   "client": [
     "bookGui.BookScreenMixin",
     "customWorldBorder.WorldBorderMixin",
+    "hud.genericHud.PlayerBarMixin",
     "ResourcePreloader.ClientBuiltInResourcePackProviderMixin",
     "SmallInv.HandledScreenMixin",
     "SmallInv.MidnightControlsMixin",
     "SmallInv.MinecraftClientMixin",
     "SmallInv.ScreenHandlerMixin",
+    "SmallInv.invs.AbstractRecipeBookScreenMixin",
     "SmallInv.invs.GenericContainerScreenMixin",
     "SmallInv.invs.InventoryScreenMixin",
     "SmallInv.invs.MultipleScreenMixin",

@@ -1,10 +1,10 @@
 package net.kyrptonaught.lemclienthelper.syncedKeybinds;
 
-import net.minecraft.client.option.KeyBinding;
+import net.minecraft.client.KeyMapping;
 
 public interface GameOptionKeyExpander {
 
-    void addSyncedKeybinds(KeyBinding newKeybinding);
+    void addSyncedKeybinds(KeyMapping newKeybinding);
 
-    void removeSyncedKeybinds(KeyBinding newKeybinding);
+    void removeSyncedKeybinds(KeyMapping newKeybinding);
 }

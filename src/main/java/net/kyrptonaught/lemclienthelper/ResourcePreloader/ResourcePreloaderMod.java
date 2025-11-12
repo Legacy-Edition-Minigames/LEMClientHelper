@@ -2,20 +2,20 @@ package net.kyrptonaught.lemclienthelper.ResourcePreloader;
 
 import com.google.common.hash.HashFunction;
 import com.google.common.hash.Hashing;
+import com.mojang.realmsclient.Unit;
 import com.mojang.util.UndashedUuid;
 import net.kyrptonaught.jankson.Jankson;
 import net.kyrptonaught.lemclienthelper.LEMClientHelperMod;
-import net.minecraft.GameVersion;
 import net.minecraft.SharedConstants;
-import net.minecraft.client.MinecraftClient;
-import net.minecraft.client.realms.SizeUnit;
-import net.minecraft.client.session.Session;
-import net.minecraft.client.toast.SystemToast;
-import net.minecraft.resource.ResourceType;
-import net.minecraft.text.Text;
-import net.minecraft.util.NetworkUtils;
-import net.minecraft.util.Util;
-import net.minecraft.util.path.CacheFiles;
+import net.minecraft.WorldVersion;
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.User;
+import net.minecraft.client.gui.components.toasts.SystemToast;
+import net.minecraft.network.chat.Component;
+import net.minecraft.server.packs.DownloadCacheCleaner;
+import net.minecraft.server.packs.PackType;
+import 	net.minecraft.util.HttpUtil;
+import net.minecraft.Util;
 
 import java.io.InputStream;
 import java.net.Proxy;
@@ -61,18 +61,18 @@ public class ResourcePreloaderMod {
     }
 
     public static void downloadPacks() {
-        Path downloadsDirectory = MinecraftClient.getInstance().runDirectory.toPath().resolve("downloads");
+        Path downloadsDirectory = Minecraft.getInstance().gameDirectory.toPath().resolve("downloads");
         HashFunction SHA1 = Hashing.sha1();
-        Map<String, String> headers = getHeaders(MinecraftClient.getInstance().getSession());
-        Proxy proxy = MinecraftClient.getInstance().getNetworkProxy();
+        Map<String, String> headers = getHeaders(Minecraft.getInstance().getUser());
+        Proxy proxy = Minecraft.getInstance().getProxy();
 
         AtomicInteger counter = new AtomicInteger(allPacks.packs.size());
         for (AllPacks.RPOption rpOption : allPacks.packs) {
             if (!checkPack(rpOption.uuid)) {
-                Util.getDownloadWorkerExecutor().execute(() -> downloadPack(rpOption, downloadsDirectory, SHA1, headers, proxy, () -> {
+                Util.nonCriticalIoPool().execute(() -> downloadPack(rpOption, downloadsDirectory, SHA1, headers, proxy, () -> {
                     counter.getAndDecrement();
                     if (counter.get() <= 0 && getConfig().toastComplete) {
-                        SystemToast.add(MinecraftClient.getInstance().getToastManager(), SystemToast.Type.PERIODIC_NOTIFICATION, Text.translatable("key.lemclienthelper.alldownloadcomplete"), null);
+                        SystemToast.add(Minecraft.getInstance().getToastManager(), SystemToast.SystemToastId.PERIODIC_NOTIFICATION, Component.translatable("key.lemclienthelper.alldownloadcomplete"), null);
                     }
                 }));
             }
@@ -81,21 +81,21 @@ public class ResourcePreloaderMod {
 
     public static void downloadPack(AllPacks.RPOption rpOption, Path downloadsDirectory, HashFunction SHA1, Map<String, String> headers, Proxy proxy, Runnable onComplete) {
         try {
-            NetworkUtils.download(downloadsDirectory.resolve(rpOption.uuid.toString()), new URL(rpOption.url), headers, SHA1, null, 0xFA00000, proxy, createListener(rpOption, onComplete));
+            HttpUtil.downloadFile(downloadsDirectory.resolve(rpOption.uuid.toString()), new URL(rpOption.url), headers, SHA1, null, 0xFA00000, proxy, createListener(rpOption, onComplete));
         } catch (Exception e) {
             e.printStackTrace();
-            setStatus(rpOption.uuid, Text.translatable("key.lemclienthelper.downloaderror"), null);
+            setStatus(rpOption.uuid, Component.translatable("key.lemclienthelper.downloaderror"), null);
         }
     }
 
     public static void deletePacks() {
-        CacheFiles.clear(MinecraftClient.getInstance().runDirectory.toPath().resolve("downloads"), 0);
+        DownloadCacheCleaner.vacuumCacheDir(Minecraft.getInstance().gameDirectory.toPath().resolve("downloads"), 0);
     }
 
     private static boolean checkPack(UUID packID) {
-        Path downloadsDirectory = MinecraftClient.getInstance().runDirectory.toPath().resolve("downloads");
+        Path downloadsDirectory = Minecraft.getInstance().gameDirectory.toPath().resolve("downloads");
         if (Files.exists(downloadsDirectory.resolve(packID.toString()))) {
-            setStatus(packID, Text.translatable("key.lemclienthelper.alreadydownloaded"), null);
+            setStatus(packID, Component.translatable("key.lemclienthelper.alreadydownloaded"), null);
             return true;
         }
 
@@ -103,7 +103,7 @@ public class ResourcePreloaderMod {
         return false;
     }
 
-    public static void setStatus(UUID packID, Text status, Text status2) {
+    public static void setStatus(UUID packID, Component status, Component status2) {
         for (AllPacks.RPOption rpOption : allPacks.packs) {
             if (rpOption.uuid == packID) {
                 rpOption.status = status;
@@ -112,41 +112,41 @@ public class ResourcePreloaderMod {
         }
     }
 
-    private static Map<String, String> getHeaders(Session session) {
-        GameVersion gameVersion = SharedConstants.getGameVersion();
-        return Map.of("X-Minecraft-Username", session.getUsername(), "X-Minecraft-UUID", UndashedUuid.toString(session.getUuidOrNull()), "X-Minecraft-Version", gameVersion.getName(), "X-Minecraft-Version-ID", gameVersion.getId(), "X-Minecraft-Pack-Format", String.valueOf(gameVersion.getResourceVersion(ResourceType.CLIENT_RESOURCES)), "User-Agent", "Minecraft Java/" + gameVersion.getName());
+    private static Map<String, String> getHeaders(User session) {
+        WorldVersion gameVersion = SharedConstants.getCurrentVersion();
+        return Map.of("X-Minecraft-Username", session.getName(), "X-Minecraft-UUID", UndashedUuid.toString(session.getProfileId()), "X-Minecraft-Version", gameVersion.name(), "X-Minecraft-Version-ID", gameVersion.id(), "X-Minecraft-Pack-Format", String.valueOf(gameVersion.packVersion(PackType.CLIENT_RESOURCES)), "User-Agent", "Minecraft Java/" + gameVersion.name());
     }
 
-    private static NetworkUtils.DownloadListener createListener(AllPacks.RPOption rpOption, Runnable onComplete) {
-        return new NetworkUtils.DownloadListener() {
+    private static HttpUtil.DownloadProgressListener createListener(AllPacks.RPOption rpOption, Runnable onComplete) {
+        return new HttpUtil.DownloadProgressListener() {
             private OptionalLong contentLength = OptionalLong.empty();
 
-            private Text getProgress(long writtenBytes) {
-                return this.contentLength.isPresent() ? Text.translatable("download.pack.progress.percent", writtenBytes * 100L / this.contentLength.getAsLong()) : Text.translatable("download.pack.progress.bytes", SizeUnit.getUserFriendlyString(writtenBytes));
+            private Component getProgress(long writtenBytes) {
+                return this.contentLength.isPresent() ? Component.translatable("download.pack.progress.percent", writtenBytes * 100L / this.contentLength.getAsLong()) : Component.translatable("download.pack.progress.bytes", Unit.humanReadable(writtenBytes));
             }
 
             @Override
-            public void onStart() {
-                setStatus(rpOption.uuid, Text.translatable("key.lemclienthelper.downloading"), null);
+            public void requestStart() {
+                setStatus(rpOption.uuid, Component.translatable("key.lemclienthelper.downloading"), null);
             }
 
             @Override
-            public void onContentLength(OptionalLong contentLength) {
+            public void downloadStart(OptionalLong contentLength) {
                 this.contentLength = contentLength;
-                setStatus(rpOption.uuid, Text.translatable("key.lemclienthelper.downloading"), getProgress(0L));
+                setStatus(rpOption.uuid, Component.translatable("key.lemclienthelper.downloading"), getProgress(0L));
             }
 
             @Override
-            public void onProgress(long writtenBytes) {
-                setStatus(rpOption.uuid, Text.translatable("key.lemclienthelper.downloading"), getProgress(writtenBytes));
+            public void downloadedBytes(long writtenBytes) {
+                setStatus(rpOption.uuid, Component.translatable("key.lemclienthelper.downloading"), getProgress(writtenBytes));
             }
 
             @Override
-            public void onFinish(boolean success) {
+            public void requestFinished(boolean success) {
                 if (!success) {
-                    setStatus(rpOption.uuid, Text.translatable("key.lemclienthelper.downloaderror"), null);
+                    setStatus(rpOption.uuid, Component.translatable("key.lemclienthelper.downloaderror"), null);
                 } else {
-                    setStatus(rpOption.uuid, Text.translatable("key.lemclienthelper.downloadcomplete"), null);
+                    setStatus(rpOption.uuid, Component.translatable("key.lemclienthelper.downloadcomplete"), null);
                 }
                 onComplete.run();
             }

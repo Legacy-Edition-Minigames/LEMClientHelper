@@ -1,67 +1,54 @@
 package net.kyrptonaught.lemclienthelper.mixin.SmallInv.invs;
 
-import com.mojang.blaze3d.systems.RenderSystem;
 import net.kyrptonaught.lemclienthelper.LEMClientHelperMod;
 import net.kyrptonaught.lemclienthelper.SmallInv.SmallInvPlayerInv;
-import net.minecraft.client.gui.DrawContext;
-import net.minecraft.client.gui.Element;
-import net.minecraft.client.gui.screen.ingame.AbstractInventoryScreen;
-import net.minecraft.client.gui.screen.ingame.InventoryScreen;
-import net.minecraft.client.gui.widget.TexturedButtonWidget;
-import net.minecraft.client.render.GameRenderer;
-import net.minecraft.entity.player.PlayerInventory;
-import net.minecraft.screen.PlayerScreenHandler;
-import net.minecraft.text.Text;
-import net.minecraft.util.Identifier;
+import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.client.gui.screens.inventory.AbstractRecipeBookScreen;
+import net.minecraft.client.gui.screens.inventory.InventoryScreen;
+import net.minecraft.client.gui.screens.recipebook.RecipeBookComponent;
+import net.minecraft.network.chat.Component;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.entity.player.Inventory;
+import net.minecraft.world.inventory.InventoryMenu;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
-import org.spongepowered.asm.mixin.injection.ModifyArg;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 @Mixin(InventoryScreen.class)
-public abstract class InventoryScreenMixin extends AbstractInventoryScreen<PlayerScreenHandler> implements SmallInvPlayerInv {
+public abstract class InventoryScreenMixin extends AbstractRecipeBookScreen<InventoryMenu> implements SmallInvPlayerInv {
     @Shadow
-    private float mouseX;
+    private float xMouse;
     @Shadow
-    private float mouseY;
-    private static final Identifier TEXTURE = Identifier.of(LEMClientHelperMod.MOD_ID, "textures/gui/legacy_inventory.png");
+    private float yMouse;
+    private static final ResourceLocation TEXTURE = ResourceLocation.fromNamespaceAndPath(LEMClientHelperMod.MOD_ID, "textures/gui/legacy_inventory.png");
 
-    private static TexturedButtonWidget bookWidget;
-
-    public InventoryScreenMixin(PlayerScreenHandler screenHandler, PlayerInventory playerInventory, Text text) {
-        super(screenHandler, playerInventory, text);
+    public InventoryScreenMixin(InventoryMenu screenHandler, RecipeBookComponent<?> recipeBookComponent, Inventory playerInventory, Component text) {
+        super(screenHandler, recipeBookComponent, playerInventory, text);
     }
 
-    @ModifyArg(method = "init", at = @At(target = "Lnet/minecraft/client/gui/screen/ingame/InventoryScreen;addDrawableChild(Lnet/minecraft/client/gui/Element;)Lnet/minecraft/client/gui/Element;", value = "INVOKE"))
-    public Element fkRecipeBook(Element element) {
-        if (element instanceof TexturedButtonWidget button)
-            bookWidget = button;
-        return element;
-    }
-
-    @Inject(method = "drawForeground", at = @At("HEAD"), cancellable = true)
-    public void smallInvTitle(DrawContext context, int mouseX, int mouseY, CallbackInfo ci) {
+    @Inject(method = "renderLabels", at = @At("HEAD"), cancellable = true)
+    public void smallInvTitle(GuiGraphics context, int mouseX, int mouseY, CallbackInfo ci) {
         if (getIsSmall()) {
-            context.drawText(this.textRenderer, Text.translatable("container.inventory"), 6, 86, 0x404040, false);
+            context.drawString(this.font, Component.translatable("container.inventory"), 6, 86, 0x404040, false);
             ci.cancel();
         }
     }
 
-    @Inject(method = "drawBackground", at = @At("HEAD"), cancellable = true)
-    public void smallInv(DrawContext context, float delta, int mouseX, int mouseY, CallbackInfo ci) {
+    @Inject(method = "renderBg", at = @At("HEAD"), cancellable = true)
+    public void smallInv(GuiGraphics context, float delta, int mouseX, int mouseY, CallbackInfo ci) {
         if (getIsSmall()) {
-            this.backgroundHeight = 124;
-            bookWidget.visible = false;
-            RenderSystem.setShader(GameRenderer::getPositionTexProgram);
-            RenderSystem.setShaderColor(1.0f, 1.0f, 1.0f, 1.0f);
-            context.drawTexture(TEXTURE, x, y, 0, 0, this.backgroundWidth, this.backgroundHeight, this.backgroundWidth, this.backgroundHeight);
-            InventoryScreen.drawEntity(context, x + 26 + 52, y + 8 + 2, x + 75 + 52, y + 78 + 2, 30, 0.0625f, this.mouseX, this.mouseY, this.client.player);
+            int k = this.leftPos;
+            int l = this.topPos;
+            this.imageHeight = 124;
+            RecipeBookWidget.bookWidget.visible = false;
+            context.blit(TEXTURE, k, l, 0, 0, this.imageWidth, this.imageHeight, this.imageWidth, this.imageHeight);
+            InventoryScreen.renderEntityInInventoryFollowsMouse(context, k + 26 + 52, l + 8 + 2, k + 75 + 52, l + 78 + 2, 30, 0.0625f, this.xMouse, this.yMouse, this.minecraft.player);
             ci.cancel();
         } else {
-            this.backgroundHeight = 166;
-            bookWidget.visible = true;
+            this.imageHeight = 166;
+            RecipeBookWidget.bookWidget.visible = true;
         }
     }
 

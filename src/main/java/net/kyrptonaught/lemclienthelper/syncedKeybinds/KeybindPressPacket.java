@@ -1,17 +1,16 @@
 package net.kyrptonaught.lemclienthelper.syncedKeybinds;
 
+import net.minecraft.network.RegistryFriendlyByteBuf;
+import net.minecraft.network.codec.StreamCodec;
+import net.minecraft.network.protocol.common.custom.CustomPacketPayload;
+import net.minecraft.resources.ResourceLocation;
 
-import net.minecraft.network.RegistryByteBuf;
-import net.minecraft.network.codec.PacketCodec;
-import net.minecraft.network.packet.CustomPayload;
-import net.minecraft.util.Identifier;
-
-public record KeybindPressPacket(Identifier keybind) implements CustomPayload {
-    public static final Id<KeybindPressPacket> PACKET_ID = new Id<>(Identifier.of(SyncedKeybindsMod.MOD_ID, "sync_keybinds_packet"));
-    public static final PacketCodec<RegistryByteBuf, KeybindPressPacket> codec = Identifier.PACKET_CODEC.xmap(KeybindPressPacket::new, KeybindPressPacket::keybind).cast();
+public record KeybindPressPacket(ResourceLocation keybind) implements CustomPacketPayload {
+    public static final Type<KeybindPressPacket> PACKET_ID = new Type<>(ResourceLocation.fromNamespaceAndPath(SyncedKeybindsMod.MOD_ID, "sync_keybinds_packet"));
+    public static final StreamCodec<RegistryFriendlyByteBuf, KeybindPressPacket> codec = ResourceLocation.STREAM_CODEC.map(KeybindPressPacket::new, KeybindPressPacket::keybind).cast();
 
     @Override
-    public Id<? extends CustomPayload> getId() {
+    public Type<? extends CustomPacketPayload> type() {
         return PACKET_ID;
     }
 }

@@ -1,6 +1,6 @@
 package net.kyrptonaught.lemclienthelper.ResourcePreloader;
 
-import net.minecraft.text.Text;
+import net.minecraft.network.chat.Component;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -14,8 +14,8 @@ public class AllPacks {
         public String url;
 
         public UUID uuid;
-        public Text status;
-        public Text status2;
+        public Component status;
+        public Component status2;
 
     }
 }
