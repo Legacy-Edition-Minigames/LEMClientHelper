@@ -1,16 +1,11 @@
 package net.kyrptonaught.lemclienthelper.hud.genericHud.packets;
 
 import net.kyrptonaught.lemclienthelper.hud.genericHud.HideVanillaHUD;
-import net.kyrptonaught.lemclienthelper.hud.glideHud.GlideHudMod;
 import net.minecraft.network.RegistryFriendlyByteBuf;
-import net.minecraft.network.chat.Component;
 import net.minecraft.network.codec.ByteBufCodecs;
 import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.network.protocol.common.custom.CustomPacketPayload;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.network.chat.ComponentSerialization;
-
-import java.util.Optional;
 
 /**
  * HideVanillaHUDPacket sends banner to client

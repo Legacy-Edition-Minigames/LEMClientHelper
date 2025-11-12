@@ -3,13 +3,16 @@ package net.kyrptonaught.lemclienthelper.hud.glideHud;
 import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents;
 import net.fabricmc.fabric.api.client.networking.v1.ClientPlayConnectionEvents;
 import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking;
-import net.fabricmc.fabric.api.client.rendering.v1.HudRenderCallback;
+import net.fabricmc.fabric.api.client.rendering.v1.hud.HudElementRegistry;
+import net.fabricmc.fabric.api.client.rendering.v1.hud.VanillaHudElements;
 import net.fabricmc.fabric.api.networking.v1.PayloadTypeRegistry;
+import net.kyrptonaught.lemclienthelper.LEMClientHelperMod;
 import net.kyrptonaught.lemclienthelper.hud.HudMod;
 import net.kyrptonaught.lemclienthelper.hud.glideHud.packets.GlideHudPacket;
 import net.kyrptonaught.lemclienthelper.hud.glideHud.packets.GlideScorePacket;
 import net.kyrptonaught.lemclienthelper.hud.glideHud.packets.GlideTimerPacket;
 import net.kyrptonaught.lemclienthelper.hud.glideHud.packets.GlideTimerTogglePacket;
+import net.minecraft.resources.ResourceLocation;
 
 /*
 import com.mojang.brigadier.arguments.BoolArgumentType;
@@ -41,7 +44,7 @@ public class GlideHudMod {
     }
 
     public static void onInitialize() {
-        HudRenderCallback.EVENT.register(GlideHudRenderer::onHudRender);
+        HudElementRegistry.attachElementAfter(VanillaHudElements.SCOREBOARD, ResourceLocation.fromNamespaceAndPath(LEMClientHelperMod.MOD_ID, "glide_stats"), GlideHudRenderer::onHudRender);
 
         ClientPlayConnectionEvents.JOIN.register((handler, sender, client) -> SHOULD_RENDER_GLIDE = false);
 

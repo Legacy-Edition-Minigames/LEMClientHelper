@@ -1,12 +1,13 @@
 package net.kyrptonaught.lemclienthelper.hud.genericHud;
 
-import com.mojang.blaze3d.systems.RenderSystem;
 import net.kyrptonaught.lemclienthelper.ServerInfo.ServerInfoData;
 import net.minecraft.client.DeltaTracker;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Font;
 import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.client.renderer.RenderPipelines;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.util.ARGB;
 import net.minecraft.util.Mth;
 
 import static net.kyrptonaught.lemclienthelper.ServerInfo.ServerInfoData.GAME_MODES.*;
@@ -46,7 +47,6 @@ public class BannerRenderer {
         int y = ((13 * height)/50) - (int)((34 * shieldScale)/2);
 
         context.pose().pushMatrix();
-        RenderSystem.enableBlend();
 
         if (elapsed >= 0.1f) { renderParticles(context,elapsed,(width/2),height); }
         renderShield(context,x,y);
@@ -76,15 +76,14 @@ public class BannerRenderer {
         int x = (width/2) - (int)((bannerWidth)/2);
         int y = ((13 * height)/50) + (int)((7.5*((2*bannerScale)/2.4f)));
 
-        context.blit(BANNER, (x-(7*(int)bannerScale)), y,(7*(int)(bannerScale)),8*(int)(bannerScale),0,0,7,8,31,8);
-        context.blit(BANNER, (x),   y, (int) bannerWidth,8*(int)(bannerScale), 7*(int)(bannerScale),0, 1,8,31,8);
-        context.blit(BANNER, ((width/2)+(int)((bannerWidth)/2)),   y,7*(int)(bannerScale),8*(int)(bannerScale),24,0,7,8,31,8);
+        context.blit(RenderPipelines.GUI_TEXTURED, BANNER, (x-(7*(int)bannerScale)), y,(7*(int)(bannerScale)),8*(int)(bannerScale),0,0,7,8,31,8, ARGB.white(1f));
+        context.blit(RenderPipelines.GUI_TEXTURED, BANNER, (x),   y, (int) bannerWidth,8*(int)(bannerScale), 7*(int)(bannerScale),0, 1,8,31,8, ARGB.white(1f));
+        context.blit(RenderPipelines.GUI_TEXTURED, BANNER, ((width/2)+(int)((bannerWidth)/2)),   y,7*(int)(bannerScale),8*(int)(bannerScale),24,0,7,8,31,8, ARGB.white(1f));
 
-        context.pose().translate(0f,0.25f,0f);
-        RenderSystem.setShaderColor(1,1,1,textTrans);
-        context.drawString(textRenderer,GenericHudMod.BANNER_TEXT,x-((2*(int)bannerScale)),y+2,0x444444,false);
-        RenderSystem.setShaderColor(1,1,1,1);
-        context.pose().translate(0f,-0.25f,0f);
+        context.pose().translate(0f,0.25f);
+        int textColor = ARGB.color((int) (textTrans*255),68, 68, 68);
+        context.drawString(textRenderer,GenericHudMod.BANNER_TEXT,x-((2*(int)bannerScale)),y+2,textColor,false);
+        context.pose().translate(0f,-0.25f);
     }
 
     private static void renderParticles(GuiGraphics context, float elapsed, int x, int height) {
@@ -92,10 +91,9 @@ public class BannerRenderer {
         float potionPosX = Mth.lerp((elapsed/(24f/30f)), 16f, 40f);
         float posTrans   = Mth.lerp((elapsed/(24f/30f)), 1f,  0f);
 
-        RenderSystem.setShaderColor(1f, 1f, 1f, posTrans);
-        context.blit(PARTICLE, (x - 8) - (int) potionPosX, (((13 * height) / 50) - (int) ((34 * 2.8f) / 2)) + (int) potionPosY, 0, 0, 16, 16, 16, 16);
-        context.blit(PARTICLE, (x - 8) + (int) potionPosX, (((13 * height) / 50) - (int) ((34 * 2.8f) / 2)) + (int) potionPosY, 0, 0, 16, 16, 16, 16);
-        RenderSystem.setShaderColor(1f, 1f, 1f, 1f);
+        int color = ARGB.white(posTrans);
+        context.blitSprite(RenderPipelines.GUI_TEXTURED, PARTICLE, (x - 8) - (int) potionPosX, (((13 * height) / 50) - (int) ((34 * 2.8f) / 2)) + (int) potionPosY, 16, 16, color);
+        context.blitSprite(RenderPipelines.GUI_TEXTURED, PARTICLE, (x - 8) + (int) potionPosX, (((13 * height) / 50) - (int) ((34 * 2.8f) / 2)) + (int) potionPosY, 16, 16, color);
     }
 
     private static void renderShield(GuiGraphics context, int x, int y) {
