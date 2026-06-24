@@ -30,6 +30,6 @@ public abstract class MinecraftClientMixin {
     @Inject(method = "handleInputEvents", at = @At(value = "TAIL"))
     public void trySqueak(CallbackInfo ci) {
         if (player != null && player.isSpectator() && (this.player.equals(getCameraEntity())) && options.attackKey.isPressed())
-            SpectateSqueakerNetworking.sendTakeEverythingPacket();
+            SpectateSqueakerNetworking.sendSqueakPacket();
     }
 }

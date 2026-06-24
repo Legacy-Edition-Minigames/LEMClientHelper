@@ -11,6 +11,7 @@ import net.kyrptonaught.kyrptconfig.config.screen.items.SubItem;
 import net.kyrptonaught.kyrptconfig.config.screen.items.number.FloatItem;
 import net.kyrptonaught.kyrptconfig.config.screen.items.number.IntegerItem;
 import net.kyrptonaught.lemclienthelper.LEMClientHelperMod;
+import net.kyrptonaught.lemclienthelper.AutoGG.AutoGGMod;
 import net.kyrptonaught.lemclienthelper.ResourcePreloader.ResourcePreloaderConfig;
 import net.kyrptonaught.lemclienthelper.ResourcePreloader.ResourcePreloaderMod;
 import net.kyrptonaught.lemclienthelper.ServerConfigs.ServerConfigsConfig;
@@ -128,6 +129,9 @@ public class ModMenuIntegration implements ModMenuApi {
                 });
                 syncedKeybindItems.addConfigItem(keybindItem);
             }
+
+            ConfigSection autoGGSection = new ConfigSection(configScreen, Text.translatable("key.lemclienthelper.autogg"));
+            autoGGSection.addConfigItem(new BooleanItem(Text.translatable("key.lemclienthelper.autogg.enabled"), AutoGGMod.getConfig().enabled, true).setSaveConsumer(val -> AutoGGMod.getConfig().enabled = val));
 
             return configScreen;
         };

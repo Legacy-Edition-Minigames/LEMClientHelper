@@ -11,7 +11,7 @@ public class SpectateSqueakerNetworking {
     private static final Identifier SQUEAK_PACKET = new Identifier(SpectateSqueakerMod.MOD_ID, "squeak_packet");
 
     @Environment(EnvType.CLIENT)
-    public static void sendTakeEverythingPacket() {
+    public static void sendSqueakPacket() {
         PacketByteBuf buf = new PacketByteBuf(Unpooled.buffer());
         ClientPlayNetworking.send(SQUEAK_PACKET, buf);
     }
