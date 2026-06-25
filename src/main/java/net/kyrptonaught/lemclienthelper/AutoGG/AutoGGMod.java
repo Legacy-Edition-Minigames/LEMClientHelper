@@ -39,6 +39,6 @@ public class AutoGGMod {
 
         if (client.player == null) return;
 
-        client.player.networkHandler.sendChatMessage("GG from LCH! <3");
+        client.player.networkHandler.sendChatMessage(getConfig().message);
     }
 }

@@ -7,5 +7,6 @@ import net.kyrptonaught.kyrptconfig.config.AbstractConfigFile;
 public class AutoGGConfig implements AbstractConfigFile {
 
     public boolean enabled = true;
+    public String message = "GG from LCH! <3";
 
 }
