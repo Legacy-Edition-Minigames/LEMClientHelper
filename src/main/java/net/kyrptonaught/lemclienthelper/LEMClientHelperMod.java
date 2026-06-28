@@ -4,6 +4,7 @@ import net.fabricmc.api.ClientModInitializer;
 import net.fabricmc.fabric.api.client.keybinding.v1.KeyBindingHelper;
 import net.fabricmc.loader.api.FabricLoader;
 import net.kyrptonaught.kyrptconfig.config.ConfigManager;
+import net.kyrptonaught.lemclienthelper.AutoGG.AutoGGMod;
 import net.kyrptonaught.lemclienthelper.ClientData.ClientDataMod;
 import net.kyrptonaught.lemclienthelper.ResourcePreloader.ResourcePreloaderMod;
 import net.kyrptonaught.lemclienthelper.ServerConfigs.ServerConfigsMod;
@@ -33,6 +34,7 @@ public class LEMClientHelperMod implements ClientModInitializer {
         ServerConfigsMod.onInitialize();
         CustomWorldBorderMod.onInitialize();
         HudMod.onInitialize();
+        AutoGGMod.onInitialize();
         // if (FabricLoader.getInstance().isModLoaded("lambdacontrols"))
         if (FabricLoader.getInstance().isModLoaded("midnightcontrols"))
             registerControllerKeys();
