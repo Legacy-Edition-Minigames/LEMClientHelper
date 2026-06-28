@@ -31,8 +31,6 @@ public class AutoGGMod {
     public static void onClientTick() {
         if (ticksUntilGG < 0) return;
 
-        ticksUntilGG --;
-
         if (ticksUntilGG == 0) {
             MinecraftClient client = MinecraftClient.getInstance();
 
@@ -41,7 +39,9 @@ public class AutoGGMod {
             }
 
             ticksUntilGG = -1;
+            return;
         }
+        ticksUntilGG --;
     }
 
     public static void onSoundPlayed(Identifier soundId) {
