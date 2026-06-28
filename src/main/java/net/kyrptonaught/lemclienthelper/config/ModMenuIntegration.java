@@ -135,6 +135,7 @@ public class ModMenuIntegration implements ModMenuApi {
             ConfigSection autoGGSection = new ConfigSection(configScreen, Text.translatable("key.lemclienthelper.autogg"));
             autoGGSection.addConfigItem(new BooleanItem(Text.translatable("key.lemclienthelper.autogg.enabled"), AutoGGMod.getConfig().enabled, true).setSaveConsumer(val -> AutoGGMod.getConfig().enabled = val));
             autoGGSection.addConfigItem(new TextItem(Text.translatable("key.lemclienthelper.autogg.message"), AutoGGMod.getConfig().message, "GG from LCH! <3").setSaveConsumer(val -> AutoGGMod.getConfig().message = val));
+            autoGGSection.addConfigItem(new IntegerItem(Text.translatable("key.lemclienthelper.autogg.delay"), AutoGGMod.getConfig().delay, 0).setSaveConsumer(val -> AutoGGMod.getConfig().delay = val));
 
             return configScreen;
         };

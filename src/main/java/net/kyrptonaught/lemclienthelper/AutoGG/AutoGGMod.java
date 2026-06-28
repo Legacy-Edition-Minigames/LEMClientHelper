@@ -2,6 +2,7 @@ package net.kyrptonaught.lemclienthelper.AutoGG;
 
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.util.Identifier;
+import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents;
 import net.kyrptonaught.lemclienthelper.LEMClientHelperMod;
 
 // AutoGG implemented by Terra <3
@@ -12,6 +13,8 @@ public class AutoGGMod {
     public static void onInitialize() {
         LEMClientHelperMod.configManager.registerFile(MOD_ID, new AutoGGConfig());
         LEMClientHelperMod.configManager.load(MOD_ID);
+
+        ClientTickEvents.END_CLIENT_TICK.register(client -> {onClientTick();});
     }
 
     public static AutoGGConfig getConfig() {
@@ -19,6 +22,27 @@ public class AutoGGMod {
     }
 
     private static long lastGG = 0;
+    private static int ticksUntilGG = -1;
+
+    public static void queueGG(int delayTicks) {
+        ticksUntilGG = delayTicks;
+    }
+
+    public static void onClientTick() {
+        if (ticksUntilGG < 0) return;
+
+        ticksUntilGG --;
+
+        if (ticksUntilGG == 0) {
+            MinecraftClient client = MinecraftClient.getInstance();
+
+            if (client.player != null) {
+                client.player.networkHandler.sendChatMessage(getConfig().message);
+            }
+
+            ticksUntilGG = -1;
+        }
+    }
 
     public static void onSoundPlayed(Identifier soundId) {
         if (soundId == null) return;
@@ -35,10 +59,6 @@ public class AutoGGMod {
 
         lastGG = time;
 
-        MinecraftClient client = MinecraftClient.getInstance();
-
-        if (client.player == null) return;
-
-        client.player.networkHandler.sendChatMessage(getConfig().message);
+        queueGG(getConfig().delay);
     }
 }
