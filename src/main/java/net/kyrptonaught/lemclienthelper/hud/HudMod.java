@@ -5,6 +5,7 @@ import net.fabricmc.fabric.api.client.networking.v1.ClientPlayConnectionEvents;
 import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking;
 import net.fabricmc.fabric.api.client.rendering.v1.HudRenderCallback;
 import net.kyrptonaught.lemclienthelper.LEMClientHelperMod;
+import net.minecraft.client.MinecraftClient;
 import net.minecraft.util.Identifier;
 import java.util.Arrays;
 
@@ -17,7 +18,6 @@ public class HudMod {
     public static boolean SHOULD_RENDER_ARMOR = false;
     public static float DMG_ANGLE = 0;
     public static int[] DMG_TIME_ANGLE = {100, 100, 100, 100, 100, 100, 100, 100};
-
 
     public static void onInitialize() {
         LEMClientHelperMod.configManager.registerFile(MOD_ID, new HudConfig());
@@ -38,6 +38,25 @@ public class HudMod {
     }
 
     public static void onClientTick() {
+        MinecraftClient client = MinecraftClient.getInstance();
+        if (client.player != null) {
+            // new dmg taken
+            if (client.player.hurtTime == 9) {
+                //check if it's a directional damage before resetting all angles
+                boolean reset = true;
+                int[] times = getDMGTimeAngle();
+                for (int i = 0; i < times.length; i++) {
+                    if (times[i] == 0) {
+                        reset = false;
+                        break;
+                    }
+                }
+                if (reset) {
+                    resetAllTimes();
+                }
+            }
+        }
+
         for (int i = 0; i < DMG_TIME_ANGLE.length; i++) {
             if (DMG_TIME_ANGLE[i] < getConfig().damageIndicatorFadeOut) {
                 DMG_TIME_ANGLE[i]++;
@@ -91,6 +110,12 @@ public class HudMod {
         }
         else {
             DMG_TIME_ANGLE[6] = 0;
+        }
+    }
+
+    public static void resetAllTimes() {
+        for (int i = 0; i < DMG_TIME_ANGLE.length; i++) {
+            DMG_TIME_ANGLE[i] = 0;
         }
     }
 
