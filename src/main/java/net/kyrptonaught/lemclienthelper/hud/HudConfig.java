@@ -12,4 +12,8 @@ public class HudConfig implements AbstractConfigFile {
     public float xOffset = 20;
 
     public float transparency =.75f;
+
+    public boolean enableDamageIndicator = true;
+
+    public int damageIndicatorFadeOut = 16;
 }
