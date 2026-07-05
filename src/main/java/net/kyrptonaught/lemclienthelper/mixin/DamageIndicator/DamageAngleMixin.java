@@ -16,9 +16,7 @@ public abstract class DamageAngleMixin {
         // Ensure this logic only runs for the local player on the client
         if ((Object)this instanceof ClientPlayerEntity player) {
             // Fix MC related stupidity:
-            float angle = MathHelper.wrapDegrees(-yaw + 90);
-
-            HudMod.setDMGAngle(angle);
+            float angle = MathHelper.wrapDegrees(yaw - 90);
             HudMod.resetTimeForAngle(angle);
         }
     }

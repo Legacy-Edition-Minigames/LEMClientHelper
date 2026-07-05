@@ -16,7 +16,6 @@ public class HudMod {
     private static final Identifier ARMOR_HUD_DISABLE = new Identifier("armorhud", "armor_hud_render_disable");
 
     public static boolean SHOULD_RENDER_ARMOR = false;
-    public static float DMG_ANGLE = 0;
     public static int[] DMG_TIME_ANGLE = {100, 100, 100, 100, 100, 100, 100, 100};
 
     public static void onInitialize() {
@@ -72,20 +71,12 @@ public class HudMod {
         return getConfig().enableDamageIndicator;
     }
 
-    public static float getDMGAngle() {
-        return DMG_ANGLE;
-    }
-
-    public static void setDMGAngle(float angle) {
-        DMG_ANGLE = angle;
-    }
-
     public static void resetTimeForAngle(float angle) {
         if (Math.abs(angle) <= (45.0/2.0)) {
             DMG_TIME_ANGLE[1] = 0;
         }
         else if (Math.abs(angle) <= 45.0 + (45.0/2.0)) {
-            if (angle < 0) {
+            if (angle > 0) {
                 DMG_TIME_ANGLE[2] = 0;
             }
             else {
@@ -93,7 +84,7 @@ public class HudMod {
             }
         }
         else if (Math.abs(angle) <= 90.0 + (45.0/2.0)) {
-            if (angle < 0) {
+            if (angle > 0) {
                 DMG_TIME_ANGLE[4] = 0;
             }
             else {
@@ -101,7 +92,7 @@ public class HudMod {
             }
         }
         else if (Math.abs(angle) <= 180.0 - (45.0/2.0)) {
-            if (angle < 0) {
+            if (angle > 0) {
                 DMG_TIME_ANGLE[7] = 0;
             }
             else {
