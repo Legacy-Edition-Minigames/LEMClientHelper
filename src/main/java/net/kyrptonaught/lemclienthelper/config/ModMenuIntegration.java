@@ -80,7 +80,7 @@ public class ModMenuIntegration implements ModMenuApi {
             panItem.setToolTipWithNewLine("key.lemclienthelper.serverconfig.panscale.tooltip");
 
 
-            //Hud
+            //Armor Hud
             HudConfig clientGUI = HudMod.getConfig();
             ConfigSection clientGUISection = new ConfigSection(configScreen, Text.translatable("key.lemclienthelper.clientgui"));
 
@@ -103,6 +103,16 @@ public class ModMenuIntegration implements ModMenuApi {
             armorHudTransparency.setToolTipWithNewLine("key.lemclienthelper.clientgui.transparency.tooltip");
 
             //clientGUISection.addConfigItem(new ArmorHudPreviewItem(Text.translatable("key.lemclienthelper.clientgui.displaypreview"), clientGUI.enabled, false));
+
+            // Damage Indicator
+            ConfigSection damageIndicatorSection = new ConfigSection(configScreen, Text.translatable("key.lemclienthelper.damageindicator"));
+
+            damageIndicatorSection.addConfigItem(new BooleanItem(Text.translatable("key.lemclienthelper.damageindicator.enabled"), clientGUI.enableDamageIndicator, true).setSaveConsumer(val -> clientGUI.enableDamageIndicator = val));
+
+            IntegerItem damageIndicatorFadeOut = (IntegerItem) damageIndicatorSection.addConfigItem(new IntegerItem(Text.translatable("key.lemclienthelper.damageindicator.fadeout"), clientGUI.damageIndicatorFadeOut, 16));
+            damageIndicatorFadeOut.setMinMax(0, 200);
+            damageIndicatorFadeOut.setSaveConsumer(val -> clientGUI.damageIndicatorFadeOut = val);
+            damageIndicatorFadeOut.setToolTipWithNewLine("key.lemclienthelper.damageindicator.fadeout.tooltip");
 
 
             //Small Inv

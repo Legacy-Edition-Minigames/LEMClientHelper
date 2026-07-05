@@ -15,7 +15,8 @@
     "SmallInv.invs.MultipleScreenMixin",
     "SpectateSquaker.MinecraftClientMixin",
     "SyncedKeybinds.GameOptionsMixin",
-    "TakeEverything.ScreenHandlerMixin"
+    "TakeEverything.ScreenHandlerMixin",
+    "DamageIndicator.DamageAngleMixin"
   ],
   "injectors": {
     "defaultRequire": 1
